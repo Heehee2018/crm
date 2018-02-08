@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <script src="dist/js/jquery-3.2.1.min.js"></script>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=1693fa514ad375cdeb4597c3b8716bbc"></script>
+    <style>
+        html,body,#container{
+            height: 100%;
+            margin: 0;
+        }
+        .return{
+            width: 20px;
+            height: 35px;
+        }
+    </style>
+    <title>经理介绍</title>
+</head>
+<body>
+<div id="container">
+</div>
+<script>
+    var marker,map = new AMap.Map('container',{
+        resizeEnable: true,
+        zoom:15,
+        center: [113.320874,23.140299]
+    });
+
+    marker = new AMap.Marker({
+        position: [113.320874,23.140299],
+        draggable: true,
+        cursor: 'move'
+    });
+
+    marker.setMap(map);
+    // 设置点标记的动画效果，此处为弹跳效果
+    marker.setAnimation('AMAP_ANIMATION_BOUNCE');
+
+
+</script>
+</body>
+</html>

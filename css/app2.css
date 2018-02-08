@@ -1,0 +1,363 @@
+/* written by situxin  */
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.pd15{
+    padding:0 15px;
+}
+
+.pd7{
+    padding:7px 0;
+}
+
+.pd84{
+    padding:0 84px;
+}
+
+.pl95{
+    padding-left: 95px;
+}
+
+.pl78{
+    padding-left: 78px;
+}
+
+.pr95{
+    padding-right: 95px;
+}
+
+.pl64{
+    padding-left: 64px;
+}
+
+.pr64{
+    padding-right: 64px;
+}
+
+.pt20{
+    padding-top: 20px;
+}
+
+.mr8{
+    margin-right: 8px;
+}
+
+.mr4{
+    margin-right: 4px;
+}
+
+.mt8{
+    margin-top: 8px;
+}
+
+.mt12{
+    margin-top: 12px;
+}
+
+.ml7{
+    margin-left: 7px;
+}
+
+.ml35{
+    margin-left: 15px;
+}
+
+.ml16{
+    margin-left: 16px;
+}
+
+.ml25{
+    margin-left: 25px;
+}
+
+.mr-85{
+    margin-right: -85px;
+}
+
+.ml-14{
+    margin-left: -14px;
+}
+
+.ml-15{
+    margin-left: -15px;
+}
+
+.pt8{
+    padding-top: 8px;
+}
+.wid160{
+    width: 160px;
+}
+
+.wid180{
+    width: 180px;
+}
+
+.wid120{
+    width: 120px;
+}
+
+.wid160{
+    width: 160px;
+}
+
+.wid290{
+    width: 290px;
+}
+
+.wid56{
+    width: 56px;
+}
+
+.wid41{
+    width: 41px;
+}
+
+.wid70{
+    width: 70px;
+}
+
+
+.wid100{
+    width: 100px;
+}
+
+.inline-block{
+    display: inline-block;
+}
+
+.relative{
+    position: relative;
+}
+
+.table-row{
+    display: table-row;
+}
+
+.table-cell{
+    display: table-cell;
+}
+
+#changeServiceModal{
+    width: 800px;
+    margin: 0 auto;
+}
+#changeServiceModal .modal-dialog{
+    width: 800px;
+    margin:0 !important;
+}
+
+#changeServiceModal .modal-body{
+    padding:0;
+}
+
+.title{
+    height: 60px;
+    line-height: 60px;
+    overflow: hidden;
+    border-bottom: 1px solid #c8c8c8;
+}
+.title h4,.title span{
+    height: 60px;
+    line-height: 60px;
+    margin: 0;
+    font-size: 22px;
+}
+.title .btn-close{
+    display: block;
+    margin-top: 22px;
+    width: 16px;
+    height: 16px;
+    background: url("../images/btn_close.png") no-repeat;
+    cursor: pointer;
+}
+
+#changeServiceModal .inner-container{
+    margin-bottom: 27px;
+}
+.inner-container .subtitle{
+    font-weight: bold;
+    font-size: 15px;
+    height: 47px;
+    line-height: 47px;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+/**********  贷款进度 *************/
+.table-progress{
+    width: 624px;
+    margin: 32px auto;
+}
+
+.progress-circle{
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background: #dcdcdc;
+    margin-bottom: 8px;
+}
+
+.progress-line{
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 168px;
+    height: 4px;
+    background: #dcdcdc;
+}
+
+
+
+.table-progress .active>.progress-circle, .relative.active>.progress-line{
+    background: #32c800;
+}
+
+.progress-option{
+    margin: 0 26px;
+}
+
+.sdyy, .dsyy, .mqyy, .smscyy, .fkyy, .qdyy{
+    display: none;
+}
+
+.dkjd select{
+    margin-bottom: 4px;
+}
+
+.dkjd select.form-control{
+    font-size: 12px;
+}
+
+.dkjd .table-cell{
+    vertical-align: top;
+}
+.dkjd .mt8 label{
+    margin-left: 13px;
+}
+.dkjd .mt8 label input{
+    vertical-align: top;
+    margin-right: 4px;
+}
+.dkjd .mt8 select{
+    margin-left: 16px;
+}
+
+.dkjd .btn-default{
+    background: #efefef;
+}
+
+label{
+    font-weight: normal;
+}
+
+.shstep > div{
+    vertical-align: top;
+}
+
+/********** 贷款产品 *********/
+.dkcp select, .sqed input, .sfgz input, .fwsf input, .fwsf select, .qtfy select, .qtfy input, .hktx input, .sfgz select{
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.dkcp .table-cell, .sqed .table-cell, .sfgz .table-cell{
+    width: 400px;
+    padding-top: 20px;
+}
+
+.sfgz strong{
+    display: inline-block;
+    margin-left: 7px;
+}
+
+.icon-btn-add,.icon-btn-minus{
+    display: inline-block;
+    width: 60px;
+    height: 32px;
+    background: url("../images/icon_btn_add.png") no-repeat;
+    vertical-align: middle;
+    margin-left: 25px;
+    cursor: pointer;
+}
+
+.icon-btn-minus{
+    background-image: url("../images/icon_btn_minus.png");
+}
+
+/***** 其他费用 ****/
+.qtfy-inner{
+    padding-top: 12px;
+}
+
+.hktx .table-cell{
+    width: 255px;
+}
+
+.hktx .row{
+    margin: 0;
+}
+.hktx .col-sm-9, .hktx .col-sm-4, .hktx .col-sm-6, .hktx .col-sm-3, .hktx .col-sm-5 ,.hktx .col-sm-7{
+    padding: 0;
+}
+
+.hktx-inner>li{
+    padding-top: 12px;
+}
+
+.hktx-inner .icon-btn-minus{
+    margin-left: 12px;
+}
+
+.hktx-inner .tip{
+    display: none;
+}
+
+.date span{
+    position: absolute;
+    right: 5px;
+}
+
+.calendar{
+    position: absolute;
+    display: block;
+    right:9px;
+    top:9px;
+    width: 18px;
+    height: 17px;
+    background: url("../images/icon_calendar.png") no-repeat;
+}
+
+.redtips{
+    display: none;
+    margin-left: 80px;
+    margin-top: 10px;
+    color: #ff0000;
+    font-size: 12px;
+}
+
+#changeServiceModal .btn-save{
+    display: block;
+    width: 160px;
+    height: 36px;
+    margin: 0 auto;
+}
+
+select[name="ipt-hkgze-c[]"]{
+    margin-left: 4px;
+}
+
+.form-control{
+    padding: 6px !important;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control{
+    background: #fff !important;
+}
+
+input[name="ipt_qtsfei_b[]"], input[name="ipt_qtfyong_b[]"]{
+    margin-right: 7px;
+}
+

@@ -1,0 +1,1024 @@
+@charset "UTF-8";
+@font-face {font-family: 'webfont';
+    src: url('../fonts/webfont.eot'); /* IE9*/
+    src: url('../fonts/webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/webfont.woff') format('woff'), /* chrome、firefox */
+    url('../fonts/webfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('../fonts/webfont.svg#webfont') format('svg'); /* iOS 4.1- */
+}
+
+html body {
+    font-family: 'Microsoft YaHei', '微软雅黑', Helvetica, 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'WenQuanYi Micro Hei', sans-serif;
+    background-color: #323535;
+    margin:0;padding:0;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+  /*  border: 1px solid black;*/
+}
+textarea{
+    resize:none;
+}
+input,button,select,textarea{
+    outline:none
+}
+ol, ul {
+    margin: 0;
+}
+
+body {
+    width: 100%;
+    position: relative;
+}
+.client{
+    margin-top: 60px;
+}
+.person{
+    background-color: #fff;
+    height: 470px;
+    position: relative;
+}
+._nav_left{
+    width: 100px;
+    height: 470px;
+    position: relative;
+    min-height: 470px;
+    border-right: 1px solid #B4B4B4;
+    /*left: -300px;*/
+
+}
+.clearfix:after {
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0;
+}
+._nav_left_tankuang_1{
+    display: flex;
+    height: 45px;
+    margin: auto 15px;
+    padding:1px 0;
+  /*  position: relative;*/
+}
+
+._nav_left_tankuang_1>._unit{
+    flex-wrap: nowrap;
+    margin-left: 4px;
+}
+._nav_left_tankuang_1>._Edit_btn{
+    margin-left:auto;
+}
+._nav_left_tankuang{
+    display: flex;
+    height: 40px;
+    margin: 1px 15px;
+}
+._nav_left_tankuang>._unit{
+    flex-wrap: nowrap;
+    margin-left: 6px;
+}
+._location{
+    width: 28px;
+    height: 28px;
+    display: inline-block;
+    overflow: hidden;
+    background-image: url(../images/img/images/location.png);
+}
+._num1{
+    margin-top: 3px;
+    width: 28px;
+    height: 28px;
+    overflow: hidden;
+    background-image: url(../images/img/images/Fixed-line_phone_small.png);
+    background-repeat: no-repeat;
+
+}
+._num2{
+    margin-top: 3px;
+    width: 28px;
+    height: 28px;
+    overflow: hidden;
+    background-image: url(../images/img/images/Fixed-line_phone_small.png);
+    background-repeat: no-repeat;
+    background-position: 0px -28px;
+}
+._num3{
+    margin-top: 3px;
+    width: 28px;
+    height: 28px;
+    overflow: hidden;
+    background-image: url(../images/img/images/Fixed-line_phone_small.png);
+    background-repeat: no-repeat;
+    background-position: 0px -56px;
+}
+._num4{
+    margin-top: 3px;
+    width: 28px;
+    height: 28px;
+    overflow: hidden;
+    background-image: url(../images/img/images/Fixed-line_phone_small.png);
+    background-repeat: no-repeat;
+    background-position: 0px -84px;
+}
+._phone_call{
+    margin: 0px;
+    cursor: pointer;
+}
+._region{
+    color:#969696;
+}
+._bohao{
+    width: 32px;
+    height: 32px;
+    margin-left: 145px;
+    position: absolute;
+    right: 52px;
+    color: #969696;
+}
+._zhuxian{
+    width: 88px;
+    height: 32px;
+    display: inline-block;
+    overflow: hidden;
+    margin-right: 5px;
+    background-image: url(../images/img/images/speed_dial.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+._zhuxian1{
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    overflow: hidden;
+    margin-right: 5px;
+    background-image: url(../images/img/images/Telephone_messages.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+._zhuxian2{
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    overflow: hidden;
+    margin-right: 5px;
+    background-image: url(../images/img/images/Telephone_messages.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+._zhuxian3{
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    overflow: hidden;
+    margin-right: 5px;
+    background-image: url(../images/img/images/Telephone_messages.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+._duanx{
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 20px;
+    display: inline-block;
+    overflow: hidden;
+    background-image: url(../images/img/images/speed_dial.png);
+    background-position: -94px 0px;
+    cursor: pointer;
+}
+._duanx1{
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 20px;
+    display: inline-block;
+    overflow: hidden;
+    background-image: url(../images/img/images/Telephone_messages.png);
+    background-position: -38px -38px;
+    cursor: pointer;
+}
+._duanx2{
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 20px;
+    display: inline-block;
+    overflow: hidden;
+    background-image: url(../images/img/images/Telephone_messages.png);
+    background-position: -38px -38px;
+    cursor: pointer;
+}
+._duanx3{
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 20px;
+    display: inline-block;
+    overflow: hidden;
+    background-image: url(../images/img/images/Telephone_messages.png);
+    background-position: -38px -38px;
+}
+._division{
+    /*border-bottom: 1px solid #a0a0a0;*/
+/*!*    padding-bottom: 10px ;*/
+  /*  padding-bottom: 40px;*/
+   // margin-bottom: 10px;
+}
+._nav_left>._right_btn{
+    position: absolute;
+    right: -11px;
+    top: 50%;
+    z-index: 1;
+   /* //margin-bottom: 10px;*/
+}
+._pt16{
+    height: 40px;
+    position: absolute;
+    bottom: 0%;
+    width: 300px;
+    background-color: #F0F0F0;
+}
+._personage{
+    display: flex;
+    margin: 10px  20px;
+}
+._personage_icon{
+    margin-right: 18px;
+    border: 0px;
+    overflow: hidden;
+    background-image: url(../images/img/images/accessory.png);
+    background-repeat: no-repeat;
+}
+._card{
+    width: 26px;
+    height: 22px;
+    background-position: -47px -9px;
+}
+._card.active{
+    background-position: -47px -90px;
+}
+._zhang{
+    width: 22px;
+    height: 23px;
+    background-position: -88px -9px;
+}
+._zhang.active{
+    background-position: -88px -89px;
+   /* width: 26px;
+    height: 22px;
+    background-position: -47px -94px;*/
+}
+._wu{
+    width: 24px;
+    height: 24px;
+    background-position: -128px -8px;
+}
+._wu.active{
+    background-position: -128px -88px;
+    /*width: 20px;
+    height: 23px;
+    background-position: -88px -94px;*/
+}
+._zheng{
+    width: 24px;
+    height: 24px;
+    background-position: -168px -9px;
+}
+._zheng.active{
+    background-position: -168px -89px;
+}
+._shen{
+    width: 24px;
+    height: 22px;
+    background-position: -8px -9px;
+}
+._shen.active{
+    background-position: -8px -89px;
+}
+._anniu{
+    overflow: hidden;
+    background-image: url(../images/img/images/contractible_graph.png);
+    background-repeat: no-repeat;
+}
+._btn_r{
+    width: 10px;
+    height: 50px;
+    background-position: -24px 0px;
+}
+._name{
+    font-family:"webfont" !important SimHei;
+    font-size:24px;font-style:normal;
+    font-weight: 600;
+}
+._center_{
+    display: flex;
+    width: 65px;
+    margin: 0 21%;
+
+
+}
+._sex_{
+    padding: 0 5px;
+}
+._age_ {
+    padding: 0 5px;
+}
+._sex{
+    position: relative;
+    padding: 0 5px;
+    top: 12px;
+}
+._age {
+    position: relative;
+    padding: 0 5px;
+    top: 12px;
+}
+._hunyin{
+    position: relative;
+    padding: 0 5px;
+    top: 12px;
+}
+._zinv{
+    position: relative;
+    padding: 0 5px;
+    top: 12px;
+}
+._phone{
+  height: 416px;
+  overflow:hidden
+}
+._phone_{
+    display: inline-block;
+    overflow: hidden;
+}
+._phone_{
+    width: 54px;
+    height: 54px;
+    margin:5px 23px;
+}
+._tel{
+   background-image: url(../images/img/images/cellphone-0.png);
+}
+._tel_two{
+    background-image: url(../images/img/images/cellphone-2.png);
+}
+._tel_three{
+    background-image: url(../images/img/images/cellphone-3.png);
+}
+._tel_four{
+    background-image: url(../images/img/images/cellphone-4.png);
+}
+._fix_phone{
+    background-image: url(../images/img/images/fixed-line-1.png);
+}
+._fix_phone_two{
+    background-image: url(../images/img/images/fixed-line-2.png);
+}
+._fix_phone_three{
+    background-image: url(../images/img/images/fixed-line-3.png);
+}
+._fix_phone_four{
+    background-image: url(../images/img/images/fixed-line-4.png);
+}
+._stav-hovoru{
+    height: 65px;
+    font-weight: 600;
+}
+._zhuantai{
+    color: #5ad296;
+    font-size: 15px;
+}
+._on-hook{
+    background-color: red;
+    text-align: center;
+    color: #ffffff;
+    font-size: 16px;
+    width: 60px;
+    border-radius:20px;
+    line-height: 30px;
+    height: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    display: none;
+}
+._nav_content{
+    background-color:#f0f0f0 ;
+}
+._btn > ._add{
+    left: 70%;
+}
+._client{
+    position: relative;
+    height: 470px;
+    border-right: 1px solid;
+}
+._nav_right{
+    border-radius: 10px;
+    position: absolute;
+    right: -4%;
+    top: 0%;
+    width: 142px;
+    height: 470px;
+}
+._nav_right_{
+    border-radius: 10px;
+    position: absolute;
+    right: -4%;
+    top: 0%;
+    width: 142px;
+    height: 470px;
+    z-index: 10;
+}
+.fff{
+    position: relative;
+    left: 102px;
+    width: 40px;
+    height: 470px;
+    background-color: #ffffff;
+    z-index: -10;
+    border-radius: 5px;
+}
+div.transitionhovertree {
+    position: relative;
+    float: right;
+    clear: both;
+    width:40px;
+    height:42.7px;
+    transition:width 0.5s;
+    -moz-transition:width 0.5s; /* Firefox 4 */
+    -webkit-transition:width 0.5s; /* Safari and Chrome */
+    -o-transition:width 0.5s; /* Opera */
+    background-color: #ffffff;
+}
+
+div.transitionhovertree:hover
+{
+    width:142px;
+    background-color: #ffffff;
+    box-shadow: -3px 0px 2px #f0f0f0;
+   /* border-radius: 5px;*/
+
+}
+.ceshi{
+    position: relative;
+    float: right;
+    clear: both;
+    width:40px;
+    height:42.7px;
+  /*  //transition:width 0.5s;
+    //-moz-transition:width 0.5s; !* Firefox 4 *!
+    //-webkit-transition:width 0.5s; !* Safari and Chrome *!
+    //-o-transition:width 0.5s; !* Opera *!*/
+    background-color: #ebebeb;
+}
+.pitch{
+    position: relative;
+    right: 4px;
+    width: 4px;
+    height: 42.7px;
+    background-color: #5AD296;
+}
+.bj{
+    background-color: #ffffff;
+}
+._center_{
+    width: 90px;
+    margin: 0 21%;
+}
+._age{
+    margin-left: 5px;
+}
+/*右侧固定定位按钮*/
+._Info_button{
+    position: absolute;
+    background-image: url(../images/img/images/Info_Icon.png);
+    background-repeat: no-repeat;
+    width: 42px;
+    height: 42.7px;
+}
+._informative_text{
+    position: absolute;
+    width: 58px;
+    height: 40px;
+    left: 40px;
+    overflow: hidden;
+    text-align: center;
+    cursor: default ;
+
+}
+._informative_text>P{
+    margin-top: 10px;
+}
+._Finish_rate{
+    position: absolute;
+    width: 45px;
+    height: 42px;
+    left: 96px;
+    overflow: hidden;
+    cursor: default;
+    color: #969696;
+    font-size: 12px;
+}
+._Finish_rate>p{
+    margin-top: 10px;
+    margin-left: 12px;
+}
+._border_left{
+    border-left: 2px solid green;
+}
+._kehuxuqiu{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  /*  width: 42px;
+    height: 42px*/;
+    background-position: 0px 0px;
+}
+._kehuxuqiu_bj{
+    background-position:0px 0px;
+}
+._gongzuoxuqiu{
+/*    width: 42px;
+    height: 42px;*/
+    background-position: 0px -43px;
+}
+._shouruxinxi{
+ /*   width: 42px;
+    height: 42px;*/
+    background-position: 0px -86px;
+}
+ ._fangchanxinxi{
+  /*  width: 42px;
+    height: 42px;*/
+    background-position: 0px -130px;
+}
+ ._chechanxinxi{
+  /*  width: 42px;
+    height: 42px;*/
+    background-position: 0px -173px;
+}
+ ._cheweixinxi{
+     background-position: 0px -216px;
+ }
+ ._baodanxinxi{
+/*    width: 42px;
+    height: 42px;*/
+    background-position: 0px -259px;
+}
+._zhaiwuxinxi{
+/*    width: 42px;
+    height: 42px;*/
+    background-position: 0px -301px;
+}
+ ._zhenxinxinxi{
+    /*width: 42px;
+    height: 42px;*/
+    background-position: 0px -344px;
+}
+._sifaxinxi{
+/*    width: 42px;
+    height: 42px;*/
+    background-position: 0px -387px;
+}
+ ._qitaxinxi{
+     border-bottom-left-radius: 5px;
+     border-bottom-right-radius: 5px;
+   /* width: 42px;
+    height: 42px;*/
+    background-position: 0px -430px;
+
+}
+._shouru_btn_left{
+    position: relative;
+    top: -384px;
+    left: 96%;
+    width: 42px;
+    height: 210px;
+    display: none;
+    background-color: #ffffff;
+    z-index: 1;
+}
+._Income_icon{
+    position: relative;
+    background-image: url(../images/img/images/Income_icon_1.png);
+    background-repeat: no-repeat;
+    width: 42px;
+    height: 42.7px;
+}
+._Income_icon_click{
+    background-color: #EBEBEB;
+    border-left: 5px solid #5AD296;
+}
+._gongzixinxi{
+    background-position: -3px -6px;
+}
+._shehuibaoxian{
+    background-position: -3px -48px;
+}
+._gongjijin{
+    background-position: -3px -90px;
+}
+._gerensuodesui{
+    background-position: -3px -130px;
+}
+._liushuixinxi{
+    background-position: -3px -174px;
+}
+.person > ._client_information{
+    width: calc(100% - 300px);
+    margin-left: 300px;
+    height: 470px;
+}
+.person > ._client_tankuang{
+    height: 470px;
+    border-right: 1px solid #B4B4B4;
+}
+.person > ._client_tankuang>._client_1{
+    height: 50px;
+    display: flex;
+    padding: 0 15px;
+}
+.person > ._client_tankuang>._client_1>._unit{
+    padding: 0 4px;
+    padding-top: 20px;
+/*    //vertical-align:bottom;*/
+}
+.person > ._client_tankuang>._client_1>._Edit_btn{
+   margin-left: 75px;
+    margin-top: 10px;
+}
+.s{
+
+    font-size: 5px;
+    color: darkgrey;
+    margin-left: 8px;
+}
+._Bounces_btn{
+    position: absolute;
+    right: -13px;
+    top: 50%;
+    z-index: 10;
+}
+._zuo{
+    position: absolute;
+    /*display: none;*/
+    width: 300px;
+    height: 470px;
+    background-color: #ffffff;
+    border-right: 1px solid black;
+    border-top: 1px solid #f0f0f0;
+    z-index: 2;
+    /*left: -300px;*/
+}
+._btn_l{
+    width: 12px;
+    height: 50px;
+    background-position: -0px 0px;
+}
+
+
+/*中间客户样式*/
+._customer_data{
+     width: 100%;
+   /*  display: flex;
+     justify-content: center;*/
+}
+.grouping{
+    width: 320px;
+    display: inline-block;
+}
+
+._client_top{
+    display: flex;
+    background-color: #F0F0F0;
+    height: 40px;
+
+}
+._left{
+    margin: 10px 0px  0px 15px;
+    width: 17%;
+}
+._col_1{
+    width: 145px;
+    font-size: 16px;
+    font-weight: 600;
+
+}
+._main{
+    /*width: 890px;*/
+    width: 71%;
+    border-right: 1px solid #f1f1f1;
+    border-left: 1px solid #f1f1f1;
+}
+._main > .swiper-wrapper > div{
+    margin-top: 8px;
+    width: 100px;
+    height: 32px;
+    list-style: none;
+    border: 1px solid #DCDCDC;
+    border-bottom: 1px solid #fff;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+._main > .swiper-wrapper > .swiper-slide:hover{
+    cursor:pointer;
+}
+#_main > .swiper-wrapper{
+    width: 100px;
+}
+.hti{
+    border-bottom:1px solid #fff;cursor:pointer;color:black;text-shadow:0 1px 0 #fff;
+    background:#fff;
+    background:-webkit-gradient(linear, left top, left bottom, from(#e1e1e1), to(#fff));
+    background:-moz-linear-gradient(top, #e1e1e1, #fff);
+}
+._data{
+    background-color:#ffffff;
+    height: 40px;
+}
+
+.needHtml{
+    margin-top: 10px;
+    height: auto;
+    justify-content: center;
+    display: flex;
+    white-space: nowrap;
+}
+
+._right{
+    margin-top: 10px;
+    width: 100px ;
+    display:flex;
+    z-index: 1;
+}
+._xuqiu_h{
+    width: 320px;
+    line-height: 40px;
+}
+._color{
+    margin-left: 15px;
+    margin-top: 15px;
+    height: 400px;
+}
+._xuqiu_h > h4{
+    margin-left: 15px;
+}
+.text_right{
+    color: #969696;
+}
+/*左弹框*/
+._information{
+    margin: 0px 15px;
+}
+._name_mar{
+    margin-top: 20px;
+    height: 50px;
+}
+._left_change{
+    position: absolute;
+    left: 90%;
+    top: 7%;
+    width: 20px;
+}
+._left_tankuang{
+    display: flex;
+}
+._left_tankuang_bot{
+    display: flex;
+    height: 50px;
+}
+._text-box{
+    width: 140px;
+}
+.cut-off_rule{
+    border-bottom: 2px solid #f0f0f0;
+}
+._call_num{
+    margin-left:75px;
+}
+.on_call{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    /* margin-left: 30px; */
+}
+._call_number{
+    margin-top: 10px;
+    font-size: 24px;
+}
+._call_site{
+    margin-left: 50px;
+    color: #969696;
+    font-size: 12px;
+}
+._call_ProGress{
+    margin-left: 120px;
+    font-size: 15px;
+    color: #5AD296;
+    line-height: 50px;
+}
+.call_btn{
+    width: 90px;
+    height: 36px;
+    background-color: #8DE7B8;
+    border-radius: 50px;
+    line-height: 36px;
+    color: #ffffff;
+    font-weight: bold;
+    margin-left: 5px;
+    cursor:pointer;
+}
+.call_btn_2{
+    width: 90px;
+    height: 36px;
+    background-color: #8DE7B8;
+    border-radius: 50px;
+    line-height: 36px;
+    color: #ffffff;
+    font-weight: bold;
+    margin-left: 5px;
+    cursor:pointer;
+}
+.call_up{
+    cursor: pointer;
+    width: 90px;
+    height: 36px;
+    border: 1px solid #c8c8c8;
+    background-color: #fff;
+    border-radius: 50px;
+    line-height: 36px;
+    /* margin-left: 85px; */
+    color: #969696;
+    font-weight: bold;
+    margin-left: 5px;
+    /* display: none; */
+}
+.guaji_1{
+    cursor: pointer;
+    width: 90px;
+    height: 36px;
+    border: 1px solid #c8c8c8;
+    background-color: red;
+    border-radius: 50px;
+    line-height: 36px;
+    color: #ffffff;
+    /* margin-left: 85px; */
+    font-weight: bold;
+    margin-left: 5px;
+    display: none;
+}
+.call_phone_btn{
+    width: 90px;
+    height: 36px;
+    background-color: #8DE7B8;
+    border-radius: 50px;
+    line-height: 36px;
+    color: #ffffff;
+    font-weight: bold;
+    cursor:pointer;
+}
+.call_fixed_btn{
+    width: 90px;
+    height: 36px;
+    background-color: #8DE7B8;
+    border-radius: 50px;
+    line-height: 36px;
+    color: #ffffff;
+    font-weight: bold;
+    cursor:pointer;
+}
+.call_break{
+    cursor: pointer;
+    width: 90px;
+    height: 36px;
+    //border: 1px solid #c8c8c8;
+    background-color: red;
+    border-radius: 50px;
+    line-height: 36px;
+    /* margin-left: 85px; */
+    color: #fff;
+    font-weight: bold;
+     display: none;
+}
+.background_left{
+    position: absolute;
+    width: 300px;
+    height: 470px;
+    background-color: #323535;
+    top: 0%;
+    left: -300px;
+    z-index: 5;
+}
+.background_right{
+    position: absolute;
+    width: 110px;
+    height: 470px;
+    background-color: #323535;
+    top: 0%;
+    left: 142px;
+    z-index: 5;
+}
+._call_center{
+    width: 300px;
+    height: 170px;
+}
+.extra_calls{
+    width: 300px;
+    height: 170px;
+    border-right: 1px solid #B4B4B4;
+    position: absolute;
+    top: 260px;
+    background-color: #ffffff;
+    padding-top: 20px;
+    padding-left: 15px;
+}
+.e-massage{
+    width: 300px;
+    height: 170px;
+    border-right: 1px solid #B4B4B4;
+    position: absolute;
+    top: 260px;
+    background-color: #fff;
+    display: none;
+}
+.massage_text{
+    margin-top: 15px;
+    margin-left: 15px;
+    width: 90%;
+    height: 90px;
+    border: 1px solid #ffffff;
+}
+.on_massage{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.send_massage_btn{
+    width: 90px;
+    height: 36px;
+    background-color: #8DE7B8;
+    border-radius: 50px;
+    line-height: 36px;
+    color: #ffffff;
+    font-weight: bold;
+    cursor:pointer;
+}
+.Exit_massage{
+    cursor: pointer;
+    width: 90px;
+    height: 36px;
+    border: 1px solid #c8c8c8;
+    background-color: #fff;
+    border-radius: 50px;
+    line-height: 36px;
+    /* margin-left: 85px; */
+    color: #969696;
+    font-weight: bold;
+    margin-left: 5px;
+    /* display: none; */
+}
+.Prepare_exhaled{
+    width: 300px;
+    height: 170px;
+    border-right: 1px solid #B4B4B4;
+    position: absolute;
+    top: 260px;
+    background-color: #ffffff;
+    display: none;
+}
+._one{
+    margin-top: 28px;
+}
+.zhaiwuHtml{
+    display: flex;
+}
+.zhaiwu_fenzu{
+    width: 100%;
+}.zhenxinHtml{
+    display: flex;
+ }
+ .zhenxin_fenzu{
+     width: 100%;
+ }
+ .juzhong{
+     width: 100%;
+     margin-left:430px;
+ }
+
+ /*左侧展示 以及表单*/
+
+

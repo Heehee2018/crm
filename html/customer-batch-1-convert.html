@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"-->
+
+<title>RM-批量移客户</title>
+
+<link href="js/bootstrap.min.css" rel="stylesheet">
+<link
+	href="http://cdn.bootcss.com/formvalidation/0.6.1/css/formValidation.min.css"
+	rel="stylesheet">
+<link href="css/app1.css" rel="stylesheet" />
+<link rel="shortcut icon" href="favicon.ico" />
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/formvalidation/0.6.1/js/formValidation.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/formvalidation/0.6.1/js/framework/bootstrap.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/formvalidation/0.6.1/js/language/zh_CN.min.js"></script>
+
+<script src="http://cdn.bootcss.com/moment.js/2.11.1/moment.min.js"></script>
+<script src="http://cdn.bootcss.com/moment.js/2.11.1/locale/zh-cn.js"></script>
+<script
+	src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+<link
+	href="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"
+	rel="stylesheet">
+<!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+.imgH {
+	height: 24px;
+}
+
+.tooltip-inner {
+	color: black;
+	max-width: 360px;
+	background-color: #eeeeee;
+}
+</style>
+</head>
+<body>
+	<div class="wapper">
+      <? require_once("html/navbar.html")?>
+      
+      <div>
+        <?echo $msg?>
+        
+        <div class="panel panel-default">
+				<div class="panel-heading">
+					<h3>
+						客户管理 <small>批量转客户</small>
+					</h3>
+				</div>
+				<div class="panel-body">
+					<form method="get" id="searchForm" class="form-inline fv-form">
+						<input type="hidden" id="action" name="action" value="search">
+                        <div class="form-group">
+                            <label>排序</label>
+                            <select name="ipt-order" id="ipt-order" class="form-control">
+                                <option value="cdate">生成日期</option>
+                                <option value="name">姓名</option>
+                                <option value="phone">手机号</option>
+                                <option value="quality">质量</option>
+                                <option value="from">客户源</option>
+                                <option value="lastfllow">跟进日期</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>源销售名称</label>
+                            <select name="ipt-attach-source[]" id="ipt-attach-source" class="form-control" multiple>
+                                <?
+                                if (! $p_attach_source)
+                                    $p_attach_source = array();
+                                echo gen_opt_attachbyArray($p_attach_source);
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="position: relative;">
+                            <label>日期</label> <input type="text" class="form-control"
+                                id="ipt-cdate" name="ipt-cdate" value="<?echo $p_cdate?>"> <i
+                                class="glyphicon glyphicon-calendar form-control-feedback"></i>
+                        </div>
+
+                        <div class="form-group">
+                            <label>类别</label>
+                            <select class="form-control" name="ipt-status">
+                                <option value="">-请选择-</option>
+                                <?=gen_opt_byarray($p_status, $cu_type)?>
+                            </select>
+                        </div>
+
+						<div class="form-group">
+							<label>跟进销售</label>
+                            <select class="form-control" name="ipt-attachid">
+								<option value="">-请选择-</option>
+                                <?=gen_opt_byid($p_attachid, 'users', 'cname', -1)?>
+                            </select>
+						</div>
+
+						<div class="checkbox">
+							<label> <input type="checkbox" name="ipt-certcode"
+								value="checked" <?echo $p_certcode?>> 有身份证信息
+							</label>
+						</div>
+
+						<div class="form-group">
+							<label>姓名</label> <input type="text" class="form-control"
+								name="ipt-name" placeholder="" value="<?echo $p_name?>">
+						</div>
+
+						<div class="form-group">
+							<label>手机号</label> <input type="text" class="form-control"
+								name="ipt-phone" placeholder="手机号或后四位" value="<?echo $p_phone?>">
+						</div>
+
+						<div class="form-group">
+							<label>批量手机</label> <input type="text" class="form-control"
+								name="ipt-phones" placeholder="英文逗号分隔"
+								value="<?echo $p_phones?>">
+						</div>
+
+						<div class="form-group">
+							<label>质量</label>
+                            <select name="ipt-quality" class="form-control">
+								<option value="">-请选择-</option>
+                                <?echo gen_opt_byarray($p_quality, $cu_quality)?>
+                            </select>
+						</div>
+
+						<div class="form-group">
+							<label>星级</label>
+                            <select name="ipt-from[]" class="form-control" multiple="multiple">
+                                <?echo gen_opt_frombyArray($p_from, $cu_from)?>
+                            </select>
+						</div>
+						
+						<div class="form-group">
+							<label>来源</label>
+                            <select name="ipt-laiyuan[]" class="form-control" multiple="multiple">
+                                <?echo gen_opt_frombyArray($p_laiyuan, $cu_laiyuan)?>
+                            </select>
+						</div>
+
+						<div class="form-group" <? if ($jobtitleid!=1) echo 'style="display:none;"'; ?>>
+							<label>供应商</label>
+                            <select name="ipt-supplier" class="form-control">
+                                <?echo gen_opt_frombyArray($p_supplier, $cu_supplier)?>
+                            </select>
+						</div>
+
+						<div class="checkbox">
+							<label> <input type="checkbox" name="ipt-followrec"
+								value="checked" <?echo $p_followrec?> > 无跟进记录
+							</label>
+						</div>
+						<div>
+
+						<div class="form-group" style="position: relative; display: none;">
+							<label>转出日期</label> <input type="text" class="form-control"
+								id="ipt-zcdate" name="ipt-zcdate" value="<?echo $p_zcdate?>"> <i
+								class="glyphicon glyphicon-calendar form-control-feedback"></i>
+						</div>
+
+						<div class="form-group">
+
+							<button class="btn btn-default" id="btn-search">查找</button>
+							<button class="btn btn-default" id="btn-export" <? echo $display_none ?>>导出</button>
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">群发消息</button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">群发消息</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <textarea cols="30" rows="10" placeholder="请在此输入群发的短信内容" style="resize: none;width: 100%" id="smsContext"></textarea>
+											<p class="current_length"></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                            <button type="button" class="btn btn-primary" id="firstSubmit">发送</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+					</form>
+
+					<form id="postform" method="post" id="thisform">
+						<input type="hidden" id="paction" name="action" value="convert">
+
+						<div class="">
+                <? echo $table ?>
+              </div>
+
+						<div>
+                <?echo $pageControl ?>
+              </div>
+
+						<div style="position: fixed; bottom: 23px;">
+							<label><input type="checkbox" id="chkall" value="chkall">全选/取消全选</label>
+							<select name="doc-ipt-attach">
+                  <?echo gen_opt_attachbyArray(array($userid))?>
+                </select>
+							<button type="button" class="btn btn-default"
+								onclick="$(':button').attr('disabled',true);$('#postform').submit();">确定转入</button>
+							<button type="button" class="btn btn-default"
+								onclick="$('#paction').val('averconvert');$(':button').attr('disabled',true);$('#postform').submit();"><? echo $btn_2_name ?></button>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/getExtNum.js"></script>
+	<script>
+	// 群发消息
+    function getByteLen(val) {    //传入一个字符串
+        var len = 0;
+        for (var i = 0; i < val.length; i++) {
+            if (val[i].match(/[^\x00-\xff]/ig) != null) //全角
+                len += 2; //如果是全角，占用两个字节
+            else
+                len += 1; //半角占用一个字节
+        }
+        return len;
+    }
+
+	$('#smsContext').keyup(function () {
+        var keyWord = $(this).val();
+        var textLen = getByteLen(keyWord)
+		$('.current_length').html('当前字符长度'+textLen)
+    })
+
+	$('#firstSubmit').click(function () {
+		if(confirm('确认发送吗？')){
+		    alert(getByteLen(document.getElementById('smsContext').value))
+		}
+    })
+
+    $("tr").siblings(".click").click(function() {
+      var chkbox = $(this).children().first().children();
+      chkbox.prop("checked", !chkbox.prop("checked"));
+      //alert($(this).html());
+    });
+    
+    $('#ipt-cdate, #ipt-zcdate').datetimepicker({
+      ignoreReadonly: true,
+      showClear: true,
+      showClose: true,
+      format: 'YYYY-MM-DD'
+    });
+    
+    $("#ipt-order").val('<?echo $p_order?>');
+    $("#ipt-order").change(function(){
+      $("#searchForm").submit();
+    });
+    
+    $("#chkall").click(function(){
+      $("input[name='sel[]']").prop("checked", $(this).prop("checked"));
+    });
+    
+    $("#btn-search").click(function(){
+      $(':button').attr('disabled',true);
+      $("#action").val("search");
+      $("#searchForm").submit();
+    });
+    
+    $("#btn-export").click(function(){
+      $(':button').attr('disabled',true);
+      $("#action").val("export");
+      $("#searchForm").submit();
+    });
+    
+    $("[data-toggle='tooltip']").tooltip();
+    </script>
+</body>
+</html>

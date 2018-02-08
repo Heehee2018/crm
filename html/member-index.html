@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CRM-首页</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/app1.css">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<style>
+
+        .Order_record{
+            z-index: 10;
+        position: fixed;
+/*        border: 1px solid #323535;*/
+        left: 82%;
+        top: 75px;
+        width: 100px;
+        height: 250px;
+        background-image: url(images/bg.png);
+    }
+    .text_date{
+        position: absolute;
+        top: 110px;
+        font-size: 24px;
+        font-family: fantasy;
+        font-weight: bolder;
+        color: #000;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .exclamation{
+        width: 64px;
+        height: 64px;
+        margin-left: 18px;
+        margin-top: 18px;
+        background-image: url(images/exclamation.gif);
+    }
+    p{
+        margin: 0;
+        padding: 0;
+    }
+        @media only screen and (max-width: 1366px){
+            .Order_record{
+                left: 92%;
+            }
+        }
+</style>
+    <div class="wapper">
+        <? require_once("html/navbar.html") ?>
+        <section class="container part1 clearfix">
+            <div class="client-status text-center pull-left">
+                <h3 class="title">客户状态</h3>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="customer-search.php?act=post&ipt-status=12">
+                            <div class="type">V-已完成</div>
+                            <div class="count"><? echo $html["status"][12] ?></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customer-search.php?act=post&ipt-status=11">
+                            <div class="type">F-已放款</div>
+                            <div class="count"><? echo $html["status"][11] ?></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customer-search.php?act=post&ipt-status=8">
+                            <div class="type">D-等待放款</div>
+                            <div class="count"><? echo $html["status"][8] ?></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customer-search.php?act=post&ipt-status=6">
+                            <div class="type">B-已经签约办理中</div>
+                            <div class="count"><? echo $html["status"][6] ?></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customer-search.php?act=post&ipt-status=5">
+                            <div class="type">M-已上门</div>
+                            <div class="count"><? echo $html["status"][5] ?></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customer-search.php?act=post&ipt-status=4">
+                            <div class="type">L-长期跟进</div>
+                            <div class="count"><? echo $html["status"][4] ?></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customer-search.php?act=post&ipt-status=3">
+                            <div class="type">S-近期跟进</div>
+                            <div class="count"><? echo $html["status"][3] ?></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customer-search.php?act=post&ipt-status=2">
+                            <div class="type">Y-有需求</div>
+                            <div class="count"><? echo $html["status"][2] ?></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="customer-search.php?act=post&ipt-status=1">
+                            <div class="type">N-未联系</div>
+                            <div class="count"><? echo $html["status"][1] ?></div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="achievement pull-right">
+                <h3 class="title">业绩对比</h3>
+                <div class="content">
+                    <div class="item row">
+                        <div class="col-md-3 text-left font-bold"><? echo $html["cname"]; ?></div>
+                        <div class="col-md-5 text-center font-bold">上 月</div>
+                        <div class="col-md-4 text-center font-bold">本 月</div>
+                    </div>
+                    <div class="item row">
+                        <div class="col-md-3 text-left font-bold">放款金额</div>
+                        <div class="col-md-5 text-center">
+                            <span class="text-red"><? echo $prevYj->fkmoney ?></span> 万元
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <span class="text-red"><? echo $thisYj->fkmoney ?></span> 万元
+                        </div>
+                    </div>
+                    <div class="item row">
+                        <div class="col-md-3 text-left font-bold">收款金额</div>
+                        <div class="col-md-5 text-center">
+                            <span class="text-red"><? echo $prevYj->fwmoney ?></span> 元
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <span class="text-red"><? echo $thisYj->fwmoney ?></span> 元
+                        </div>
+                    </div>
+                    <div class="item row">
+                        <div class="col-md-3 text-left font-bold">团队排名</div>
+                        <div class="col-md-5 text-center">
+                            第<span class="text-red"><? echo $html["prevDuanDui"] ?></span>名
+                        </div>
+                        <div class="col-md-4 text-center">
+                            第<span class="text-red"><? echo $html["thisDuanDui"] ?></span>名
+                        </div>
+                    </div>
+                    <div class="item row">
+                        <div class="col-md-3 text-left font-bold">公司排名</div>
+                        <div class="col-md-5 text-center">
+                            第<span class="text-red"><? echo $html["prevGongsi"] ?></span>名
+                        </div>
+                        <div class="col-md-4 text-center">
+                            第<span class="text-red"><? echo $html["thisGongsi"] ?></span>名
+                        </div>
+                    </div>
+                    <div class="tip">
+                        你与前一名仅有<span class="text-red f20"><? echo $html["thisPrevYJ"] ?></span>元的业绩差距而已！
+                    </div>
+                </div>
+            </div>
+            <div class="Order_record" style="color: red">
+                <div class="exclamation"></div>
+                <div class="text_date">
+                    <p class="p1">你已经</p>
+                    <p class="p2" style="margin: 0;padding: 0"><span style="font-size: 36px; color: #ed6c00;"><? echo $html["dkDateDiff"] ?></span><span class="span1">天</span></p>
+                    <p class="p3">未出单</p>
+                </div>
+            </div>
+        </section>
+        <section class="container part2 clearfix">
+            <div class="pull-left ranking">
+                <h3 class="title">本月排行榜</h3>
+                <a href="member-honor-detail.php" style="display: block;margin: 0 auto;text-align: center;color: #aaa;margin-bottom: 30px;">查看完整排行榜&gt;</a>
+                <div class="list row first">
+                    <div class="col-md-3 font-bold name"><? echo $yjRs[0]->cname ?></div>
+                    <div class="col-md-4 text-center"><? echo $yjRs[0]->fkmoney ?>万</div>
+                    <div class="col-md-5 text-right"><? echo $yjRs[0]->fwmoney ?>元</div>
+                </div>
+                <div class="list row second">
+                    <div class="col-md-3 font-bold name"><? echo $yjRs[1]->cname ?></div>
+                    <div class="col-md-4 text-center"><? echo $yjRs[1]->fkmoney ?>万</div>
+                    <div class="col-md-5 text-right"><? echo $yjRs[1]->fwmoney ?>元</div>
+                </div>
+                <div class="list row third">
+                    <div class="col-md-3 font-bold name"><? echo $yjRs[2]->cname ?></div>
+                    <div class="col-md-4 text-center"><? echo $yjRs[2]->fkmoney ?>万</div>
+                    <div class="col-md-5 text-right"><? echo $yjRs[2]->fwmoney ?>元</div>
+                </div>
+                <div class="no-ranking-img">
+                    <img src="images/no_ranking.png" alt="">
+                </div>
+            </div>
+            <div class="pull-right ranking">
+                <h3 class="title">奖金池</h3>
+                <div class="text-center text-red number"><? echo $html["bonus"] ?>元</div>
+                <div class="gold">
+                   <!-- <img src="images/gold1.gif" alt="">-->
+                    <video src="images/gold4.mp4" autoplay loop width="570px"></video>
+                </div>
+            </div>
+        </section>
+    </div>
+    <br><br><br><br><br>
+    <div style="font-size: 10px; margin-left: 48%;background-color: #323535 ;color: #666">这里是底部了</div>
+    <script src="js/app1.js"></script>
+
+
+
+    <script>
+       /* var i_date = <? echo $html["dkDateDiff"] ?>;*/
+        var i_date = "<? echo $html["dkDateDiff"] ?>";
+       console.log(i_date);
+       if(i_date==="没有"){
+         $(".p1").html("你还");
+           $(".span1").html("")
+         $(".p3").html("出单");
+       }else if(i_date==="" || i_date==="0"||i_date==="undefined"||i_date==="null"){
+           $(".Order_record").remove();
+       }
+    </script>
+
+</body>
+</html>

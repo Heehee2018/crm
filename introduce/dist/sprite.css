@@ -1,0 +1,41 @@
+.icon-background {
+  background: url('sprite.png') 0 0;
+  width: 10rem;
+  height: 16.08rem;
+}
+
+.icon-icon-addr {
+  background: url('sprite.png') -15.2rem -6.466667rem;
+  width: 0.64rem;
+  height: 0.64rem;
+}
+
+.icon-icon-dimission {
+  background: url('sprite.png') -10.066667rem 0;
+  width: 10rem;
+  height: 6.4rem;
+}
+
+.icon-icon-phone {
+  background: url('sprite.png') -15.906667rem -6.466667rem;
+  width: 0.64rem;
+  height: 0.64rem;
+}
+
+.icon-icon-url {
+  background: url('sprite.png') -16.613333rem -6.466667rem;
+  width: 0.64rem;
+  height: 0.64rem;
+}
+
+.icon-icon-wechat {
+  background: url('sprite.png') -17.32rem -6.466667rem;
+  width: 0.64rem;
+  height: 0.64rem;
+}
+
+.icon-logo {
+  background: url('sprite.png') -10.066667rem -6.466667rem;
+  width: 5.066667rem;
+  height: 1.2rem;
+}

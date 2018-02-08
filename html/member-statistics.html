@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRM-广告分配报表</title>
+
+    <link href="js/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/formvalidation/0.6.1/css/formValidation.min.css" rel="stylesheet">
+    <link href="css/app1.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/formValidation.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/framework/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/language/zh_CN.min.js"></script>
+    <script src="http://cdn.bootcss.com/moment.js/2.11.1/moment.min.js"></script>
+    <script src="http://cdn.bootcss.com/moment.js/2.11.1/locale/zh-cn.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ad-container .seldate-container>div{
+            float: left;
+        }
+        .ad-container .seldate-container>div:nth-child(2){
+            height: 36px;
+            line-height: 36px;
+            padding: 0 15px;
+        }
+        .ad-container .seldate-container button{
+            width: 120px;
+            margin-left: 20px;
+        }
+        .ad-container .ipt-date-group{
+            position: relative;
+            width: 200px;
+            height: 36px;
+            border:1px solid #c8c8c8;
+            border-radius: 5px;
+            padding:6px 8px;
+        }
+        .ad-container .ipt-date-group input{
+            border: none;
+        }
+        .ad-container .ipt-date-group .ipt-addon{
+            position: absolute;
+            right:5px;
+            top:9px;
+            width: 27px;
+            height: 36px;
+            background: url("images/icon_calendar.png") no-repeat;
+        }
+        .ad-container .data-container{
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            margin-top: 22px;
+        }
+        .ad-container .data-item{
+            flex:1;
+        }
+        .ad-container .data-item:first-child{
+            border: 1px solid #c8c8c8;
+        }
+        .ad-container .data-item .data-item-head{
+            background: #f5f5f8;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #c8c8c8;
+            padding: 0 10px;
+        }
+        .ad-container .data-item .data-item-head select{
+            margin-top: 9px;
+            background: transparent;
+            border: none;
+        }
+        .ad-container .data-item .data-item-head a{
+            color: #000;
+        }
+        .ad-container .data-item:first-child table{
+            margin-bottom: 0;
+        }
+        .ad-container .data-item:first-child table td{
+            font-size: 15px;
+        }
+        .ad-container .data-item .username{
+            display: inline-block;
+            margin-right: 20px;
+            width: 70px;
+        }
+        .ad-container .data-item input{
+            outline: none;
+        }
+
+        [v-cloak]{
+            display: none;
+        }
+
+        /* 仿ios开关按钮 */
+        .al-toggle-button{
+            appearance: none;
+            -webkit-appearance: none;
+            position: relative;
+            /*width: 52px;*/
+            width: 49px;
+            /*height: 32px;*/
+            height: 28px;
+            background: #dfdfdf;
+            /*border-radius: 16px;*/
+            border-radius: 27px;
+            border: 1px solid #dfdfdf;
+            outline: 0;
+            box-sizing: border-box;
+            vertical-align: middle;
+        }
+        .al-toggle-button:checked{
+            border-color: #04be02;
+            background-color: #04be02;
+        }
+        .al-toggle-button:before, .al-toggle-button:after{
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            /*height: 30px;*/
+            height: 26px;
+            /*border-radius: 15px;*/
+            border-radius: 13px;
+            transition: transform 0.3s;
+            transition: -webkit-transform 0.3s;
+            transition: transform 0.3s, -webkit-transform 0.3s;
+            -webkit-transition: -webkit-transform 0.3s;
+        }
+        .al-toggle-button:before{
+            /*width: 50px;*/
+            width: 47px;
+            background-color: #fdfdfd;
+        }
+        .al-toggle-button:after{
+            /*width: 30px;*/
+            width: 26px;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+        .al-toggle-button:checked:before{
+            transform: scale(0);
+            -webkit-transform: scale(0);
+        }
+        .al-toggle-button:checked:after{
+            transform: translateX(20px);
+            -webkit-transform: translateX(20px);
+        }
+    </style>
+    <script>
+        var mainTitle = '<? echo $config["title"] ?>';
+        var etPmyExt = '<? echo $is["ext"] ?>',etPmyPort = '<? echo $is["port"] ?>';
+        console.log(etPmyExt,etPmyPort);
+    </script>
+</head>
+<body>
+<div class="wapper">
+    <? require_once("html/modal.html")?>
+    <div class="ad-container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>客户管理<small> 广告分配报表</small></h3>
+            </div>
+            <div class="panel-body" id="chart-container">
+                <form action="" method="post">
+                    <input type="hidden" name="ipt-groupid" v-model="json.jobtitle">
+                    <div class="seldate-container clearfix">
+                        <div class="ipt-date-group">
+
+                            <input type="text" class="date" name="dateb">
+                            <span class="ipt-addon"></span>
+                        </div>
+                        <div>至</div>
+                        <div class="ipt-date-group">
+                            <input type="text" class="date" name="datee">
+                            <span class="ipt-addon"></span>
+                        </div>
+                        <button type="button" class="btn btn-default" @click="getJson">查询</button>
+                    </div>
+                    <div class="data-container">
+                        <div class="data-item">
+                            <div class="data-item-head">
+                                <select class="pull-left" v-model="selected" name="jobtitleid" @change="getJson" v-cloak>
+                                    <option :value="group" v-for="(group,index) in json.groupid">{{index==0?'全部':'销售'+index+'部'}}</option>
+                                    <option :value="-1">部门统计</option>
+                                </select>
+                                <a class="pull-right" @click="exportExcel">导出&gt;</a>
+                            </div>
+                            <table class="table table-striped" id="test">
+                                <thead>
+                                    <th class="text-center">序号</th>
+                                    <th>姓名</th>
+                                    <th class="text-center">分配客户</th>
+                                    <th class="text-center">已联系</th>
+                                    <th class="text-center">五星</th>
+                                    <th class="text-center">四星</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(user,index) in json.list">
+                                        <td class="text-center" v-text="index+1"></td>
+                                        <td><span class="username" v-text="user.cname"></span><input type="checkbox" class="al-toggle-button" :checked="parseInt(user.afpei)" :value="user.id" @click="saveUser(user.id)"></td>
+                                        <td class="text-center" v-text="user.total"></td>
+                                        <td class="text-center" v-text="user.ylxi"></td>
+                                        <td class="text-center" v-text="user.star5"></td>
+                                        <td class="text-center" v-text="user.star4"></td>
+                                    </tr>
+                                    <tr style="background-color: #f5f5f8">
+                                        <td></td>
+                                        <td>全部</td>
+                                        <td class="text-center" v-cloak>{{json.total}}</td>
+                                        <td class="text-center" v-cloak>{{json.total_ylxi}}</td>
+                                        <td class="text-center" v-cloak>{{json.total_star5}}</td>
+                                        <td class="text-center" v-cloak>{{json.total_star4}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="data-item" id="main" style="height: 400px">
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/tableExporter.min.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/echarts.js"></script>
+<script src="js/getExtNum.js"></script>
+<script>
+    $(function () {
+
+        // 图表属性路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        /*
+        * getJson 初始化json数据
+        * [params] callback 回调方法获得异步返回的数据
+        * */
+        function getJsonData(callBack){
+            $.ajax({
+                url:'ajax/member-data.php?action=getuserlist',
+                type:'GET',
+                dataType:'json',
+                success:function (res) {
+                    callBack(res)
+                }
+                
+            })
+        }
+
+        /*
+        * initChart 初始化图表
+        * [params] data 图表数据
+        * */
+        function initChart(data){
+            require(
+                [
+                    'echarts',
+                    'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+                ],
+                function(ec){
+                    var myChart = ec.init(document.getElementById('main'));
+                    var option =  {
+                        noDataLoadingOption: {
+                            text: '暂无数据',
+                            effect: 'bubble',
+                            effectOption: {
+                                effect: {
+                                    n: 0
+                                }
+                            }
+                        },
+                        calculable : false,
+                        series : [
+                            {
+                                name:'访问来源',
+                                type:'pie',
+                                radius : '60%',
+                                center: ['50%', '50%'],
+                                itemStyle:{
+                                    normal:{
+                                        label:{
+                                            show:true,
+                                            position:'inner',
+                                            formatter: '{b}\n{c}%'
+                                        },
+                                        labelLine :{show:false}
+                                    }
+
+                                },
+                                data:data
+                            }
+                        ],
+                        color:['#b5b39c','#f31d53','#fdd406','#aabd13','#ff9f00','#00aab2']
+                    };
+                    myChart.setOption(option);
+                }
+            );
+        }
+
+        /**
+         * 保存分配客户的状态
+         */
+        function saveUserHttp(){
+            $.ajax({
+                url:'ajax/member-data.php?action=saveuserlist',
+                type:'GET',
+                data:$('form').serialize(),
+                async:false,
+                success:function (data) {
+                    if(data==0){
+                        alert('修改分配状态失败！');
+                    }
+                }
+            })
+        }
+        
+
+
+        $('.ipt-addon').click(function () {
+            $(this).prev().trigger('focus')
+        });
+
+        /*$(window).bind('beforeunload',function () {
+            saveUserHttp();
+        });*/
+
+        var app = new Vue({
+            el:'.wapper',
+            data:{
+                json:'',
+                selected:'',
+                captionTitle:'广告分配报表'
+            },
+            methods:{
+                getJson(){
+                    var that = this;
+                    if(that.selected==-1){
+                        $.ajax({
+                            type:'POST',
+                            url:'ajax/member-data.php?action=getgrouplist&dateb='+$('[name="dateb"]').val()+'&datee='+$('[name="datee"]').val()+'&jobtitleid=0',
+                            dataType:'json',
+                            success:function (res) {
+                                if(res==0){
+                                    alert('您没有权限');
+                                    return;
+                                }
+                                that.json=res;
+                                for(var i = 0;i<res.chart.length;i++){
+                                    if(res.chart[i].value==0){
+                                        res.chart.splice(i,1);
+                                        i--;
+                                    }
+                                }
+                                initChart(res.chart);
+                            }
+                        })
+                    }else{
+                        $.ajax({
+                            url:'ajax/member-data.php?action=getuserlist',
+                            data:$('form').serialize(),
+                            dataType:'json',
+                            success:function (res) {
+                                console.info('res',res);
+                                that.json=res;
+                                for(var i = 0;i<res.chart.length;i++){
+                                    if(res.chart[i].value==0){
+                                        res.chart.splice(i,1);
+                                        i--;
+                                    }
+                                }
+                                initChart(res.chart);
+                            }
+
+                        })
+                    }
+
+                },
+                // 导出表格
+                exportExcel(){
+                    window.location.href='ajax/member-data.php?action=exportuserlist&'+$('form').serialize()
+
+                },
+                // 保存状态
+                saveUser(id){
+                    $.ajax({
+                        url:'ajax/member-data.php?action=saveuser',
+                        type:'GET',
+                        data:{
+                            'ipt-userid':id
+                        },
+                        async:false,
+                        success:function (data) {
+                            console.log(data);
+                            if(data==0){
+                                alert('修改状态出错')
+                            }
+                        }
+                    })
+                }
+            },
+            beforeCreate:function(){
+                var that = this;
+                getJsonData(function(data){
+                    console.log(data);
+                    that.$data.selected=data.jobtitle;
+                    that.$data.json=data;
+                    for(var i = 0;i<data.chart.length;i++){
+                        if(data.chart[i].value==0){
+                            data.chart.splice(i,1);
+                            i--;
+                        }
+                    }
+                    initChart(data.chart);
+                });
+            },
+            mounted:function () {
+                // 选择日期插件初始化
+                $('.date').datetimepicker({
+                    format: 'YYYY-MM-DD',
+                    showClear: true,
+                    showClose: true
+                });
+                var month = new Date().getMonth()+1;
+                var date = new Date().getDate();
+                month = month<10? '0'+month : month;
+                date = date<10? '0'+date : date;
+                $('[name="dateb"]').val(new Date().getFullYear()+'-'+month+'-'+date);
+                $('[name="datee"]').val(new Date().getFullYear()+'-'+month+'-'+date);
+            }
+        })
+
+    })
+</script>
+<script>
+
+</script>
+</body>
+</html>

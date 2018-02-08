@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRM-新增产品</title>
+
+    <link href="js/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/formvalidation/0.6.1/css/formValidation.min.css" rel="stylesheet">
+    <link href="css/app1.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/formValidation.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/framework/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/language/zh_CN.min.js"></script>
+
+    <script src="http://cdn.bootcss.com/moment.js/2.11.1/moment.min.js"></script>
+    <script src="http://cdn.bootcss.com/moment.js/2.11.1/locale/zh-cn.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .bd-head{overflow: hidden;padding-bottom: 23px;}
+        .bd-head>div{
+            float: left;
+        }
+        .bd-head>div select.form-control{
+            display: inline-block;
+            width: 140px;
+        }
+        .bd-head>div .list-inline>li{
+            margin-top: 10px;
+        }
+        .bd-head button{
+            width: 120px;
+            height: 34px;
+            margin-left: 9px;
+        }
+        .bd-head .btn-red{
+            background: #a61625 ;
+            color: #fff;
+        }
+        .bd-head .btn-wrap{
+            line-height: 88px;
+            padding-left: 22px;
+        }
+        #product_detail_wrap .col-xs-1{
+            padding-right: 10px;
+            text-align: right;
+        }
+        #product_detail_wrap select{
+            width: 140px;
+        }
+        #product_detail_wrap .row{
+            margin-bottom: 10px;
+        }
+        #product_detail_wrap textarea{
+            resize: none;
+            border-radius: 5px;
+            border-color: #c8c8c8;
+            width: 100%;
+            height: 120px;
+            padding: 5px;
+        }
+
+        .wid400{
+            width: 400px;
+        }
+        .wid551{
+            width: 551px;
+        }
+        .wid533{
+            width: 533px;
+        }
+        .mb10{
+            margin-bottom: 10px;
+        }
+        .mt135{
+            margin-top: 135px;
+        }
+        .pl33{
+            padding-left: 33px;
+        }
+        .relative{
+            position: relative;
+        }
+        #product_detail_wrap .list-inline{
+            margin-left: 0;
+        }
+        #product_detail_wrap ul li{
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            border: 1px solid #dcdcdc;
+            color: #969696;
+            margin-bottom: 10px;
+            cursor: pointer;
+
+        }
+        #product_detail_wrap .lg li{
+            width: 120px;
+            margin-right: 10px;
+         }
+        #product_detail_wrap .sm li{
+            width: 50px;
+            margin-right: 5px;
+        }
+        #product_detail_wrap .xs li{
+            width: 32px;
+            height: 32px;
+            margin-right: 5px;
+        }
+        #product_detail_wrap .col-xs-8{
+            padding-top: 23px;
+        }
+        #product_detail_wrap .age-range{
+            position: absolute;
+            left: 420px;
+            top: 0;
+        }
+        #product_detail_wrap .text{
+            margin-bottom: 10px;
+        }
+        #product_detail_wrap li.active{
+            background: #f5a21b;
+            color: #fff;
+        }
+        #product_detail_wrap .btn{
+            width: 120px;
+            height: 36px;
+        }
+        #product_detail_wrap .btn-red{
+            background: #a61625;
+            color: #fff;
+        }
+        .modal-sm .modal-content{
+            width: 300px;
+            margin-top: 200px;
+            border-top-left-radius: 6px;
+        }
+        #saveOther{
+            display: none;
+        }
+
+    </style>
+    <script>
+        /* 是否离开当前页面，离开销毁session存储 */
+        function close() {
+            sessionStorage.removeItem('thisItemData');
+        }
+
+        var etPmyExt = '<? echo $is["ext"] ?>',etPmyPort = '<? echo $is["port"] ?>';
+        console.log(etPmyExt,etPmyPort);
+
+    </script>
+</head>
+<body onunload="close()">
+<div class="wapper">
+    <? require_once("html/navbar.html")?>
+    <div id="product_detail_wrap">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>产品管理<small>新增产品</small></h3>
+            </div>
+            <div class="panel-body">
+                <form>
+                    <div class="row">
+                        <div class="col-xs-1">机构类型</div>
+                        <div class="col-xs-3">
+                            <select name="ipt-jglxing" id="ipt-jglxing" class="form-control">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1">机构名称</div>
+                        <div class="col-xs-3">
+                            <select name="ipt-jgmcheng" id="ipt-jgmcheng" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1">放款机构</div>
+                        <div class="col-xs-3">
+                            <select name="ipt-fkjgou" id="ipt-fkjgou" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1">进件条件</div>
+                        <div class="col-xs-3">
+                            <textarea name="ipt-jjtjian" id="" rows="5"></textarea>
+                        </div>
+                        <div class="col-xs-8 pl33">
+                            <ul class="list-inline lg " id="jjtjUl">
+                                <li data-id="1">月供房</li>
+                                <li data-id="2">红本房</li>
+                                <li data-id="3">保单</li>
+                                <li data-id="4">代发</li>
+                                <li data-id="5">公积金</li>
+                                <li data-id="6">社保</li>
+                                <li data-id="7">个税</li>
+                                <li data-id="8">抵押房</li>
+                                <li data-id="9">二押贷</li>
+                                <li data-id="10">企业贷</li>
+                            </ul>
+                            <input type="hidden" name="ipt-jjtjian1" id="jjtjian1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1">进件资料</div>
+                        <div class="col-xs-3">
+                            <textarea name="ipt-jjzliao"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1">额度范围</div>
+                        <div class="col-xs-3">
+                            <textarea name="ipt-dkedu"></textarea>
+                        </div>
+                        <div class="col-xs-8 pl33">
+                            <ul class="list-inline sm wid551" id="dkedUl">
+                            </ul>
+                        </div>
+                        <input type="hidden" name="ipt-dkedu_min" id="dkedu_min">
+                        <input type="hidden" name="ipt-dkedu_max" id="dkedu_max">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1">贷款利息</div>
+                        <div class="col-xs-3">
+                            <textarea name="ipt-dklxi"></textarea>
+                        </div>
+                        <div class="col-xs-8 pl33">
+                            <ul class="list-inline lg wid533" id="dklxUl">
+                                <li data-id="1">3厘以下</li>
+                                <li data-id="2">3-5厘</li>
+                                <li data-id="3">5-8厘</li>
+                                <li data-id="4">8厘-1分</li>
+                                <li data-id="5">1-1.5分</li>
+                                <li data-id="6">1.5-2.88分</li>
+                                <li data-id="7">2.88分以上</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1">批款时间</div>
+                        <div class="col-xs-3">
+                            <textarea name="ipt-pksjian"></textarea>
+                        </div>
+                        <div class="col-xs-8 pl33">
+                            <ul class="list-inline lg  wid400" id="pksjUl">
+                                <li data-id="1">24小时内</li>
+                                <li data-id="2">1-3天</li>
+                                <li data-id="3">3-5天</li>
+                                <li data-id="4">5-10天</li>
+                                <li data-id="5">10-30天</li>
+                                <li data-id="6">30天以上</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1">可贷额度</div>
+                        <div class="col-xs-3">
+                            <textarea name="ipt-kdedu" ></textarea>
+                        </div>
+                        <div class="col-xs-8 pl33 wid400">
+                            <div class="text">适宜人群</div>
+                            <ul class="list-inline lg" id="syrqUl">
+                                <li data-id="1">自雇</li>
+                                <li data-id="2">受薪</li>
+                            </ul>
+                        </div>
+                        <input type="hidden" name="ipt-syrqun[]" id="syrqun">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1">收入认定</div>
+                        <div class="col-xs-3">
+                            <textarea name="ipt-srrding"></textarea>
+                        </div>
+                        <div class="col-xs-8 pl33">
+                            <div class="text">还款期限</div>
+                            <ul class="list-inline lg wid533" id="hkqxUl">
+                                <li data-id="1">12期以内</li>
+                                <li data-id="2">12期</li>
+                                <li data-id="3">24期</li>
+                                <li data-id="4">36期</li>
+                                <li data-id="5">48期</li>
+                                <li data-id="6">60期</li>
+                                <li data-id="7">60-120期</li>
+                                <li data-id="8">120-360期</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1">征信逾期</div>
+                        <div class="col-xs-3">
+                            <textarea name="ipt-zxyqi"></textarea>
+                        </div>
+                        <div class="col-xs-8 pl33">
+                            <div class="text">还款方式</div>
+                            <ul class="list-inline lg wid400" id="hkfsUl">
+                                <li data-id="1">等额本息</li>
+                                <li data-id="2">先息后本</li>
+                                <li data-id="3">随借随还</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row relative">
+                        <div class="col-xs-1">征信查询</div>
+                        <div class="col-xs-3">
+                            <textarea name="ipt-zxcxun"></textarea>
+                        </div>
+                        <div class="age-range">
+                            <div class="text">年龄范围</div>
+                            <ul class="list-inline xs wid551" id="ageUl"></ul>
+                        </div>
+                        <input type="hidden" name="ipt-nlfwei_min" id="nlfwei_min">
+                        <input type="hidden" name="ipt-nlfwei_max" id="nlfwei_max">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-1">负债公式</div>
+                        <div class="col-xs-3">
+                            <textarea name="ipt-fzgshi"></textarea>
+                        </div>
+                    </div>
+                    <div class="row text-center mt135">
+                        <button type="button" class="btn btn-red" id="submitForm">提交</button>
+                        <button type="button" class="btn btn-default" id="cancel">取消</button>
+                        <button type="button" class="btn btn-default" id="saveOther">保存为新产品</button>
+                    </div>
+
+                    <div id="dkedDiv" style="display: none"></div>
+                    <div style="display: none" id="nlfweiDiv"></div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="myModal" data-backdrop="static">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="alertDialog"></p>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+<script src="js/jquery.form.js"></script>
+<script src="js/getExtNum.js"></script>
+<script>
+    $(function () {
+
+        // 隐藏模态框时刷新页面
+        $('#myModal').on('hide.bs.modal', function () {
+            if(updateFlag==1){
+                window.history.go(-1);
+            }else{
+                window.location.reload();
+            }
+            window.scrollTo(0,0);
+        });
+
+        var jsonData = <? echo $html["jigou_data"] ?>;
+
+        for(var i in jsonData){
+            if(jsonData[i].pid == 0){
+                $('#ipt-jglxing').append('<option value="'+jsonData[i].id+'">'+jsonData[i].name+'</option>')
+            }
+        }
+
+        function getJgmcheng(pid){
+            $('#ipt-fkjgou').empty();
+            $('#ipt-jgmcheng').empty();
+            $('#ipt-jgmcheng').append('<option value=""></option>')
+            for(var i in jsonData){
+                if(jsonData[i].pid == pid){
+                    $('#ipt-jgmcheng').append('<option value="'+jsonData[i].id+'">'+jsonData[i].name+'</option>')
+                }
+            }
+        }
+
+        $('#ipt-jglxing').change(function () {
+            var pid = $(this).val();
+            getJgmcheng(pid);
+        })
+
+        function getFkjgou(pid){
+            $('#ipt-fkjgou').empty();
+            $('#ipt-fkjgou').append('<option value=""></option>');
+            for(var i in jsonData){
+                if(jsonData[i].pid == pid){
+                    $('#ipt-fkjgou').append('<option value="'+jsonData[i].id+'">'+jsonData[i].name+'</option>')
+                }
+            }
+        }
+
+        $('#ipt-jgmcheng').change(function () {
+            var pid = $(this).val();
+            getFkjgou(pid);
+        })
+
+
+
+        // 贷款额度ul添加可选额度
+        var dkedHtml = '';
+        var initCount = 5;
+        for(var i=1; i<=20; i++){
+            dkedHtml += '<li data-id="'+initCount+'">'+initCount+'</li>';
+            initCount += 5;
+        }
+        $('#dkedUl').append(dkedHtml);
+
+        // 年龄ul添加可选阶段
+        var ageHtml = '';
+        var initAge = 16;
+        for(var j=0; j<60; j++){
+            ageHtml += '<li data-id="'+initAge+'">'+initAge+'</li>';
+            initAge += 1;
+        }
+        $('#ageUl').append(ageHtml);
+
+        // 条件选项多选公有函数
+        function selectConFun(obj, ipt){
+            $(obj).click(function(){
+                if($(this).hasClass('active')){
+                    $(this).removeClass('active');
+                    var id = $(this).data('id');
+                    $("[name='"+ ipt +"'").each(function () {
+                        if($(this).val() == id){
+                            $(this).remove();
+                        }
+                    })
+                }else{
+                    $(this).addClass('active');
+                    $('form').append(' <input type="hidden" name="'+ ipt +'" value="'+$(this).data("id")+'"> ')
+                }
+            });
+
+        }
+
+        // 进件条件选择触发函数
+        $('#jjtjUl>li').click(function(){
+            $('#jjtjUl>li').removeClass('active');
+            $(this).addClass('active');
+            $('#jjtjian1').val($(this).data('id'));
+        })
+
+
+        // 批款时间条件选择触发函数
+        selectConFun('#pksjUl>li', 'ipt-pksjian1[]');
+
+        // 适宜人群条件选择触发函数
+        $('#syrqUl>li').click(function(){
+            $('#syrqUl>li').removeClass('active');
+            $(this).addClass('active');
+            $('#syrqun').val($(this).data('id'));
+        })
+
+        // 还款期限条件选择触发函数
+        selectConFun('#hkqxUl>li', 'ipt-hkqxian[]');
+
+        // 还款方式条件选择触发函数
+        selectConFun('#hkfsUl>li', 'ipt-hkfshi[]');
+
+        // 贷款利息条件
+        selectConFun('#dklxUl>li', 'ipt-dklxi1[]');
+
+
+        // 贷款额度条件选择触发函数
+        var dkedArr = [], dkedu_min = 0, dkedu_max = 0;
+        function setEd2Form() {
+            $('#dkedu_min').val(dkedu_min);
+            $('#dkedu_max').val(dkedu_max);
+            $('#dkedDiv').html('');
+            dkedArr.forEach(function (t) {
+                $('#dkedDiv').append('<input type="hidden" name="ipt-dkedu1[]" value="'+t+'">')
+            })
+        }
+        $('#dkedUl>li').on('click', function () {
+
+            var index = parseInt($(this).data('id'));
+
+            if(dkedu_min==0){
+                dkedu_min = index;
+                dkedu_max = index;
+                dkedArr.push(index);
+                $(this).addClass('active');
+                setEd2Form();
+                return;
+            }
+            if(dkedu_min!=0 && dkedu_max==dkedu_min && index!=dkedu_min){
+                index > dkedu_min ? dkedu_max = index:(dkedu_max = dkedu_min, dkedu_min = index);
+                dkedArr = [];
+                for(var i=dkedu_min;i<=dkedu_max;i+=5){
+                    dkedArr.push(i);
+                    $('#dkedUl>li[data-id="'+i+'"]').addClass('active');
+                }
+                setEd2Form();
+                return;
+            }
+            if(dkedArr.indexOf(index)==-1){ //不存在在数组里,要么就是最大值，要么就是最小值
+                var a = Math.max.apply(null, dkedArr); //获得当前数组里的最大值
+                var b = Math.min.apply(null, dkedArr); //获得当前数组里的最小值
+                if(index>dkedu_max){
+                    dkedu_max = index;
+                    for(var i=a+5;i<=dkedu_max;i+=5){
+                        dkedArr.push(i);
+                        $('#dkedUl>li[data-id="'+i+'"]').addClass('active');
+                    }
+                }else{
+                    if(index>dkedu_min){
+                        dkedArr.push(index);
+                        $('#dkedUl>li[data-id="'+index+'"]').addClass('active');
+                    }else{
+                        dkedu_min=index;
+                        for(var i = dkedu_min;i<b;i+=5){
+                            dkedArr.push(i);
+                            $('#dkedUl>li[data-id="'+i+'"]').addClass('active');
+                        }
+                    }
+
+                }
+                setEd2Form();
+                return;
+            }else{ //存在在数组里，删除该下标项，并移除active
+                var key = dkedArr.indexOf(index);
+                dkedArr.splice(key,1);
+                // 删除后需判断数组是否为空，为空则要将最小值置为0
+                dkedArr.length==0?(dkedu_min=0,dkedu_max=0):(dkedu_min=Math.min.apply(null, dkedArr), dkedu_max=Math.max.apply(null, dkedArr));
+                $('#dkedUl>li[data-id="'+index+'"]').removeClass('active');
+                setEd2Form();
+            }
+
+
+        });
+
+        // 年龄范围条件选择触发函数
+        var ageArr = [], age_min = 0, age_max = 0;
+        function setAge2Form() {
+            $('#nlfwei_min').val(age_min);
+            $('#nlfwei_max').val(age_max);
+            $('#nlfweiDiv').html('');
+            ageArr.forEach(function (t) {
+                $('#nlfweiDiv').append('<input type="hidden" name="ipt-nlfwei[]" value="'+t+'">')
+            });
+        }
+        $('#ageUl>li').on('click', function () {
+            var index = parseInt($(this).data('id'));
+
+            if(age_min==0){
+                age_min = index;
+                age_max = index;
+                ageArr.push(index);
+                $(this).addClass('active');
+                setAge2Form();
+                return;
+            }
+            if(age_min!=0 && age_max==age_min && index!=age_min){
+                index > age_min ? age_max = index:(age_max = age_min, age_min = index);
+                ageArr = [];
+                for(var i=age_min;i<=age_max;i++){
+                    ageArr.push(i);
+                    $('#ageUl>li[data-id="'+i+'"]').addClass('active');
+                }
+                setAge2Form();
+                return;
+            }
+            if(ageArr.indexOf(index)==-1){ //不存在在数组里,要么就是最大值，要么就是最小值
+                var a = Math.max.apply(null, ageArr); //获得当前数组里的最大值
+                var b = Math.min.apply(null, ageArr); //获得当前数组里的最小值
+                if(index>age_max){
+                    age_max = index;
+                    for(var i=a+1;i<=age_max;i++){
+                        ageArr.push(i);
+                        $('#ageUl>li[data-id="'+i+'"]').addClass('active');
+                    }
+                }else{
+                    if(index>age_min){
+                        ageArr.push(index);
+                        $('#ageUl>li[data-id="'+index+'"]').addClass('active');
+                    }else{
+                        age_min=index;
+                        for(var i = age_min;i<b;i++){
+                            ageArr.push(i);
+                            $('#ageUl>li[data-id="'+i+'"]').addClass('active');
+                        }
+                    }
+
+                }
+                setAge2Form();
+                return;
+            }else{ //存在在数组里，删除该下标项，并移除active
+                var key = ageArr.indexOf(index);
+                ageArr.splice(key,1);
+                // 删除后需判断数组是否为空，为空则要将最小值置为0
+                ageArr.length==0?(age_min=0,age_max=0):(age_min=Math.min.apply(null, ageArr), age_max=Math.max.apply(null, ageArr));
+                $('#ageUl>li[data-id="'+index+'"]').removeClass('active');
+                setAge2Form();
+            }
+
+
+        })
+
+        /* 查看产品是否已存在 */
+        function isExistProduct(){
+            var finalResult;
+
+            var form = new FormData();
+            form.append('ipt-jgmcheng', $('#ipt-jgmcheng').val());
+            form.append('ipt-fkjgou', $('#ipt-fkjgou').val());
+            form.append('ipt-jjtjian1', $('#jjtjian1').val());
+            form.append('ipt-syrqun', $('#syrqun').val());
+
+            $.ajax({
+                type: 'POST',
+                url: 'product-detail.php?action=ajaxsearch',
+                data: form,
+                async: false, //请求设为同步
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    var data = eval('('+result+')');
+                    console.log(data);
+                    finalResult = data.data;
+                }
+            });
+
+            return finalResult;
+        }
+
+        // 表单提交
+        var url, updateFlag;
+        $('#submitForm').click(function () {
+            if( $('[name="ipt-jjtjian1"]').length==0 || $('[name="ipt-dklxi1[]"]').length==0 || $('[name="ipt-pksjian1[]"]').length==0 ||
+                $('[name="ipt-syrqun[]"]').length==0 || $('[name="ipt-hkqxian[]"]').length==0 || $('[name="ipt-hkfshi[]"]').length==0 ||
+                $('[name="ipt-nlfwei[]"]').length==0 || $('[name="ipt-dkedu1[]"]').length==0 ){
+                alert('请先将信息填充完整！');
+                return;
+            }
+            if(sessionStorage.getItem('thisItemData')){
+                var item = JSON.parse(sessionStorage.getItem('thisItemData'));
+                url = 'product-detail.php?action=ajaxupdate&id='+item.id;
+                updateFlag =1;
+            }else{
+                url = 'product-detail.php?action=ajaxadd'
+                updateFlag =0;
+            }
+
+            if(isExistProduct()==null || (isExistProduct().length==1 && isExistProduct()[0].id == item.id ) ){
+                $('form').ajaxSubmit({
+                    type: 'POST',
+                    url: url,
+                    success:function(data){
+                        var str;
+                        if(data == '"1"'){
+                            str= updateFlag==0?'新增产品成功！':'修改产品成功！';
+                        }else{
+                            str= updateFlag==0?'新增产品失败！':'修改产品失败！';
+                        }
+                        $('.alertDialog').html(str);
+                        $('#myModal').modal('show');
+
+                    }
+                })
+
+            }else{
+               alert('该产品已存在！');
+            }
+
+
+
+
+
+
+        })
+
+        // 取消
+        $('#cancel').click(function () {
+            window.history.go(-1);
+        });
+
+
+        
+        // 保存为新产品
+        $('#saveOther').click(function () {
+
+            if(isExistProduct()==null){
+                $('form').ajaxSubmit({
+                    type: 'POST',
+                    url: 'product-detail.php?action=ajaxadd',
+                    success: function (data) {
+                        var str = data == '"1"'?'新增产品成功！':'新增产品失败！';
+                        updateFlag=1;
+                        $('.alertDialog').html(str);
+                        $('#myModal').modal('show');
+                    }
+                })
+            }else{
+                alert('该产品已存在！')
+            }
+
+        });
+
+        // 多选input框回显
+        function iptDataRender(_data, _name,_obj){
+            var len = _data.split(',');
+            len.forEach(function (t) {
+                if(t!=''){
+                    var index = parseInt(t)-1;
+                    $(_obj).eq(index).addClass('active');
+                    $('form').append(' <input type="hidden" name="'+_name+'" value="'+t+'"> ')
+                }
+            });
+        }
+
+        // 判断是修改还是新增
+        if(sessionStorage.getItem('thisItemData')){
+            document.title='CRM-修改产品';
+            $('#saveOther').show();
+            var item = JSON.parse(sessionStorage.getItem('thisItemData'));
+            console.log(item);
+            $('#ipt-jglxing').val(item.jglxing);
+            getJgmcheng(item.jglxing);
+            $('#ipt-jgmcheng').val(item.jgmcheng);
+            getFkjgou(item.jgmcheng);
+            $('#ipt-fkjgou').val(item.fkjgou);
+            $('[name="ipt-jjtjian"]').text(item.jjtjian);
+            $('[name="ipt-jjzliao"]').text(item.jjzliao);
+            $('[name="ipt-dkedu"]').text(item.dkedu);
+            $('[name="ipt-dklxi"]').text(item.dklxi);
+            $('[name="ipt-pksjian"]').text(item.pksjian);
+            $('[name="ipt-kdedu"]').text(item.kdedu);
+            $('[name="ipt-zxyqi"]').text(item.zxyqi);
+            $('[name="ipt-zxcxun"]').text(item.zxcxun);
+            $('[name="ipt-fzgshi"]').text(item.fzgshi);
+            $('[name="ipt-srrding"]').text(item.srrding);
+            $('[name="ipt-jjtjian1"]').val(item.jjtjian1);
+            $('[name="ipt-syrqun[]"]').val(item.syrqun);
+            $('#jjtjUl>li[data-id="'+ item.jjtjian1 +'"]').addClass('active');
+            iptDataRender(item.dklxi1, "ipt-dklxi1[]", "#dklxUl>li");
+            iptDataRender(item.pksjian1, "ipt-pksjian1[]", "#pksjUl>li");
+            $('#syrqUl>li[data-id="'+ item.syrqun +'"]').addClass('active');
+            iptDataRender(item.hkqxian, "ipt-hkqxian[]", "#hkqxUl>li");
+            iptDataRender(item.hkfshi, "ipt-hkfshi[]", "#hkfsUl>li");
+            if(item.nlfwei!=""){
+                item.nlfwei.split(',').forEach(function (t) {
+                    $('#ageUl>li[data-id="'+parseInt(t)+'"]').addClass('active');
+                    ageArr.push(parseInt(t));
+                })
+                age_min = item.nlfwei_min;
+                age_max = item.nlfwei_max;
+                setAge2Form();
+            }
+            if(item.dkedu1!=""){
+                item.dkedu1.split(',').forEach(function (t) {
+                    $('#dkedUl>li[data-id="'+parseInt(t)+'"]').addClass('active');
+                    dkedArr.push(parseInt(t));
+                })
+                dkedu_min = item.dkedu_min;
+                dkedu_max = item.dkedu_max;
+                setEd2Form();
+            }
+
+
+        }
+
+
+    })
+
+</script>
+</body>
+</html>

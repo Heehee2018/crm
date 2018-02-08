@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRM-销售排行榜</title>
+
+    <link href="js/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/formvalidation/0.6.1/css/formValidation.min.css" rel="stylesheet">
+    <link href="css/app1.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/formValidation.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/framework/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/language/zh_CN.min.js"></script>
+
+    <script src="http://cdn.bootcss.com/moment.js/2.11.1/moment.min.js"></script>
+    <script src="http://cdn.bootcss.com/moment.js/2.11.1/locale/zh-cn.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .panel-body{
+            padding: 32px;
+        }
+        .personal-wrap,.chart-wrap>div{
+            border: 1px solid #dcdcdc;
+        }
+        .personal-wrap h4,.chart-wrap>div h4,.chart-wrap-head{
+            height: 42px;
+            line-height: 42px;
+            padding: 0 20px;
+            background: #f5f5f8;
+            border-bottom: 1px solid #dcdcdc;
+            margin: 0;
+            font-size: 16px;
+        }
+        .chart-wrap-head select{
+            border:none;
+            font-size: 15px;
+            background: transparent;
+        }
+        .personal-wrap-detail{
+            display: flex;
+            display: -webkit-flex;
+        }
+        .personal-wrap-detail>div{
+            flex: 1;
+            padding: 23px 0;
+        }
+        .personal-wrap-detail>div>p {
+            text-align: center;
+            color: #959595;
+            font-size: 18px;
+        }
+        .personal-wrap-detail>div>p:nth-child(2){
+            color: #000;
+            font-size: 32px;
+        }
+        .yj_raise,.yj_decline{
+            display: inline-block;
+            width:11px;
+            height: 10px;
+            background: url("images/ico_raise.png") no-repeat;
+            margin-right:5px;
+        }
+        .yj_decline{
+            background-image: url("images/ico_decline.png");
+        }
+        .chart-wrap{
+            /*display: flex;
+            display: -webkit-flex;*/
+            margin-top: 32px;
+            overflow: hidden;
+        }
+        .chart-wrap>div{
+            /*flex: 1;*/
+            float: left;
+        }
+        .chart-wrap>div:first-child{
+            margin-right: 26px;
+            width: 567px;
+        }
+        .chart-wrap>div:last-child{
+            width: 541px;
+            height: 400px;
+        }
+        .table{
+            margin: 0;
+        }
+        .ico_record_1,.ico_record_2,.ico_record_3{
+            display: inline-block;
+            width: 18px;
+            height: 24px;
+            background: url("images/ico_record_1.png") no-repeat;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        .ico_record_2{
+            background-image: url("images/ico_record_2.png");
+        }
+        .ico_record_3{
+            background-image: url("images/ico_record_3.png");
+        }
+        .table>tbody>tr>td{
+            vertical-align: middle;
+        }
+        .font-red,.font-red>span{
+            color: #e60000;
+        }
+        .font-green,.font-green>span{
+            color: #32b41e;
+        }
+        [v-cloak]{
+            display: none;
+        }
+        .symbol{
+            background: url("images/ico_symbol.png") no-repeat;
+        }
+        .div_chart{
+            background: #fff;
+        }
+    </style>
+    <script>
+        var mainTitle = '<? echo $config["title"] ?>';
+        var etPmyExt = '<? echo $is["ext"] ?>',etPmyPort = '<? echo $is["port"] ?>';
+        console.log(etPmyExt,etPmyPort);
+    </script>
+</head>
+<body>
+<div class="wapper" id="wapper">
+
+    <? require_once("html/modal.html")?>
+    <div>
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <h3 class="pull-left">荣誉墙<small>&nbsp;业绩排行榜</small></h3>
+            </div>
+            <div class="panel-body">
+                <div class="personal-wrap">
+                    <h4 v-cloak>本月个人业绩</h4>
+                    <div class="personal-wrap-detail">
+                        <div>
+                            <p>总放款额</p>
+                            <p v-cloak>{{grade.thisyj.fkmoney*10000 | getAns}}</p>
+                            <p v-cloak><span v-cloak :class="grade.prevyj.fkmoney==0?'':grade.prevyj.fkmoney<0?'yj_decline':'yj_raise'"></span>{{Math.abs(grade.prevyj.fkmoney)*10000 | getAns}}</p>
+                        </div>
+                        <div>
+                            <p>总收款额</p>
+                            <p v-cloak>{{grade.thisyj.fwmoney | getAns}}</p>
+                            <p v-cloak><span v-cloak :class="grade.prevyj.fwmoney==0?'':grade.prevyj.fwmoney<0?'yj_decline':'yj_raise'"></span>{{Math.abs(grade.prevyj.fwmoney) | getAns}}</p>
+                        </div>
+                        <div>
+                            <p>当前排名</p>
+                            <p v-cloak>第{{grade.thispm}}名</p>
+                            <p v-cloak><span v-cloak :class="grade.prevpm==0?'':grade.prevpm>0?'yj_raise':'yj_decline'"></span>{{Math.abs(grade.prevpm)}}名</p>
+                        </div>
+                        <div>
+                            <p>公司总业绩</p>
+                            <p v-cloak>{{grade.thisyjgs.fwmoney | getAns}}</p>
+                            <p v-cloak><span v-cloak :class="grade.prevyjgs.fwmoney==0?'':grade.prevyjgs.fwmoney>0?'yj_raise':'yj_decline'"></span>{{Math.abs(grade.prevyjgs.fwmoney) | getAns}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-wrap">
+                    <div>
+                        <!--<h4 v-cloak>{{nowInMonth}}月业绩排行</h4>-->
+
+                         <div class="chart-wrap-head">
+                             <select name="ipt-month" v-model="yjpm_mon" @change="chooseMon(yjpm_mon)">
+                                 <option :value="sel" v-for="sel in yjsel">{{sel | formatSelDate}}业绩排行</option>
+                             </select>
+                             <a @click="exportExcel" style="float: right;color: #333;font-size: 15px;cursor: pointer">导出&gt;</a>
+                         </div>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>排名</td>
+                                    <td>姓名</td>
+                                    <td v-cloak>{{nowInMonth | formatSelDate}}</td>
+                                    <td v-cloak>{{prevInMonth  | formatSelDate}}</td>
+                                    <td>业绩变化</td>
+                                    <td>环比</td>
+                                    <td>排名变化</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in grade.yjpm">
+                                    <td class="text-center"><i v-cloak :class="item.i==1?'ico_record_1':item.i==2?'ico_record_2':item.i==3?'ico_record_3':''"></i>{{item.i}}</td>
+                                    <td v-cloak @click="getYj(item.id,item.cname)" style="cursor: pointer">{{item.cname}}</td>
+                                    <td v-cloak>{{item.fwmoney | getAns }}</td>
+                                    <td v-cloak>{{item.pfwmoney | getAns}}</td>
+                                    <td v-cloak :class="item.yjbhua==0?'':item.yjbhua>0?'font-red':'font-green'"><span :class="item.yjbhua==0?'':item.yjbhua>0?'yj_raise':'yj_decline'"></span><span>{{Math.abs(item.yjbhua)  | getAns}}</span></td>
+                                    <td v-cloak :class="item.hbi=='-'?'':item.yjbhua>0?'font-red':'font-green'">{{typeof(item.hbi)=='string'?item.hbi:Math.abs(item.hbi)+'%'}}</td>
+                                    <td v-cloak :class="item.pmbhua=='-'?'':item.pmbhua>0?'font-red':'font-green'"><span :class="item.pmbhua=='-'?'':item.pmbhua>0?'yj_raise':'yj_decline'"></span><span>{{typeof(item.pmbhua)=='string'?item.pmbhua:Math.abs(item.pmbhua)}}</span></td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                    <div class="div_chart">
+                        <h4 v-cloak>{{checkCname}}近6个月业绩</h4>
+                        <div id="main" style="height: 300px">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/vue.js"></script>
+<script src="js/echarts.js"></script>
+<script src="js/commonFun.js"></script>
+<script src="js/getExtNum.js"></script>
+<script type="text/javascript">
+
+    $(window).scroll(function () {
+        var $scroll_height = $(window).scrollTop();
+
+        if ($scroll_height > 336) {
+            $('.div_chart').css({
+                'position': 'fixed',
+                'top': '82px',
+                'margin-left':'593px',
+                'z-index': 3,
+                '-webkit-transform': 'translateZ(0)'
+            })
+        }else{
+            $('.div_chart').css({
+                'position':'static',
+                'margin-left':0
+            })
+        }
+    })
+    // 图表属性路径配置
+    require.config({
+        paths: {
+            echarts: 'http://echarts.baidu.com/build/dist'
+        }
+    });
+
+    function initChart(show_data){
+        require(
+            [
+                'echarts',
+                'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main'));
+
+                var option = {
+                    /*tooltip: {
+                        show: truejson
+                    },*/
+
+                    xAxis : [
+                        {
+                            type : 'category',
+                            data :  show_data.xcontent,
+                            splitLine : {
+                                show: false
+                            },
+                            boundaryGap : false,
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value',
+                            splitLine : {
+                                lineStyle:{
+                                    color: '#edf1f3'
+                                }
+                            },
+                            axisLine:{
+                                show:false
+                            },
+                            axisLabel:{
+                                formatter:'{value}万'
+                            }
+                        }
+                    ],
+                    series : [
+                        {
+                            name: '业绩',
+                            type: 'line',
+                            symbol:'image://images/ico_symbol.png',
+                            symbolSize:7,
+                            itemStyle:{
+                                normal : {
+                                    color: '#44b549',
+                                    label: {
+                                        show: true,
+                                    },
+                                    lineStyle:{
+                                        color: '#44b549'
+                                    },
+                                    areaStyle:{
+                                        type: 'default',
+                                        color: 'rgba(240,240,240,.5)'
+
+                                    },
+
+                                }
+                            },
+                            data:show_data.ycontent
+                        }
+                    ]
+                };
+
+                // 为echarts对象加载数据
+                myChart.setOption(option);
+            }
+        );
+    }
+
+
+    var json = JSON.parse('<? echo $html["json"] ?>');
+
+    json.xcontent = [];
+    json.ycontent = [];
+    json.month6yj.forEach(function (t) {
+        json.xcontent.push(t.month+'月');
+        json.ycontent.push(t.fwmoney);
+    })
+    console.log(json);
+
+
+    var app = new Vue({
+        el:'#wapper',
+        data:{
+            grade: json,
+            nowInMonth: json.ipt_year+'-'+json.ipt_month,
+            prevInMonth: json.ipt_year+'-'+(json.ipt_month-1),
+            selMons:[],
+            yjpm_mon:'',
+            yjsel:json.yjsel,
+            checkCname:json.cname,
+            export_year:json.ipt_year,
+            export_month:json.ipt_month
+
+        },
+        filters:{
+            getAns(num){
+                let pattern = /(?=((?!\b)\d{3})+$)/g;
+                var num = String(num);
+
+                if(num.indexOf(".") == -1){
+
+                    return num.replace(pattern, ',');
+
+                }else{
+                    var newStr = num.split('.');
+                    var str_2 = newStr[0].replace(pattern,',');
+
+                    if(newStr[1].length <= 1){
+                        //小数点后只有一位时
+                        str_2 = str_2 + '.' + newStr[1] +'0';
+                        return str_2;
+
+                    }else if(newStr[1].length > 1){
+                        //小数点后两位以上时
+                        var decimals = newStr[1].substr(0,2);
+                        var str_3 = str_2 + '.' + decimals;
+                        return str_3;
+                    }
+                }
+            },
+            formatSelDate(date){
+                if(date.split('-')[1]==0){
+                    return (Number(date.split('-')[0])-1)+'年'+'12月'
+                }else{
+                    return date.split('-')[0]+'年'+date.split('-')[1]+'月'
+                }
+
+            }
+        },
+        methods:{
+          chooseMon(m){
+              let self = this;
+              $.post('member-honor-detail.php?action=json&ipt-month='+m,function (res) {
+                  let data = eval('('+ res +')')
+                  console.log(data);
+                  self.grade = data;
+                  self.nowInMonth=data.ipt_year+'-'+data.ipt_month;
+                  self.prevInMonth=data.ipt_year+'-'+(data.ipt_month-1);
+                  self.export_year=data.ipt_year;
+                  self.export_month=data.ipt_month;
+
+              })
+              //window.location.href='member-honor-detail.php?ipt-month='+m;
+          },
+          exportExcel(){
+              let self = this;
+              window.location.href='member-honor-detail.php?ipt-month='+ self.export_year+'-'+ self.export_month +'&action=save'
+          },
+          //获取个人近6个月业绩
+          getYj(id,name){
+              let self = this;
+              $.post('member-honor-detail.php?action=json&ipt-userid='+id,function (res) {
+                  let data = eval('('+ res +')')
+                  console.log(data);
+                  self.checkCname=name;
+                  let show_data = {};
+                  show_data.xcontent = [];
+                  show_data.ycontent = [];
+                  data.month6yj.forEach(function (t) {
+                      show_data.xcontent.push(t.month+'月');
+                      show_data.ycontent.push(t.fwmoney);
+                  })
+                  initChart(show_data);
+              })
+          }
+        },
+        created:function () {
+            this.$data.yjpm_mon=json.yjsel[json.yjsel.indexOf(json.ipt_year+'-'+json.ipt_month)];
+            initChart(json);
+        },
+
+
+    })
+
+
+
+
+    // 使用
+
+</script>
+</body>
+</html>

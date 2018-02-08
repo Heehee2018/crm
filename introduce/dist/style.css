@@ -1,0 +1,376 @@
+@import "sprite.css";
+
+/* 清除内外边距 */
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+fieldset,
+lengend,
+button,
+input,
+textarea,
+th,
+td {
+  /* table elements 表格元素 */
+  margin: 0;
+  padding: 0;
+}
+
+/* 设置默认字体 */
+
+body,
+button,
+input,
+select,
+textarea {
+  /* for ie */
+  /*font: 12px/1 Tahoma, Helvetica, Arial, "宋体", sans-serif;*/
+  /* 用 ascii 字符表示，使得在任何编码下都无问题 */
+}
+
+[data-dpr="1"] body,
+[data-dpr="1"] button,
+[data-dpr="1"] input,
+[data-dpr="1"] select,
+[data-dpr="1"] textarea {
+  font: 6px /1  Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+}
+
+[data-dpr="2"] body,
+[data-dpr="2"] button,
+[data-dpr="2"] input,
+[data-dpr="2"] select,
+[data-dpr="2"] textarea {
+  font: 12px /1  Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+}
+
+[data-dpr="3"] body,
+[data-dpr="3"] button,
+[data-dpr="3"] input,
+[data-dpr="3"] select,
+[data-dpr="3"] textarea {
+  font: 18px /1  Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+}
+
+address,
+cite,
+dfn,
+em,
+var {
+  font-style: normal;
+}
+
+/* 将斜体扶正 */
+
+code,
+kbd,
+pre,
+samp,
+tt {
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* 统一等宽字体 */
+
+small {
+  font-size: 0.16rem;
+}
+
+/* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/* 重置列表元素 */
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* 重置文本格式元素 */
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+abbr[title],
+acronym[title] {
+  /* 注：1.ie6 不支持 abbr; 2.这里用了属性选择符，ie6 下无效果 */
+  cursor: help;
+}
+
+[data-dpr="1"] abbr[title],
+[data-dpr="1"] acronym[title] {
+  border-bottom: 0.5px dotted;
+}
+
+[data-dpr="2"] abbr[title],
+[data-dpr="2"] acronym[title] {
+  border-bottom: 1px dotted;
+}
+
+[data-dpr="3"] abbr[title],
+[data-dpr="3"] acronym[title] {
+  border-bottom: 1.5px dotted;
+}
+
+q:before,
+q:after {
+  content: '';
+}
+
+/* 重置表单元素 */
+
+legend {
+  color: #000;
+}
+
+/* for ie6 */
+
+fieldset,
+img {
+  border: none;
+}
+
+/* img 搭车：让链接里的 img 无边框 */
+
+/* 注：optgroup 无法扶正 */
+
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  /* 使得表单元素在 ie 下能继承字体大小 */
+}
+
+/* 重置表格元素 */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 重置 hr */
+
+hr {
+  border: none;
+}
+
+[data-dpr="1"] hr {
+  height: 0.5px;
+}
+
+[data-dpr="2"] hr {
+  height: 1px;
+}
+
+[data-dpr="3"] hr {
+  height: 1.5px;
+}
+
+/* 让非ie浏览器默认也显示垂直滚动条，防止因滚动条引起的闪烁 */
+
+html {
+  overflow-y: scroll;
+}
+
+/* 主体内容 */
+
+html {
+  width: 100%;
+  height: 100%;
+  background: #edf1f1 !important;
+}
+
+body {
+  width: 10rem;
+  height: 16.08rem;
+  background: url("img/background.png") no-repeat #edf1f1;
+  background-size: 100%;
+}
+
+a,
+a:focus,
+a:active,
+a:link,
+a:visited {
+  color: #000;
+  text-underline: none;
+}
+
+.main-container {
+  /*width:-moz-calc(100% - 220px);
+    width:-webkit-calc(100% - 220px);*/
+  width: calc(100% - 2.933333rem);
+  margin: 0 1.466667rem;
+  overflow: hidden;
+  position: relative;
+}
+
+table {
+  margin: 0 auto;
+}
+
+.avatar {
+  margin: 0.48rem auto 0;
+  background: #eee;
+}
+
+.avatar,
+.avatar>img {
+  width: 2.933333rem;
+  height: 2.933333rem;
+  border-radius: 1.466667rem;
+}
+
+.name {
+  font-size: 0.64rem;
+  height: 0.64rem;
+  font-weight: bold;
+  padding: 0.386667rem 0 0.213333rem 0;
+  text-align: center;
+}
+
+.job {
+  font-size: 0.373333rem;
+  height: 0.373333rem;
+  text-align: center;
+}
+
+.phone,
+.wechat {
+  font-size: 0.506667rem;
+  width: 4rem;
+  height: 0.64rem;
+  padding-left: 0.906667rem;
+  background: url("img/icon-phone.png") no-repeat;
+  background-size: 0.64rem 0.64rem;
+  margin: 0.56rem auto 0.346667rem;
+}
+
+.wechat {
+  background-image: url("img/icon-wechat.png");
+  margin-top: 0;
+  margin-bottom: 0.866667rem;
+}
+
+.url {
+  font-size: 0.426667rem;
+}
+
+.addr {
+  font-size: 0.4rem;
+  margin-bottom: 0.293333rem;
+  overflow: hidden;
+}
+
+.addr .icon-addr {
+  width: 0.64rem;
+  height: 0.64rem;
+  margin-right: 0.266667rem;
+  background: url("img/icon-addr.png") no-repeat 0 0.106667rem;
+  background-size: cover;
+}
+
+.addr .icon-addr+div p:first-child {
+  margin-bottom: 0.066667rem;
+}
+
+.addr>div {
+  float: left;
+}
+
+.url {
+  width: 4rem;
+  height: 0.64rem;
+  line-height: 0.64rem;
+  padding-left: 0.906667rem;
+  background: url("img/icon-url.png") no-repeat;
+  background-size: 0.64rem 0.64rem;
+}
+
+.introduce {
+  margin-top: 0.826667rem;
+}
+
+.introduce,
+.introduce ul {
+  width: 7.066667rem;
+  overflow: hidden;
+}
+
+.introduce ul li {
+  float: left;
+  width: 30%;
+  height: 0.733333rem;
+  text-align: center;
+  line-height: 0.733333rem;
+  background: #f4c96a;
+  color: #fff;
+  font-size: 0.4rem;
+}
+
+[data-dpr="1"] .introduce ul li {
+  border-radius: 2.5px;
+}
+
+[data-dpr="2"] .introduce ul li {
+  border-radius: 5px;
+}
+
+[data-dpr="3"] .introduce ul li {
+  border-radius: 7.5px;
+}
+
+.introduce ul li a {
+  color: #fff;
+}
+
+.introduce ul>li:nth-child(2) {
+  margin: 0 5%;
+}
+
+.introduce>ul:nth-child(2) {
+  margin: 0.266667rem 0;
+}
+
+.introduce ul .li-dark-bg {
+  background: #ff8b00;
+}
+
+.logo {
+  width: 5.066667rem;
+  height: 1.2rem;
+  background: url("img/logo.png") no-repeat;
+  background-size: cover;
+  margin: 1.333333rem auto 0.533333rem;
+}
+
+.icon-dismission {
+  position: absolute;
+  left: 0.266667rem;
+  top: 3.2rem;
+  width: 10rem;
+  height: 6.4rem;
+  background: url("img/icon-dimission.png") no-repeat;
+  background-size: cover;
+  z-index: 2;
+}

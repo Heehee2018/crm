@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><? echo $config["title"] ?>-合同数据报表</title>
+
+    <link href="js/bootstrap.min.css" rel="stylesheet">
+    <link href="js/formvalidation/formValidation.min.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="css/app1.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/zh-cn.js"></script>
+    <script src="js/formvalidation/formValidation.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+
+
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .query-header .form-group{
+            position: relative;
+            width: 200px;
+            height: 34px;
+            line-height: 34px;
+            display: inline-block;
+        }
+        .query-header .form-group:nth-child(2){
+            width: 20px;
+            text-align: center;
+        }
+        .query-header .btn{
+            width: 80px;
+            margin-top: -5px;
+            margin-left: 10px;
+        }
+        .query-body{
+            margin-top: 22px;
+            border: 1px solid #c8c8c8;
+            width: 100%;
+        }
+
+        .query-body .query-body-head{
+            background: #f5f5f8;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #c8c8c8;
+            padding: 0 10px;
+        }
+        .query-body .query-body-head a{
+            color: #333;
+        }
+        .query-body .query-body-head select{
+            margin-top: 9px;
+            background: transparent;
+            border: none;
+        }
+        .font-blue{
+            color:#366cb4;
+        }
+
+        [v-cloak]{
+            display: none;
+        }
+        .hidden{
+            display: none;
+        }
+
+
+
+    </style>
+    <script>
+        var mainTitle = '<? echo $config["title"] ?>';
+        var etPmyExt = '<? echo $is["ext"] ?>',etPmyPort = '<? echo $is["port"] ?>';
+        console.log(etPmyExt,etPmyPort);
+    </script>
+</head>
+<body>
+<div class="wapper" id="contractDataContainer">
+    <? require_once("html/modal.html")?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>业务管理<small> 合同数据报表</small></h3>
+        </div>
+        <div class="panel-body">
+            <form action="" method="post">
+                <div class="query-header">
+                    <div class="form-group">
+                        <input type="text" class="form-control date" name="dateb">
+                        <span class="ipt-calendar-addon" @click="focusDate($event)"></span>
+                    </div>
+                    <div class="form-group">至</div>
+                    <div class="form-group">
+                        <input type="text" class="form-control date" name="datee">
+                        <span class="ipt-calendar-addon" @click="focusDate($event)"></span>
+                    </div>
+                    <button type="button" class="btn btn-default" @click="">查询</button>
+                </div>
+                <div class="query-body">
+                    <div class="query-body-head">
+                        <select class="pull-left" v-model="selected" name="jobtitleid" @change="getContractDataByDept(selected)" v-cloak>
+                            <option :value="group" v-for="(group,index) in groupid">{{index==0?'全部':'销售'+index+'部'}}</option>
+                            <option :value="-1">部门统计</option>
+                        </select>
+                        <a class="pull-right" @click="exportExcel">导出&gt;</a>
+                    </div>
+                    <table class="table table-striped bmTable" v-show="selected!=-1">
+                        <thead>
+                            <th class="text-center">序号</th>
+                            <th class="text-center">合同编号</th>
+                            <th class="text-center">客户姓名</th>
+                            <th class="text-center">贷款类型</th>
+                            <th class="text-center">服务费率</th>
+                            <th class="text-center">诚意金金额</th>
+                            <th class="text-center">诚意金状态</th>
+                            <th class="text-center">部门</th>
+                            <th class="text-center">签约人员</th>
+                            <th class="text-center">签约日期</th>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(user,index) in list">
+                                <td class="text-center" v-text="index+1"></td>
+                                <td class="text-center" v-text="user.code"></td>
+                                <td class="text-center font-blue" v-text="user.name"></td>
+                                <td class="text-center" v-text="user.fwlxing"></td>
+                                <td class="text-center" v-text="user.fwflv+'%'"></td>
+                                <td class="text-center" v-text="user.cyjin"></td>
+                                <td class="text-center" v-cloak>{{user.cyjztai}}</td>
+                                <td class="text-center" v-text="user.bmen"></td>
+                                <td class="text-center" v-text="user.qyryuan"></td>
+                                <td class="text-center" v-text="user.qyrqi"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-striped bmtjTable" v-show="selected==-1">
+                        <thead>
+                            <tr>
+                                <td>部门</td>
+                                <td>合同总数</td>
+                                <td>贷款类型</td>
+                                <td>平均费率</td>
+                                <td>诚意金总额</td>
+                                <td>已退诚意金</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(d,index) in testData">
+                                <td rowspan="2" :class="{'hidden':index%2!=0}">{{d.dept}}</td>
+                                <td rowspan="2" :class="{'hidden':index%2!=0}">{{d.total}}</td>
+                                <td>{{d.fwlxing}}</td>
+                                <td>{{d.pjflv}}</td>
+                                <td>{{d.cyjin}}</td>
+                                <td>{{d.ytcyjin}}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script src="js/vue.js"></script>
+<script src="js/getExtNum.js"></script>
+<script>
+
+
+        var app = new Vue({
+            el:'#contractDataContainer',
+            data: {
+                list:[],
+                groupid:[],
+                selected:'',
+                testData: [
+                    {
+                        "dept": "销售一部",
+                        "total": 55,
+                        "fwlxing": "抵押贷款",
+                        "pjflv": 7.52,
+                        "cyjin": 10000,
+                        "ytcyjin": 2000
+                    },
+                    {
+                        "dept": "销售一部",
+                        "total": 55,
+                        "fwlxing":"信用贷款",
+                        "pjflv":7.52,
+                        "cyjin":10000,
+                        "ytcyjin":2000
+
+                    },
+                    {
+                        "dept": "销售二部",
+                        "total": 55,
+                        "fwlxing": "抵押贷款",
+                        "pjflv": 7.52,
+                        "cyjin": 10000,
+                        "ytcyjin": 2000
+                    },
+                    {
+                        "dept": "销售二部",
+                        "total": 55,
+                        "fwlxing":"信用贷款",
+                        "pjflv":7.52,
+                        "cyjin":10000,
+                        "ytcyjin":2000
+
+                    }
+
+
+                ]
+
+            },
+            methods:{
+                // 获取各部门合同数据
+                getContractDataByDept(value){
+                    var self = this;
+                    if(value==-1){
+
+                    }else{
+                        $.get('ajax/test.json', function (data) {
+                            self.list = data.list;
+                            self.groupid = data.groupid;
+                            self.selected = data.jobtitle;
+
+                        })
+                    }
+
+                },
+                // 导出
+                exportExcel(){
+
+                },
+                focusDate(e){
+                    $(e.target).prev().trigger('focus');
+                }
+            },
+            mounted:function () {
+                this.getContractDataByDept();
+                $('.date').datetimepicker({
+                    format: 'YYYY-MM-DD',
+                    locale: moment.locale('zh-cn'),
+                    showClose: true,
+                    defaultDate: new Date()
+                })
+            }
+        })
+
+
+
+
+
+
+
+</script>
+<script>
+
+</script>
+</body>
+</html>

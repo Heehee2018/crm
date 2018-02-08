@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>部门排行榜</title>
+
+    <link href="js/bootstrap.min.css" rel="stylesheet">
+    <link href="js/formvalidation/formValidation.min.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="css/app1.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/zh-cn.js"></script>
+    <script src="js/formvalidation/formValidation.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+
+
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .panel-body{
+            padding: 32px;
+        }
+        .personal-wrap,.grade-detail-wrap>div{
+            border: 1px solid #dcdcdc;
+        }
+        .personal-wrap h4,.chart-wrap>div h4,.chart-wrap-head{
+            height: 42px;
+            line-height: 42px;
+            padding: 0 20px;
+            background: #f5f5f8;
+            border-bottom: 1px solid #dcdcdc;
+            margin: 0;
+            font-size: 16px;
+        }
+        .chart-wrap-head select{
+            border:none;
+            font-size: 15px;
+            background: transparent;
+        }
+        .personal-wrap-detail{
+            display: flex;
+            display: -webkit-flex;
+        }
+        .personal-wrap-detail>div{
+            flex: 1;
+            padding: 23px 0;
+        }
+        .personal-wrap-detail>div>p {
+            text-align: center;
+            color: #959595;
+            font-size: 18px;
+        }
+        .personal-wrap-detail>div>p:nth-child(2){
+            color: #000;
+            font-size: 32px;
+        }
+        .yj_raise,.yj_decline{
+            display: inline-block;
+            width:11px;
+            height: 10px;
+            background: url("images/ico_raise.png") no-repeat;
+            margin-right:5px;
+        }
+        .yj_decline{
+            background-image: url("images/ico_decline.png");
+        }
+        .grade-detail-wrap{
+            margin-top: 32px;
+         /*    overflow: hidden; */
+        }
+
+        .table{
+            margin: 0;
+        }
+        .ico_record_1,.ico_record_2,.ico_record_3{
+            display: inline-block;
+            width: 18px;
+            height: 24px;
+            background: url("images/ico_record_1.png") no-repeat;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        .ico_record_2{
+            background-image: url("images/ico_record_2.png");
+        }
+        .ico_record_3{
+            background-image: url("images/ico_record_3.png");
+        }
+        .table>tbody>tr>td{
+            vertical-align: middle;
+        }
+        .font-red,.font-red>span{
+            color: #e60000;
+        }
+        .font-green,.font-green>span{
+            color: #32b41e;
+        }
+        [v-cloak]{
+            display: none;
+        }
+        .symbol{
+            background: url("images/ico_symbol.png") no-repeat;
+        }
+        .div_chart{
+            background: #fff;
+        }
+         .form-control{
+            position:relative;
+        }
+         .form-control input{
+            border:none;
+        }
+        #chart .chart-wrap-head,.monthPicker{
+            height:60px;
+            line-height:60px;
+        }
+        .ipt-addon{
+            position: absolute;
+            right: 5px;
+            top: 9px;
+            width: 27px;
+            height: 36px;
+            background: url("images/icon_calendar.png") no-repeat;
+        }
+        #chart .btn-group .btn-default{
+            background-color: transparent;
+        }
+        #chart .btn-group .btn-default.current{
+            background-color: #fff;
+        }
+    </style>
+
+    <script>
+        var mainTitle = '<? echo $config["title"] ?>';
+        var etPmyExt = '<? echo $is["ext"] ?>',etPmyPort = '<? echo $is["port"] ?>';
+        console.log(etPmyExt,etPmyPort);
+    </script>
+</head>
+<body>
+<div class="wapper" id="deptHonorWrap">
+    <? require_once("html/modal.html")?>
+    <div>
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <h3 class="pull-left">荣誉墙<small>&nbsp;部门排行榜</small></h3>
+            </div>
+            <div class="panel-body">
+                <div class="personal-wrap">
+                    <h4 v-cloak>{{grade.ipt_year}}年{{grade.ipt_month}}月销售{{grade.cname?grade.cname:'总'}}业绩</h4>
+                    <div class="personal-wrap-detail">
+                        <div>
+                            <p>总放款额</p>
+                            <p v-cloak>{{grade.thisyj.fkmoney*10000 | getAns}}</p>
+                            <p v-cloak><span v-cloak :class="grade.prevyj.fkmoney==0?'':grade.prevyj.fkmoney<0?'yj_decline':'yj_raise'"></span>{{Math.abs(grade.prevyj.fkmoney)*10000 | getAns}}</p>
+                        </div>
+                        <div>
+                            <p>总收款额</p>
+                            <p v-cloak>{{grade.thisyj.fwmoney | getAns}}</p>
+                            <p v-cloak><span v-cloak :class="grade.prevyj.fwmoney==0?'':grade.prevyj.fwmoney<0?'yj_decline':'yj_raise'"></span>{{Math.abs(grade.prevyj.fwmoney) | getAns}}</p>
+                        </div>
+                        <div>
+                            <p>当前排名</p>
+                            <p v-cloak>第{{grade.thispm}}名</p>
+                            <p v-cloak><span v-cloak :class="grade.prevpm==0?'':grade.prevpm>0?'yj_raise':'yj_decline'"></span>{{Math.abs(grade.prevpm)}}名</p>
+                        </div>
+                        <div>
+                            <p>公司总业绩</p>
+                            <p v-cloak>{{grade.thisyjgs.fwmoney | getAns}}</p>
+                            <p v-cloak><span v-cloak :class="grade.prevyjgs.fwmoney==0?'':grade.prevyjgs.fwmoney>0?'yj_raise':'yj_decline'"></span>{{Math.abs(grade.prevyjgs.fwmoney) | getAns}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grade-detail-wrap">
+                    <div>
+                        <div class="chart-wrap-head monthPicker">
+                            <!-- <select name="ipt-month" v-model="yjpm_mon"  @change="getTableData(yjpm_mon)">
+                                <option :value="seldate" v-for="seldate in grade.yjsel">{{seldate | formatSelDate}}业绩排行</option>
+                            </select> -->
+                            <div class="form-inline ">
+                                <div class="form-control">
+                                    <input class="month" type="text" name="ipt-month" >
+                                    <span class="ipt-addon" @click="dpToggle"></span>
+                                </div>
+                                <button type="button" class="btn btn-default" @click="monthChange">查询</button>
+                            </div>
+                        </div>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <td class="text-center">排名</td>
+                                    <td class="text-center">部门</td>
+                                    <td class="text-center">部门人数</td>
+                                    <td v-cloak>{{cur_mon}}月业绩</td>
+                                    <td v-cloak>{{cur_mon==1?12:cur_mon-1}}月业绩</td>
+                                    <td>业绩变化</td>
+                                    <td>环比</td>
+                                    <td class="text-center">出单数</td>
+                                    <td class="text-center">签约数</td>
+                                    <td class="text-center">上门数</td>
+                                    <td class="text-center">人均通话时长</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in json">
+                                    <td class="text-center"><i v-cloak :class="index==0?'ico_record_1':index==1?'ico_record_2':index==2?'ico_record_3':''"></i>{{index+1}}</td>
+                                    <td class="text-center" v-cloak @click="getYj(item.id,item.cname)" style="cursor: pointer">{{item.cname}}</td>
+                                    <td class="text-center" v-text="item.rshu"></td>
+                                    <td v-cloak>{{item.fwmoney | getAns}}</td>
+                                    <td v-cloak>{{item.pfwmoney | getAns}}</td>
+                                    <td v-cloak :class="item.yjbhua>0?'font-red':(item.yjhhua<0?'font-green':'')"><span :class="item.yjbhua>0?'yj_raise':item.yjbhua<0?'yj_decline':''"></span><span>{{item.yjbhua | getAns}}</span></td>
+                                    <td v-cloak :class="item.hbi=='-'?'':item.yjbhua>0?'font-red':'font-green'">{{typeof(item.hbi)=='string'?item.hbi:Math.abs(item.hbi)+'%'}}</td>
+                                    <td class="text-center" v-text="item.cdshu"></td>
+                                    <td class="text-center" v-text="item.qyue"></td>
+                                    <td class="text-center" v-text="item.sm"></td>
+                                    <td class="text-center" v-cloak>{{item.rjthschang | formatSeconds}}</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+
+                <div id="chart" class="grade-detail-wrap">
+                    <div>
+                        <div class="chart-wrap-head clearfix" >
+                            <form class="pull-left form-inline" id="selectform">
+                                <label>起始月份</label>
+                            <div class="form-control">
+                                <input class="month" type="text" name="ipt-startday" @click="chooseMonth">
+                                <span class="ipt-addon" @click="dpToggle"></span>
+                            </div>
+                            <label>终止月份</label>
+                            <div class="form-control">
+                                <input class="month" type="text" name="ipt-endday" @click="chooseMonth">
+                                <span class="ipt-addon" @click="dpToggle"></span>
+                            </div>
+                            <button type="button" class="btn btn-default" @click="selData">查询</button>
+                            </form>
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default current" v-on:click="changeType" data-type="fwmoney">业绩</button>
+                                    <button type="button" class="btn btn-default" v-on:click="changeType" data-type="thschang">通话时长</button>
+                                    <button type="button" class="btn btn-default" v-on:click="changeType" data-type="sm">上门</button>
+                                    <button type="button" class="btn btn-default" v-on:click="changeType" data-type="qyue">签约</button>
+                                    <button type="button" class="btn btn-default" v-on:click="changeType" data-type="cdshu">出单</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div id="chart1" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/vue.js"></script>
+<script src="js/echarts.js"></script>
+<script src="js/commonFun.js"></script>
+<script src="js/getExtNum.js"></script>
+
+<script>
+
+    var app = new Vue({
+        el:'#deptHonorWrap',
+        data: {
+            grade: {
+                prevyj:{
+                    fkmoney:0,
+                    fwmoney:0
+                },
+                thisyj:{
+                    fkmoney:0,
+                    fwmoney:0
+                },
+                prevyjgs:{
+                    fkmoney:0,
+                    fwmoney:0
+                },
+                thisyjgs:{
+                    fkmoney:0,
+                    fwmoney:0
+                }
+            },
+            json:[],
+            yjpm_mon:'',
+            cur_mon:'',
+            chartjson:[]
+        },
+        filters:{
+            getAns(num){
+                let pattern = /(?=((?!\b)\d{3})+$)/g;
+                if(typeof(num)=='string'){
+                    return num;
+                }else{
+                    var num = String(Math.abs(num));
+                    if(num.indexOf(".") == -1){
+                        return num.replace(pattern, ',');
+                    }else{
+                        var newStr = num.split('.');
+                        var str_2 = newStr[0].replace(pattern,',');
+
+                        if(newStr[1].length <= 1){
+                            //小数点后只有一位时
+                            str_2 = str_2 + '.' + newStr[1] +'0';
+                            return str_2;
+
+                        }else if(newStr[1].length > 1){
+                            //小数点后两位以上时
+                            var decimals = newStr[1].substr(0,2);
+                            var str_3 = str_2 + '.' + decimals;
+                            return str_3;
+                        }
+                    }
+                }
+
+            },
+            formatSelDate(date){
+                if(date.split('-')[1]==0){
+                    return (Number(date.split('-')[0])-1)+'年'+'12月'
+                }else{
+                    return date.split('-')[0]+'年'+date.split('-')[1]+'月'
+                }
+
+            },
+            formatSeconds: function (value) {
+                var secondTime = parseInt(value); //秒
+                var minuteTime = 0;
+                var hourTime = 0;
+                if(secondTime>=60){
+                    minuteTime = parseInt(secondTime/60);
+                    secondTime = parseInt(secondTime%60);
+                    if(minuteTime>=60){
+                        hourTime = parseInt(minuteTime/60);
+                        minuteTime = parseInt(minuteTime%60);
+                    }
+                }
+
+                var result = secondTime<10?  ('0'+secondTime): (secondTime);
+                if(minuteTime>0){
+                    result = minuteTime<10? ('0'+minuteTime+':'+result) : (minuteTime+':'+result)
+                }else{
+                    result = '00:'+result
+                }
+                if(hourTime>0){
+                    result = hourTime<10? ('0'+hourTime+':'+result): (hourTime+':'+result)
+                }else{
+                    result = '00:'+result
+                }
+
+
+                return result;
+            }
+        },
+        methods:{
+            /* 获取表格统计数据 */
+            getTableData(month){
+                let self = this;
+                $.get('dept-honor-detail.php?action=table&ipt-month='+month, function (data) {
+                    console.log(JSON.parse(data));
+                    var res = JSON.parse(data);
+                    self.json = res.table;
+                })
+            },
+            /* 获取当前部门业绩 */
+            getPersonalYj(){
+                let self = this;
+                $.get('dept-honor-detail.php?action=json', function (data) {
+                    console.log(JSON.parse(data));
+                    var res = JSON.parse(data);
+                    self.grade =  res;
+                    self.yjpm_mon = res.yjsel[res.yjsel.indexOf(res.ipt_year+'-'+res.ipt_month)];
+                    self.cur_mon = res.ipt_month;
+                    self.getTableData(self.yjpm_mon);
+                })
+            },
+            monthChange(event){
+                let self =this;
+                var $obj=$(event.target);
+                var month=$obj.prev().find('input[name="ipt-month"]').val();
+                    tmpmonth=new Date(month);
+                    month=tmpmonth.getFullYear()+'-'+(tmpmonth.getMonth()+1);
+                    self.cur_mon=tmpmonth.getMonth()+1;
+                    self.getTableData(month);
+            },
+            selData(){
+                let self=this;
+                var param=$('#selectform').serialize();
+                $.get('dept-honor-detail.php?action=chart&'+param,function(data){
+                    console.log(JSON.parse(data));
+                    $("#chart .btn-group button").removeClass('current');
+                    $("#chart .btn-group button:eq(0)").addClass('current');
+                    self.chartjson=JSON.parse(data);
+                    initChart(self.chartjson,"fwmoney");
+                })
+            },
+            changeType(event){
+                let self=this;
+                $(event.target).addClass('current').siblings().removeClass('current');
+                var x=$(event.target).attr('data-type');
+                initChart(self.chartjson,x);
+            },
+            initdatePicker(){
+                $('#chart input.month,.monthPicker input.month').datetimepicker({
+                    format: 'YYYY-MM',
+                    showClear: true,
+                    showClose: true,
+                    defaultDate:new Date()
+                });
+
+            },
+            initChart(){
+                var defaultDate=$('#selectform').serialize();
+                let self=this;
+                $.get('dept-honor-detail.php?action=chart&'+defaultDate,function(data){
+                    console.log("初始化图表");
+                    var curChartData=JSON.parse(data);
+                    self.chartjson=curChartData;
+                    initChart(self.chartjson,"fwmoney");
+                })
+            },
+            chooseMonth(event){
+                var name=$(event.target).attr("name");
+                if(name=="ipt-startday"){
+                   var endDate= $('#chart input.month[name="ipt-endday"]').val();
+                   var dateArr=endDate.split('-');
+                   var beginDate=new Date(parseInt(dateArr[0])-1,dateArr[1]);
+                   $(event.target).data("DateTimePicker").minDate(beginDate).maxDate(endDate)
+                }else{
+                    var startDate= $('#chart input.month[name="ipt-startday"]').val();
+                    var dateArr=startDate.split('-');
+                    var maxDate=new Date(parseInt(dateArr[0])+1,parseInt(dateArr[1])-2);
+                    $(event.target).data("DateTimePicker").minDate(startDate).maxDate(maxDate)
+                }
+            },
+            dpToggle(event){
+                $(event.target).prev().data("DateTimePicker").show()
+            }
+
+        },
+        mounted:function () {
+            this.getPersonalYj();
+            this.initdatePicker();
+            this.initChart();
+        }
+    })
+
+
+    require.config({
+     paths: {
+         echarts: 'http://echarts.baidu.com/build/dist'
+     }
+    });
+    // 基于准备好的dom，初始化echarts图表
+
+    function initChart(json,type){
+        require(
+            [
+                'echarts',
+                'echarts/chart/line' // 使用折线图就加载line模块，按需加载
+            ],
+            function (ec) {
+                var myChart =ec.init(document.getElementById('chart1'));
+                var depts=[];
+                //获取部门
+                 for (var i = 0; i < json.chart[0].list.length; i++) {
+                     depts.push(json.chart[0].list[i].cname);
+                 };
+                var newseries=[];
+                //获取数据列,json图表，depts部门，type类目（业绩等）
+                    newseries=getSeries(json,depts,type);
+                var option= {
+                    tooltip: {
+                        show: true
+                    },
+                    color:['#bcbaa5','#f31d53','#fdda2b','#aabd13','#ffa511','#00aab2'],
+                    legend: {
+                        show:true,
+                        data:depts,
+                        orient:'vertical',
+                         x: 'right',
+                         y: 'center'
+                    },
+                    grid:{
+                         borderWidth:0
+                    },
+                    xAxis :
+                        {
+                            type : 'category',
+                            data : function(){
+                                 var month=[];
+                                 for (var i = 0; i < json.chart.length; i++) {
+                                     month.push(json.chart[i].ym);
+                                 };
+                                 return month;
+                            }(),
+                            splitLine:{
+                                 show:false
+                            },
+                            axisLine:{
+                                 lineStyle:{
+                                     color:'#c6c6c6'
+                                 }
+                            },
+                            axisTick:{
+                                 lineStyle:{
+                                     color:'#ccd6eb'
+                                 },
+                                 length:12
+                            }
+                        },
+                    yAxis :{
+                            type : 'value',
+                            axisLine:{
+                                 show:false
+                            },
+                            axisLabel:{
+                                 formatter:function (value){
+                                        var formatvalue;
+                                        if(value>1000){
+                                            formatvalue=value/1000 + 'k';
+                                        }else{
+                                            formatvalue=value;
+                                        }
+                                        return formatvalue;
+                                    }
+
+                            }
+                        },
+                    series : newseries
+                };
+                myChart.setOption(option);
+
+            }
+        );
+    }
+           function getSeries(json,dept,type){
+               var list =[];
+               dept.forEach(function(item){
+                   var deptSeries={
+                       "type":"line",
+                      "symbol":'circle',
+                      "symbolSize":4};
+                       deptSeries.name=item;
+                       deptSeries.data=getdeptSeriesData(json,item,type);
+                   list.push(deptSeries);
+               });
+               return list;
+           }
+               function getdeptSeriesData(json,dept,type){
+               var list=[];
+               var cTime=json.chart;
+               // console.log(cTime)
+               cTime.forEach(function(items){
+                   items.list.forEach(function(item){
+                      if(item.cname==dept){
+                           list.push(item[type]);
+                       }
+                   })
+               })
+               return list;
+           }
+</script>
+</body>
+</html>

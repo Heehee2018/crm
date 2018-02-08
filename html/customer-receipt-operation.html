@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRM-代扣款操作</title>
+
+    <link href="js/bootstrap.min.css" rel="stylesheet">
+    <link href="js/formvalidation/formValidation.min.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="css/app1.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/zh-cn.js"></script>
+    <script src="js/formvalidation/formValidation.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+
+
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        a,a:hover{
+            color: #333;
+            text-decoration: none;
+        }
+        .mt9{
+            margin-top: 9px;
+        }
+        .mb30{
+            margin-bottom: 30px;
+        }
+        .font-color96{
+            color: #969696;
+        }
+        #operate-container .panel-body{
+            padding-left: 0;
+            padding-right: 0;
+        }
+        #operate-container .header{
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: row;
+            padding: 0 15px 10px;
+            border-bottom: 1px solid #c8c8c8;
+        }
+        #operate-container .header .header-item{
+            width: 223px;
+            margin-top: 9px;
+        }
+        #operate-container .header .header-item .form-control{
+            display: inline-block;
+            width: 180px;
+        }
+        #operate-container .header .header-item .date-group{
+            display: inline-block;
+            position: relative;
+        }
+        #operate-container .header .header-item .date-group>span{
+            position: absolute;
+            top: 9px;
+            right: 8px;
+        }
+        #operate-container .header .icon_export,.icon_import,.icon_add_whitelist{
+            display: inline-block;
+            width: 31px;
+            height: 28px;
+            padding-top: 34px;
+            font-size: 12px;
+            text-align: center;
+            margin-left: 10px;
+            background: url("images/icon_export.png") no-repeat;
+        }
+        #operate-container .header .icon_import{
+            background-image: url("images/icon_import.png");
+        }
+        #operate-container .header .icon_add_whitelist{
+            background-image: url("images/icon_add_whitelist.png");
+        }
+        #operate-container .a_icon_view, #operate-container .a_icon_approval, #operate-container .a_icon_edit{
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            background: url("images/a_icon_view.png");
+            margin-right: 5px;
+        }
+        #operate-container .a_icon_approval{
+            background-image: url("images/a_icon_approval.png");
+        }
+        #operate-container .a_icon_edit{
+            background-image: url("images/a_icon_edit.png");
+        }
+        .modal .btn-red{
+            background-color: #A61625;
+            color: #fff;
+        }
+        .modal .btn-default{
+            background-color: #d4d4d4;
+            color: #fff;
+        }
+        #approvalModal .modal-content{
+            background: #f5f5f5;
+        }
+        #approvalModal .modal-header{
+            border-bottom-color: #c8c8c8;
+        }
+        .date-group>span{
+            display: block;
+            width: 18px;
+            height: 17px;
+            background: url("images/icon_calendar.png") no-repeat;
+        }
+        #viewDetailModal .modal-content{
+            width: 630px;
+        }
+        #viewDetailModal .modal-body{
+            padding: 30px 15px;
+        }
+        #viewDetailModal .col-xs-6>div{
+            line-height: 25px;
+        }
+        #viewDetailModal .col-xs-6 span:first-child{
+            display: inline-block;
+            margin-right: 6px;
+            color: #969696;
+            width: 120px;
+            text-align: right;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wapper"  id="operate-container">
+    <? require_once("html/modal.html")?>
+    <div class="call-container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>财务管理<small> 代扣款操作</small></h3>
+            </div>
+            <div class="panel-body">
+                <form >
+                    <div class="header">
+
+                        <div class="header-item">
+                            <label>姓名</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="header-item">
+                            <label for="">账号</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="header-item">
+                            <label for="">日期</label>
+                            <div class="date-group">
+                                <input type="text" class="form-control">
+                                <span class=""></span>
+                            </div>
+                        </div>
+                        <div class="header-item">
+                            <label for="">至</label>
+                            <div class="date-group">
+                                <input type="text" class="form-control">
+                                <span class=""></span>
+                            </div>
+                        </div>
+                        <div class="mt9">
+                            <button type="button" class="btn btn-default">查询</button>
+                        </div>
+                        <div style="flex: 1;text-align: right;">
+                            <a class="icon_export">导出</a>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="section">
+                    <table class="table">
+                        <thead>
+                            <th width="10%">订单号</th>
+                            <th width="6%">姓名</th>
+                            <th width="10%">扣款银行</th>
+                            <th width="10%">扣款账号</th>
+                            <th width="8%">扣款金额</th>
+                            <th width="6%">手续费</th>
+                            <th width="8%">成功金额</th>
+                            <th width="9%">发起日期</th>
+                            <th width="8%">发起人</th>
+                            <th width="7%">状态</th>
+                            <th width="11%">说明</th>
+                            <th width="7%">管理</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>20171018272627</td>
+                            <td>张三</td>
+                            <td>中国工商银行</td>
+                            <td>6200000000000000000</td>
+                            <td>4417</td>
+                            <td>188</td>
+                            <td>20</td>
+                            <td>2017-10-11</td>
+                            <td>审核通</td>
+                            <td>成功</td>
+                            <td>包含手续费</td>
+                            <td>
+                                <a class="a_icon_view" data-target="#viewDetailModal" data-toggle="modal"></a>
+                                <a class="a_icon_approval" data-target="#approvalModal" data-toggle="modal"></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>20171018272627</td>
+                            <td>张三</td>
+                            <td>中国工商银行</td>
+                            <td>6200000000000000000</td>
+                            <td>4417</td>
+                            <td>188</td>
+                            <td>20</td>
+                            <td>2017-10-11</td>
+                            <td>审核通</td>
+                            <td>成功</td>
+                            <td>包含手续费</td>
+                            <td>
+                                <a class="a_icon_view" data-target="#viewDetailModal" data-toggle="modal"></a>
+                                <a class="a_icon_edit" data-target="#addFeeModal" data-toggle="modal"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 代扣款审批模态框 -->
+<div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">代扣款审批</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label font-color96">订单号</label>
+                        <label class="control-label ml14">20178946465454</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label font-color96">客户姓名</label>
+                        <label class="control-label ml14">张三</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label font-color96">扣款银行</label>
+                        <label class="control-label ml14">中国建设银行</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label font-color96">扣款账号</label>
+                        <label class="control-label ml14">62415648521445464</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label font-color96">总金额</label>
+                        <label class="control-label ml14">9500.00元</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label font-color96">总手续费</label>
+                        <label class="control-label ml14">15.00</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label font-color96">发起人</label>
+                        <label class="control-label ml14">销售甲</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label font-color96">发起日期</label>
+                        <label class="control-label ml14">20171218</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label font-color96">备注</label>
+                        <label class="control-label ml14">扣款账户余额不足</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">拒绝原因</label>
+                        <textarea name="" class="ml14" style="width: 330px;height: 72px;resize: none;border-radius: 5px;padding: 5px;overflow-y: auto"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-red">拒绝</button>
+                <button type="button" class="btn btn-red">通过</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 查看代扣款详情 -->
+<div class="modal fade" id="viewDetailModal" tabindex="-1" role="dialog" aria-labelledby="viewDetailLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="viewDetailLabel">查看代扣款详情</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row mb30">
+                    <div class="col-xs-6">
+                        <div>
+                            <span>订单号</span>
+                            <span>201702156587</span>
+                        </div>
+                        <div>
+                            <span>发起日期</span>
+                            <span>20171218</span>
+                        </div>
+                        <div>
+                            <span>交易类型</span>
+                            <span>代扣</span>
+                        </div>
+                        <div>
+                            <span>付款方银行</span>
+                            <span>中国建设银行</span>
+                        </div>
+                        <div>
+                            <span>付款人姓名</span>
+                            <span>张三</span>
+                        </div>
+                        <div>
+                            <span>付款方开户账号</span>
+                            <span>6214832003636128</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div>
+                            <span>收款方企业</span>
+                            <span>广州棠玺投资咨询有限公司</span>
+                        </div>
+                        <div>
+                            <span>审批日期</span>
+                            <span>20171218</span>
+                        </div>
+                        <div>
+                            <span>T+N</span>
+                            <span>0</span>
+                        </div>
+                        <div>
+                            <span>收款方银行</span>
+                            <span>中国建设银行</span>
+                        </div>
+                        <div>
+                            <span>收款方开户账号</span>
+                            <span>张三</span>
+                        </div>
+                        <div>
+                            <span>币种</span>
+                            <span>CNY</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb30">
+                    <div class="col-xs-6">
+                        <div>
+                            <span>总手续费</span>
+                            <span>15</span>
+                        </div>
+                        <div>
+                            <span>总笔数</span>
+                            <span>1</span>
+                        </div>
+                        <div>
+                            <span>成功笔数</span>
+                            <span>0</span>
+                        </div>
+                        <div>
+                            <span>失败笔数</span>
+                            <span>0</span>
+                        </div>
+                        <div>
+                            <span>状态</span>
+                            <span>已回执</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div>
+                            <span>应收手续费</span>
+                            <span>15</span>
+                        </div>
+                        <div>
+                            <span>总金额</span>
+                            <span>1</span>
+                        </div>
+                        <div>
+                            <span>成功金额</span>
+                            <span>0</span>
+                        </div>
+                        <div>
+                            <span>失败金额</span>
+                            <span>0</span>
+                        </div>
+                        <div>
+                            <span>状态变更日期</span>
+                            <span>20171218</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div>
+                            <span>发起人</span>
+                            <span>销售甲</span>
+                        </div>
+                        <div>
+                            <span>备注</span>
+                            <span></span>
+                        </div>
+                        <div>
+                            <span>审批拒绝原因</span>
+                            <span></span>
+                        </div>
+                        <div>
+                            <span>扣/付款失败原因</span>
+                            <span>扣款失败</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 添加扣费项目 -->
+<div class="modal fade" id="addFeeModal" tabindex="-1" role="dialog" aria-labelledby="addFeeLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addFeeLabel">添加扣费项目</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">姓名</label>
+                        <div class="col-xs-4 ml14">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">开户行</label>
+                        <div class="col-xs-4 ml14">
+                            <select name="" id="" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">账号</label>
+                        <div class="col-xs-6 ml14">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">金额</label>
+                        <div class="col-xs-6 ml14">
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-xs-2" style="height: 34px;line-height: 34px;margin-left: 5px">元</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">手续费</label>
+                        <label class="control-label ml14">15元</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">附言</label>
+                        <div class="col-xs-4 ml14">
+                            <textarea style="width:330px;height: 72px;border-radius: 5px;resize: none"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-red">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('.date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn'),
+            showClear: true,
+            showClose: true
+        });
+
+        // 关闭白名单模态框，清除数据
+        $('#addWhitelistModal').on('hidden.bs.modal', function () {
+
+        })
+    })
+</script>
+</body>
+</html>

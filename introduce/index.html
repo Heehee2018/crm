@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <link rel="stylesheet" href="dist/style.css">
+    <script src="dist/js/flexible_css.js"></script>
+    <script src="dist/js/flexible.js"></script>
+    <script src="dist/js/jquery-3.2.1.min.js"></script>
+    <title>经理介绍</title>
+</head>
+<body>
+<!--页面结构-->
+<div class="main-container">
+    <div class="avatar"></div>
+    <div class="name"></div>
+    <div class="job"></div>
+    <table>
+        <tr>
+            <td><div class="phone"></div></td>
+        </tr>
+        <tr>
+            <td><div class="wechat"></div></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="addr">
+                    <div class="icon-addr"></div>
+                    <div>
+                        <p>广州市天河区体育西路191号</p>
+                        <p>中石化大厦B塔24层</p>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><div class="url"><a href="http://www.heehee.com.cn">www.heehee.com.cn</a></div></td>
+        </tr>
+    </table>
+    <div class="introduce">
+        <ul>
+            <li><a href="https://heehee.com.cn/ad/01.html">保单贷</a></li>
+            <li><a href="https://heehee.com.cn/ad/01.html">月供房贷</a></li>
+            <li><a href="https://heehee.com.cn/ad/01.html">工薪贷</a></li>
+        </ul>
+        <ul>
+            <li><a href="https://heehee.com.cn/ad/01.html">企业流水贷</a></li>
+            <li><a href="https://heehee.com.cn/ad/01.html">装修贷</a></li>
+            <li><a href="https://heehee.com.cn/ad/01.html">车位贷</a></li>
+        </ul>
+        <ul>
+            <li><a href="https://heehee.com.cn/ad/01.html">月供车贷</a></li>
+            <li><a href="https://heehee.com.cn/ad/01.html">抵押贷</a></li>
+            <li><a href="https://heehee.com.cn/ad/01.html">信用贷</a></li>
+        </ul>
+    </div>
+    <div class="logo"></div>
+</div>
+<!--<div class="icon-dismission"></div>-->
+<script>
+    var userInfo = '';
+    
+    $(function(){
+        /* 内容介绍随机三个底色变深色方法 */
+        function generateRound(n,min,max){
+            var arr=[];
+            for(var i=0;i<n;i++){
+                arr[i]=parseInt(Math.random()*(max-min+1)+min);
+                for(var j=0;j<i;j++){
+                    if(arr[i]==arr[j]){
+                        i=i-1;
+                        break;
+                    }
+                }
+            }
+            return arr;
+        }
+        var result=generateRound(3,0,8);
+        console.log(result);
+        for(var k=0;k<result.length;k++){
+            $('.introduce li').eq(result[k]).addClass('li-dark-bg');
+        }
+
+        /* 获取当前URL的ID属性 */
+        function getParameter(sProp) {
+            var re = new RegExp(sProp + "=([^\&]*)", "i");
+            var a = re.exec(document.location.search);
+            if (a == null)
+                return null;
+            return a[1];
+        }
+        var id = getParameter('id');  //获取用户id
+
+        /* 离职TODO */
+        function hasDismission(data){
+            $('.main-container').after('<div class="icon-dismission"></div>');
+        }
+
+        /* 在职TODO*/
+        function inService(data){
+            data.phone? $('.phone').html('<a href="tel:'+data.phone+'">'+data.phone+'</a>'):'';
+            data.wechat?$('.wechat').html(data.wechat):'';
+            dataForWx = {
+                "link": window.location.href,
+                "imgUrl": "http://heehee.com.cn:64080/logo.jpg",
+                "title": "借款找"+data.cname+"，手续少、额度高、放款快！",
+                "desc": "缺钱别急，贷款有我！只做大额，不做高息，最快1天放款，5w起批，180多种产品，总有适合你。" 
+            };
+            $("title").text('嘻嘻金融-'+data.cname+'的名片');
+        }
+        
+        /* 发送请求获取用户信息 */
+        function getUserInfo(){
+            $.ajax({
+                url:'http://heehee.com.cn:64080/ajax/user-data.php?id='+id,
+                type:'GET',
+                dataType:'jsonp',
+                jsonp:'callback',
+                jsonpCallback:'success_jsonpCallback',
+                success:function(result){
+                    console.log(result);
+                    $('.name').html(result.cname);
+                    $('.job').html(result.jobtitle);
+                    // 0没头像 1有头像
+                    result.avatar ==0?'':$('.avatar').append('<img src="http://heehee.com.cn:64080/avatar/'+id+'.png">');
+
+                    // 0在职，1离职
+                    result.dismission == 0? inService(result) : hasDismission(result);
+                }
+            })
+        }
+
+        getUserInfo();
+
+        //查看地址
+        $('.addr').click(function(){
+            window.open('map.html');
+        });
+    });
+    
+    dataForWx = {
+          "link": window.location.href,
+          "imgUrl": "http://heehee.com.cn:64080/logo.jpg",
+          "title": "借款找嘻嘻金融，手续少、额度高、放款快！",
+          "desc": "缺钱别急，贷款有我！只做大额，不做高息，最快1天放款，5w起批，180多种产品，总有适合你。" 
+    };
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="http://heehee.com.cn/api/weixin/js.php"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<input type="text" id="contractid">
+<select name="" id="first">
+    <option value=""></option>
+</select>
+<select name="" id="second" style="display: none"></select>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/mock-min.js"></script>
+<script>
+
+    var json=[
+        {
+            id:'1',
+            code:'00578',
+            fwlx:'抵押贷款'
+
+        },
+        {
+            id:'2',
+            code:'00579',
+            fwlx:'抵押贷款'
+
+        },
+        {
+            id:'3',
+            code:'00578',
+            fwlx:'信用贷款'
+
+        },
+        {
+            id:'4',
+            code:'00580',
+            fwlx:'抵押贷款'
+
+        },
+        {
+            id:'5',
+            code:'00581',
+            fwlx:'抵押贷款'
+
+        },
+        {
+            id:'6',
+            code:'00581',
+            fwlx:'信用贷款'
+
+        }
+    ]
+    var newArr = [json[0]];
+    var sameArr = []
+    for(var i=1;i<json.length;i++){
+        var repeat =false;
+        for(var j=0;j<newArr.length-1;j++){
+            if(newArr[j].code == json[i].code){
+                repeat=true;
+                break;
+            }
+        }
+        if(!repeat){
+            newArr.push(json[i])
+        }else{
+            sameArr.push(json[i])
+        }
+    }
+    console.info('newArr,',newArr)
+    console.info('sameArr,',sameArr)
+    newArr.forEach(function(t){
+        $('#first').append('<option value="'+ t.id +'" data-fwlx="'+ t.fwlx +'">'+ t.code +'</option>')
+    })
+
+    $('#first').change(function(){
+        $('#second').html('');
+        var value = $(this).val();
+        var fwlx = $(this).find('option:selected').data('fwlx')
+        var text = $(this).find('option:selected').text();
+
+        $('#contractid').val($(this).val());
+        for(var i in sameArr){
+           if(sameArr[i].code == text) {
+               $('#second').append('<option value="'+ value +'">'+ fwlx +'</option><option value="'+ sameArr[i].id +'">'+sameArr[i].fwlx+'</option>')
+               $('#second').show();
+               break;
+           }else{
+               $('#second').hide();
+           }
+        }
+
+    })
+
+    $('#second').change(function () {
+        $('#contractid').val($(this).val());
+    })
+
+    Mock.mock('http://g.cn', {
+        'name':'Sheri',
+        'age': 20
+    })
+
+    $.ajax({
+        url: 'http://g.cn',
+    }).success(function(data){
+        console.log(
+            JSON.parse(data)
+        )
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRM-代扣款白名单</title>
+
+    <link href="js/bootstrap.min.css" rel="stylesheet">
+    <link href="js/formvalidation/formValidation.min.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="css/app1.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/zh-cn.js"></script>
+    <script src="js/formvalidation/formValidation.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+
+
+
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        a,a:hover{
+            color: #333;
+            text-decoration: none;
+        }
+        .mt9{
+            margin-top: 9px;
+        }
+        #receipt-container .panel-body{
+            padding-left: 0;
+            padding-right: 0;
+        }
+        #receipt-container .header{
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: row;
+            padding: 0 15px 10px;
+            border-bottom: 1px solid #c8c8c8;
+        }
+        #receipt-container .header .header-item{
+            width: 223px;
+            margin-top: 9px;
+        }
+        #receipt-container .header .header-item .form-control{
+            display: inline-block;
+            width: 180px;
+        }
+        #receipt-container .header .icon_export,.icon_import,.icon_add_whitelist{
+            display: inline-block;
+            width: 31px;
+            height: 28px;
+            padding-top: 34px;
+            font-size: 12px;
+            text-align: center;
+            margin-left: 10px;
+            background: url("images/icon_export.png") no-repeat;
+        }
+        #receipt-container .header .icon_import{
+             background-image: url("images/icon_import.png");
+        }
+        #receipt-container .header .icon_add_whitelist{
+            background-image: url("images/icon_add_whitelist.png");
+        }
+        #receipt-container .a_icon_view, #receipt-container .a_icon_add, #receipt-container .a_icon_edit{
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            background: url("images/a_icon_view.png");
+            margin-right: 5px;
+        }
+        #receipt-container .a_icon_add{
+            background-image: url("images/a_icon_add.png");
+        }
+        #receipt-container .a_icon_edit{
+            background-image: url("images/a_icon_edit.png");
+        }
+        .modal .btn-red{
+            background-color: #A61625;
+            color: #fff;
+        }
+        .modal .btn-default{
+            background-color: #d4d4d4;
+            color: #fff;
+        }
+        #addWhitelistModal .form-group label{
+            margin-right: 10px;
+        }
+        #viewWhitelistModal .item{
+            margin-left: 10px;
+            text-align: left;
+        }
+        #addWhitelistModal .modal-content{
+            background: #f5f5f5;
+        }
+        #addWhitelistModal .modal-header{
+            border-bottom-color: #c8c8c8;
+        }
+        .add_file, .add_file [type="file"]{
+            width: 100px;
+            height: 100px;
+        }
+        .add_file [type="file"]{
+            opacity: 0;
+        }
+        .add_file{
+            background: url("images/add_file.png") no-repeat;
+        }
+    </style>
+</head>
+<body>
+<div class="wapper"  id="receipt-container">
+    <? require_once("html/modal.html")?>
+    <div class="call-container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>财务管理<small> 代扣款白名单</small></h3>
+            </div>
+            <div class="panel-body">
+                <form >
+                    <div class="header">
+
+                        <div class="header-item">
+                            <label>姓名</label>
+                            <input type="text" class="form-control" v-model="queryForm.name">
+                        </div>
+                        <div class="header-item">
+                            <label for="">账号</label>
+                            <input type="text" class="form-control" v-model="queryForm.accno">
+                        </div>
+                        <div class="header-item">
+                            <label for="">手机</label>
+                            <input type="text" class="form-control" v-model="queryForm.phone">
+                        </div>
+                        <div class="header-item">
+                            <label for="">状态</label>
+                            <select name="" class="form-control"  v-model="queryForm.status">
+                                <option value=""></option>
+                                <option value="00">待审核</option>
+                                <option value="10">审核通过</option>
+                                <option value="99">审核拒绝</option>
+                            </select>
+                        </div>
+                        <div class="mt9">
+                            <button type="button" class="btn btn-default" @click="getWhitelist">查询</button>
+                        </div>
+                        <div style="flex: 1;text-align: right;">
+                            <a class="icon_add_whitelist" data-toggle="modal" data-target="#addWhitelistModal">新增</a>
+                            <a href="" class="icon_import">导入</a>
+                            <a href="" class="icon_export">导出</a>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="section">
+                    <table class="table">
+                        <thead>
+                            <th class="text-center">序号</th>
+                            <th class="text-center">姓名</th>
+                            <th class="text-center">开户行</th>
+                            <th class="text-center">代扣账号</th>
+                            <th class="text-center">身份证号码</th>
+                            <th class="text-center">手机号码</th>
+                            <th class="text-center">有效期</th>
+                            <th class="text-center">单笔限额</th>
+                            <th class="text-center">状态</th>
+                            <th class="text-center">创建时间</th>
+                            <th>管理</th>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(list,index) in whitelist">
+                                <td v-text="index+1" class="text-center"></td>
+                                <td v-text="list.name" class="text-center"></td>
+                                <td v-text="list.bankName" class="text-center"></td>
+                                <td v-text="list.accno" class="text-center"></td>
+                                <td v-text="list.certno" class="text-center"></td>
+                                <td v-text="list.phone" class="text-center"></td>
+                                <td v-text="list.yxqi" class="text-center"></td>
+                                <td v-text="list.dbxe" class="text-center"></td>
+                                <td v-cloak class="text-center">{{list.status==00?'待审核':list.status==10?'审核通过':'审核拒绝'}}</td>
+                                <td v-text="list.cdate"></td>
+                                <td>
+                                    <a class="a_icon_view" @click="viewWhitelistDetail(list.id)"></a>
+                                    <a class="a_icon_edit" @click="editWhitelist(list.id)"></a>
+                                    <a class="a_icon_add" data-target="#addFeeModal" data-toggle="modal"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--<div class="footer">
+                    <div class="page">
+                        <ul class="page-content1 list-inline">
+                            <li class="btn_first" @click="jump2Home"></li>
+                            <li class="btn_prev" v-show="prevPage" @click="jump2Prev(cur)"></li>
+
+                            <template v-for="index in indexs">
+                                <li class="page-item" :class="classRenderer(index)" @click="jump2Page(index)" v-if="index">{{index}}</li>
+                                <li class="crt" v-else>...</li>
+                            </template>
+
+                            <li class="btn_next" v-show="nextPage" @click="jump2Next(cur)"></li>
+                            <li class="btn_last" @click="jump2Last"></li>
+
+                            <li class="wid50">
+                                <input type="text" class="form-control text-center" name="ipt-page" id="ipt-page" v-model="cur">
+                            </li>
+                            <li class="wid50">
+                                <button type="button" class="btn btn-default mr30" @click="jump2Page">GO</button>
+                            </li>
+                            <li>
+                                <select name="ipt-pagesize" id="ipt-pagesize" class="form-control" style="display: inline-block;width: 75px;" @change="changePageSize">
+                                    <option value="10">10条</option>
+                                    <option value="20">20条</option>
+                                    <option value="50">50条</option>
+                                    <option value="100">100条</option>
+                                </select>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+
+    <!-- 新增/修改白名单模态框 -->
+    <div class="modal fade" id="addWhitelistModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增白名单</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="whitelist-form">
+                        <input type="hidden" v-model="whitelistForm.files" id="whitelist_wujian">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">姓名</label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" v-model="whitelistForm.name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">开户行</label>
+                            <div class="col-xs-4">
+                                <select v-model="whitelistForm.bankno" class="form-control">
+                                    <option value=""></option>
+                                    <option :value="bank.number" v-for="bank in banks">{{bank.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">账号</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" v-model="whitelistForm.accno">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">身份证号码</label>
+                            <div class="col-xs-6">
+                                <input type="text" class="form-control" v-model="whitelistForm.certno">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">手机</label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" v-model="whitelistForm.phone">
+                            </div>
+                        </div>
+                        <!--<div class="form-group">
+                            <label class="col-xs-3 control-label">合同编号</label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" v-model="whitelistForm.contractno">
+                            </div>
+                        </div>-->
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">代扣有效期</label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control date" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">单笔限额</label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" v-model="whitelistForm.dbxe">
+                            </div>
+                        </div>
+                        <!--<div class="form-group">
+                            <label class="col-xs-3 control-label">文件上传</label>
+                            <div class="col-xs-5">
+                                <div class="add_file">
+                                    <input type="file" multiple id="whitelistUpload">
+                                </div>
+
+                            </div>
+                        </div>-->
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-red btn-add" id="btn_whitelist" @click="addwhitelist">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 查看白名单模态框 -->
+    <div class="modal fade"  id="viewWhitelistModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="viewWhitelistLabel">白名单详情</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <!--<div class="form-group">
+                            <label class="col-xs-3 control-label">合同编号</label>
+                            <label class="col-xs-4 control-label item" v-text="viewWhitelistForm.contractno"></label>
+                        </div>-->
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">客户姓名</label>
+                            <label class="col-xs-4 control-label item" v-text="viewWhitelistForm.name"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">扣款银行</label>
+                            <label class="col-xs-4 control-label item" v-text="viewWhitelistForm.bankName"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">扣款账号</label>
+                            <label class="col-xs-4 control-label item" v-text="viewWhitelistForm.accno"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">身份证号</label>
+                            <label class="col-xs-4 control-label item" v-text="viewWhitelistForm.certno"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">手机号码</label>
+                            <label class="col-xs-4 control-label item" v-text="viewWhitelistForm.phone"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">有效期</label>
+                            <label class="col-xs-4 control-label item" v-text="viewWhitelistForm.yxqi"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">单笔限额</label>
+                            <label class="col-xs-4 control-label item" v-text="viewWhitelistForm.dbxe"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">状态</label>
+                            <label class="col-xs-4 control-label item" v-cloak>{{viewWhitelistForm.status==00?'待审核':viewWhitelistForm.status==10?'审核通过':'审核拒绝'}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">创建时间</label>
+                            <label class="col-xs-4 control-label item" v-text="viewWhitelistForm.cdate"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">更新时间</label>
+                            <label class="col-xs-4 control-label item" v-text="viewWhitelistForm.update"></label>
+                        </div>
+                        <!--<div class="form-group">
+                            <label class="col-xs-3 control-label">文件预览</label>
+                            <label class="col-xs-4 control-label item">003256</label>
+                        </div>-->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-red" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加扣费项目 -->
+    <div class="modal fade" id="addFeeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addFeeLabel">添加扣费项目</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">姓名</label>
+                            <div class="col-xs-4 ml14">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">开户行</label>
+                            <div class="col-xs-4 ml14">
+                                <select name="" id="" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">账号</label>
+                            <div class="col-xs-6 ml14">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">金额</label>
+                            <div class="col-xs-6 ml14">
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="col-xs-2" style="height: 34px;line-height: 34px;margin-left: 5px">元</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">手续费</label>
+                            <label class="control-label ml14">15元</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">附言</label>
+                            <div class="col-xs-4 ml14">
+                                <textarea style="width:330px;height: 72px;border-radius: 5px;resize: none"></textarea>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-red">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/File_Validation.js"></script>
+<script src="js/vue.js"></script>
+<script>
+    $(function(){
+        $('.date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            locale: moment.locale('zh-cn'),
+            showClear: true,
+            showClose: true
+        });
+        
+        // 关闭白名单模态框，清除数据
+        $('#addWhitelistModal').on('hidden.bs.modal', function () {
+            $(this).find('input,select').val('');
+            app.ifUpdate = false;  //重置是否修改白名单的值
+        })
+
+        DetermineFileType("#whitelistUpload","#zhengxin_title","#whitelist_wujian",'#whitelist-form','upload','#btn_whitelist');
+    })
+</script>
+<script>
+    var app = new Vue({
+        el:'#receipt-container',
+        data:{
+            banks:[], //开户银行,
+            whitelistForm:{}, //添加白名单表单
+            viewWhitelistForm:{}, //查看白名单表单
+            whitelist:[], //白名单列表
+            queryForm:{}, //查询白名单表单
+            ifUpdate: false, //是否修改白名单
+        },
+        methods:{
+            // 修改白名单
+            editWhitelist(id){
+                let self = this;
+                self.getWhitelistDetailById(id, function (data) {
+                    self.whitelistForm = data;
+                    $('#addWhitelistModal').modal('show');
+                })
+
+            },
+            // 获取开户银行
+            getBanks(){
+                let self = this;
+                $.get('ajax/database.json', function (data) {
+                    self.banks = data.bankNo;
+                })
+            },
+            // 添加白名单
+            addwhitelist(){
+                let self = this;
+                self.whitelistForm.yxqi = $('#addWhitelistModal .date').val();
+                console.log('whitelistForm',self.whitelistForm);
+                let form = new FormData();
+                let url;
+                form.append('ipt-name', self.whitelistForm.name);
+                form.append('ipt-bankno', self.whitelistForm.bankno);
+                form.append('ipt-accno', self.whitelistForm.accno);
+                form.append('ipt-certno', self.whitelistForm.certno);
+                form.append('ipt-phone', self.whitelistForm.phone);
+                form.append('ipt-contractno ', self.whitelistForm.contractno );
+                form.append('ipt-yxqi', self.whitelistForm.yxqi);
+                form.append('ipt-dbxe', self.whitelistForm.dbxe);
+                form.append('ipt-files', self.whitelistForm.files);
+
+                url = self.ifUpdate?'customer-receipt-whitelist.php?action=mod':'customer-receipt-whitelist.php?action=add';
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: form,
+                    async:false,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        var data = JSON.parse(res);
+                        console.log(data);
+                        // 关闭模态框，并重新赋值whiteList 1成功 0失败
+                        alert(data.message);
+                        if(data.code == 1){
+                            self.queryForm = {};
+                            self.getWhitelist();
+                            $('#addWhitelistModal').modal('hide');
+
+                        }
+
+                    }
+                })
+            },
+            // 获取白名单
+            getWhitelist(){
+                let self = this;
+
+                $.ajax({
+                    url: 'customer-receipt-whitelist.php?action=list&pagesize=10&pageindex=1',
+                    type: 'POST',
+                    data: {
+                        'ipt-name':self.queryForm.name,
+                        'ipt-accno':self.queryForm.accno,
+                        'ipt-phone':self.queryForm.phone,
+                        'ipt-status':self.queryForm.status
+                    },
+                    success: function (res) {
+                        let data = JSON.parse(res);
+                        console.log(data);
+                        if(data.list!=null){
+                            data.list.forEach(function (item) {
+                                item.bankName = self.getBankName(item.bankno);
+                            })
+                            self.whitelist = data.list;
+                        }else{
+                            self.whitelist = [];
+                        }
+
+                    }
+                })
+            },
+            // 获取白名单详情
+            getWhitelistDetailById(id, callback){
+                let self = this;
+                $.ajax({
+                    url: 'customer-receipt-whitelist.php?action=get',
+                    type: 'POST',
+                    data: {
+                        'ipt-id': id
+                    },
+                    success: function (res) {
+                        let data = JSON.parse(res);
+                        console.log(data);
+                        callback(data);
+                    }
+                })
+
+            },
+            // 查看白名单详情
+            viewWhitelistDetail(id){
+                let self = this;
+                self.getWhitelistDetailById(id, function (data) {
+                    self.viewWhitelistForm = data.data;
+                    self.viewWhitelistForm.bankName = self.getBankName(data.data.bankno);
+                    $('#viewWhitelistModal').modal('show');
+                });
+            },
+            // 根据银行卡号获取银行名
+            getBankName(bankNo){
+                for(var i=0;i<this.banks.length;i++){
+                    if(this.banks[i].number == bankNo){
+                        return this.banks[i].name;
+                    }
+                }
+
+            }
+        },
+        mounted:function () {
+            this.getBanks();
+            this.getWhitelist();
+        },
+        computed:{
+            indexs: function(){
+                var that = this;
+                let pageNum = that.pageNo,
+                    index = that.cur,
+                    arr = [];
+                if (pageNum <= 5) {
+                    for(let i = 1; i <= pageNum; i++) {
+                        arr.push(i)
+                    }
+                    return arr
+                }
+                if (index <= 2) return [1,2,3,0,pageNum]
+                if (index >= pageNum -1) return [1,0, pageNum -2, pageNum -1, pageNum]
+                if (index === 3) return [1,2,3,4,0,pageNum]
+                if (index === pageNum -2) return [1,0, pageNum-3, pageNum-2, pageNum-1, pageNum]
+                return [1,0, index-1, index, index + 1, 0, pageNum]
+
+            },
+            prevPage: function(){
+                return this.cur!=1
+            },
+            nextPage: function(){
+                return this.cur<this.pageNo && this.cur;
+            }
+        }
+    })
+</script>
+</body>
+</html>

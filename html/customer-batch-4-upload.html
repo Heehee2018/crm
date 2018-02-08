@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/app1.css">
+    <link rel="stylesheet" href="css/swiper-3.4.1.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="js/formvalidation/formValidation.min.css">
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <title>CRM-批量上传征信</title>
+    <style>
+        #fileForm{
+            width: 400px;
+        }
+        #fileForm .form-group{
+            overflow: hidden;
+        }
+        .occupied{
+            display: inline-block;
+            width: 20px;
+        }
+    </style>
+    <script>
+        function printFileInfo(){
+            document.getElementById("wrap").innerHTML = '';
+            var picFile = document.getElementById("pic");
+            var files = picFile.files;
+            for(var i=0; i<files.length; i++){
+                var file = files[i];
+                var div = document.createElement("div");
+                div.innerHTML = "<i></i> 第("+ (i+1) +") 个文件的名字："+ file.name + " , 文件大小:"+ file.size+"<span class='occupied'></span>";
+                document.getElementById("wrap").appendChild( div);
+            }
+        }
+
+
+
+    </script>
+</head>
+<body>
+<div>
+    <div class="wapper">
+        <? require_once("html/navbar.html")?>
+
+        <div>
+            <?echo $msg?>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>
+                        上传文件 <small>批量上传</small>
+                    </h3>
+                </div>
+
+                <div class="panel-body" id="contain">
+                    <form action="" id="fileForm">
+                        <input type="hidden" name="action" value="add_credits">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">征信类型：</label>
+                            <div class="col-sm-6">
+                                <select name="ipt-zllxing" id="" class="form-control">
+                                    <option value=""></option>
+                                    <option value="1">银行征信</option>
+                                    <option value="2">人行征信</option>
+                                    <option value="3">网查简版征信</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">上传文件：</label>
+                            <div class="col-sm-6">
+                                <input type="file" id="pic" class="form-control" multiple="true" name="ipt-wjian[]" onchange="printFileInfo()">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-default" id="submitForm">上传</button>
+                        <div id="parent">
+                            <div id="son"></div>
+                        </div>
+
+                    </form>
+                    <div id="wrap">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/getExtNum.js"></script>
+<script>
+    $(function(){
+        var taskIndex;
+        var errorArr = [];  //保存上传失败的文件名
+
+        function onprogress(evt) {
+            var loaded = evt.loaded;       //已经上传大小情况
+            var tot = evt.total;       //附件总大小
+            var per = Math.floor(100 * loaded / tot);   //已经上传的百分比
+            $("#son").html(per + "%");
+            $("#son").css("width", per + "%");
+        }
+
+        function uploadFailed(alink) {
+            var str=errorArr.join('\n');
+            str=encodeURIComponent(str);
+            var uri = 'data:text/csv;charset=utf-8,\ufeff'+str;
+            var downloadLink = document.createElement("a");
+            downloadLink.href = uri;
+            downloadLink.download = "export.csv";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+        }
+
+        //上传文件
+        function uploadFile() {
+            //将上传的多个文件放入formData中
+            var picFileList = $("#pic").get(0).files;
+            var zllxing = $('[name="ipt-zllxing"]').val();
+
+            for (var i = 0; i < picFileList.length; i++) {
+
+                var formData = new FormData();
+                formData.append('action','add_credits');
+                formData.append('ipt-zllxing',zllxing);
+                formData.append("ipt-wjian[]", picFileList[i]);
+
+                (function (num) {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'customer-batch-4-upload.php',
+                        data: formData,
+                        xhr: function () {
+                            myXhr = $.ajaxSettings.xhr();
+                            if(myXhr.upload){
+                                myXhr.upload.addEventListener('progress',onprogress, false);
+                            }
+                            return myXhr;
+                        },
+                        success: function (result) {
+                            var data = eval('('+ result +')');
+                            if(data[0]==1){
+                                $('#wrap>div').eq(num).addClass('alert alert-success').find('i').addClass('glyphicon glyphicon-ok');
+                            }else{
+                                $('#wrap>div').eq(num).append('错误：'+data[1]).addClass('alert alert-danger').find('i').addClass('glyphicon glyphicon-remove');
+                                errorArr.push(picFileList[num].name);
+                            }
+                            if(num == picFileList.length-1){
+                                uploadFailed()
+                            }
+                        },
+                        contentType: false,
+                        processData: false
+                    })
+
+                })(i)
+
+
+            }
+
+            //var xhr = new XMLHttpRequest();
+            //监听事件
+            //xhr.upload.addEventListener("progress", onprogress, false);
+            //xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数
+            /*xhr.open("POST", "customer-batch-4-upload.php");
+            xhr.onreadystatechange = function () {
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        console.log(xhr.responseText)
+                    }
+                }
+            }
+            //记得加入上传数据formData
+            xhr.send(formData);*/
+
+        }
+
+        $('#submitForm').click(function () {
+            uploadFile()
+        })
+
+    })
+</script>
+</body>
+</html>

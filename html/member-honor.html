@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRM-荣誉墙</title>
+
+    <link href="js/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/formvalidation/0.6.1/css/formValidation.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/swiper-3.4.1.min.css">
+    <link href="css/app1.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/formValidation.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/framework/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/language/zh_CN.min.js"></script>
+
+    <script src="http://cdn.bootcss.com/moment.js/2.11.1/moment.min.js"></script>
+    <script src="http://cdn.bootcss.com/moment.js/2.11.1/locale/zh-cn.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <style>
+        .inner_line>div{
+            position: relative;
+            height: 370px;
+            margin-top: 11px;
+            margin-bottom: 35px;
+        }
+        .inner_line>div>img{
+            margin-top: 34px;
+            margin-left: 25px;
+            width: 200px;
+            height: 200px;
+        }
+        .inner_line>div>ul{
+            position: absolute;
+            bottom: 18px;
+            width: 250px;
+            left: 0;
+        }
+        .inner_line>div>ul>li{
+            text-align: center;
+            font-family: 'KaiTi';
+            color: #f5cb52;
+        }
+        .text1{
+            font-size: 32px;
+        }
+        .text2{
+            font-size: 18px;
+        }
+        .inner_line .personal_bg{
+            width: 250px;
+            height: 370px;
+            position: absolute;
+        }
+        .bg1{
+            background: url("images/h_1.png") no-repeat;
+        }
+        .bg2{
+            background: url("images/h_2.png") no-repeat;
+        }
+        .bg3{
+            background: url("images/h_3.png") no-repeat;
+        }
+        .bg4{
+            background: url("images/h_4.png") no-repeat;
+        }
+        .bg5{
+            background: url("images/h_5.png") no-repeat;
+        }
+        .bg6{
+            background: url("images/h_6.png") no-repeat;
+        }
+        .bg7{
+            background: url("images/h_7.png") no-repeat;
+        }
+        [v-cloak]{
+            display: none;
+        }
+        .panel-heading a{
+            color: #777;
+            margin-top: 30px;
+        }
+
+        .swiper-button-prev,.swiper-button-next{
+            background-position: 0;
+            width: 9px;
+            height: 24px;
+            background: url("images/swiper_prev.png") no-repeat;
+
+        }
+        .swiper-button-next{
+            right: 33px;
+            background-image: url("images/swiper_next.png");
+        }
+        .relative{
+            position: relative;
+        }
+        h4{
+            font-weight: 700;
+            font-size: 20px;
+            border-bottom:1px solid #dcdcdc;
+            margin-left:40px;
+            margin-right: 40px;
+            padding-bottom: 5px;
+        }
+
+    </style>
+    <script>
+
+        var etPmyExt = '<? echo $is["ext"] ?>',etPmyPort = '<? echo $is["port"] ?>';
+        console.log(etPmyExt,etPmyPort);
+    </script>
+</head>
+<body>
+<div class="wapper" id="wapper">
+    <? require_once("html/modal.html")?>
+    <div>
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <h3 class="pull-left">荣誉墙<small>&nbsp;荣誉墙</small></h3>
+            </div>
+            <div class="panel-body">
+                <h4>历史最佳销售记录</h4>
+                <div class="relative">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-container" style="width: 1094px">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide  inner_line" v-for="lszj in lsydzj">
+                                <div class="col-xs-3">
+                                    <div class="personal_bg bg1"></div>
+                                    <img :src="lszj.head==''?'images/h_default.png':lszj.head" alt="">
+                                    <ul class="list-unstyled">
+                                        <li class="text1" v-cloak>{{lszj.name}}</li>
+                                        <li class="text2" v-cloak>{{lszj.date}}</li>
+                                        <li class="text2" v-cloak>业绩{{lszj.value | getAns}}元</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+                <h4>历史最佳单笔放款</h4>
+                <div class="relative">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-container" style="width: 1094px">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide  inner_line" v-for="lsfk in lsdbfk">
+                                <div class="col-xs-3">
+                                    <div class="personal_bg bg2"></div>
+                                    <img :src="lsfk.head==''?'images/h_default.png':lsfk.head" alt="">
+                                    <ul class="list-unstyled">
+                                        <li class="text1" v-cloak>{{lsfk.name}}</li>
+                                        <li class="text2" v-cloak>{{lsfk.date}}</li>
+                                        <li class="text2" v-cloak>放款{{lsfk.value*10000 | getAns}}元</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+                <h4>历史最佳单月上门</h4>
+                <div class="relative">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-container" style="width: 1094px">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide  inner_line" v-for="lssm in lsydsm">
+                                <div class="col-xs-3">
+                                    <div class="personal_bg bg3"></div>
+                                    <img :src="lssm.head==''?'images/h_default.png':lssm.head" alt="">
+                                    <ul class="list-unstyled">
+                                        <li class="text1" v-cloak>{{lssm.name}}</li>
+                                        <li class="text2" v-cloak>{{lssm.date}}</li>
+                                        <li class="text2" v-cloak>上门{{lssm.value | getAns}}位</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+                <h4>年度业绩冠军</h4>
+                <div class="relative">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-container" style="width: 1094px">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide  inner_line" v-for="nd in ndyj">
+                                <div class="col-xs-3">
+                                    <div class="personal_bg bg4"></div>
+                                    <img :src="nd.head==''?'images/h_default.png':nd.head" alt="">
+                                    <ul class="list-unstyled">
+                                        <li class="text1" v-cloak>{{nd.name}}</li>
+                                        <li class="text2" v-cloak>{{nd.date}}</li>
+                                        <li class="text2" v-cloak>业绩{{nd.value | getAns}}元</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+                <h4>季度业绩冠军</h4>
+                <div class="relative">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-container" style="width: 1094px">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide  inner_line" v-for="jd in jdyj">
+                                <div class="col-xs-3">
+                                    <div class="personal_bg bg5"></div>
+                                    <img :src="jd.head==''?'images/h_default.png':jd.head" alt="">
+                                    <ul class="list-unstyled">
+                                        <li class="text1" v-cloak>{{jd.name}}</li>
+                                        <li class="text2" v-cloak>{{jd.date}}</li>
+                                        <li class="text2" v-cloak>业绩{{jd.value | getAns}}元</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+                <h4>月度业绩冠军</h4>
+                <div class="relative">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-container" style="width: 1094px">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide  inner_line" v-for="yd in ydyj">
+                                <div>
+                                    <div class="personal_bg bg6"></div>
+                                    <img :src="yd.head==''?'images/h_default.png':yd.head" alt="">
+                                    <ul class="list-unstyled">
+                                        <li class="text1" v-cloak>{{yd.name}}</li>
+                                        <li class="text2" v-cloak>{{yd.date}}</li>
+                                        <li class="text2" v-cloak>业绩{{yd.value | getAns}}元</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+                <h4>月度上门冠军</h4>
+                <div class="relative">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-container" style="width: 1094px">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" v-for="sm in ydsm">
+                                <div class="inner_line">
+                                    <div>
+                                        <div class="personal_bg bg7"></div>
+                                        <img :src="sm.head==''?'images/h_default.png':sm.head" alt="">
+                                        <ul class="list-unstyled">
+                                            <li class="text1" v-cloak>{{sm.name}}</li>
+                                            <li class="text2" v-cloak>{{sm.date}}</li>
+                                            <li class="text2" v-cloak>上门{{sm.value}}位</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+                <!--<div class="inner_line row">
+                    <div class="col-xs-3">
+                        <div class="personal_bg bg1"></div>
+                        <img :src="lsydzj.head==''?'images/h_default.png':lsydzj.head" alt="">
+                        <ul class="list-unstyled">
+                            <li class="text1" v-cloak>{{lsydzj.name}}</li>
+                            <li class="text2" v-cloak>{{lsydzj.date}}</li>
+                            <li class="text2" v-cloak>业绩{{lsydzj.value | getAns}}元</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="personal_bg bg2"></div>
+                        <img :src="lsdbfk.head==''?'images/h_default.png':lsdbfk.head" alt="">
+                        <ul class="list-unstyled">
+                            <li class="text1" v-cloak>{{lsdbfk.name}}</li>
+                            <li class="text2" v-cloak>{{lsdbfk.date}}</li>
+                            <li class="text2" v-cloak>单笔放款{{lsdbfk.value*10000 | getAns}}元</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="personal_bg bg3"></div>
+                        <img :src="lsydsm.head==''?'images/h_default.png':lsydsm.head" alt="">
+                        <ul class="list-unstyled">
+                            <li class="text1">{{lsydsm.name}}</li>
+                            <li class="text2">{{lsydsm.date}}</li>
+                            <li class="text2">单月上门{{lsydsm.value}}位</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="personal_bg bg4"></div>
+                        <img :src="ndyj.head==''?'images/h_default.png':ndyj.head" alt="">
+                        <ul class="list-unstyled">
+                            <li class="text1" v-cloak>{{ndyj.name}}</li>
+                            <li class="text2" v-cloak>{{ndyj.date}}</li>
+                            <li class="text2" v-cloak>业绩{{ndyj.value | getAns}}元</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-3" v-for="jd in jdyj">
+                        <div class="personal_bg bg5"></div>
+                        <img :src="jd.head==''?'images/h_default.png':jd.head" alt="">
+                        <ul class="list-unstyled">
+                            <li class="text1" v-cloak>{{jd.name}}</li>
+                            <li class="text2" v-cloak>{{jd.date}}</li>
+                            <li class="text2" v-cloak>业绩{{jd.value | getAns}}元</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-3" v-for="yd in ydyj">
+                        <div class="personal_bg bg6"></div>
+                        <img :src="yd.head==''?'images/h_default.png':yd.head" alt="">
+                        <ul class="list-unstyled">
+                            <li class="text1" v-cloak>{{yd.name}}</li>
+                            <li class="text2" v-cloak>{{yd.date}}</li>
+                            <li class="text2" v-cloak>业绩{{yd.value | getAns}}元</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-3" v-for="sm in ydsm">
+                        <div class="personal_bg bg7"></div>
+                        <img :src="sm.head==''?'images/h_default.png':sm.head" alt="">
+                        <ul class="list-unstyled">
+                            <li class="text1" v-cloak>{{sm.name}}</li>
+                            <li class="text2" v-cloak>{{sm.date}}</li>
+                            <li class="text2" v-cloak>上门{{sm.value}}位</li>
+slider2
+
+                    </ul>
+                </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/swiper-3.4.1.min.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/getExtNum.js"></script>
+<script>
+    $(function(){
+        $(".swiper-container").each(function(){
+            $(this).swiper({
+                slidesPerView : 4,
+                prevButton: $(this).prev(),
+                nextButton: $(this).next(),
+            });
+        });
+
+    })
+
+</script>
+<script>
+    var data = JSON.parse('<? echo $html["json"]["data"] ?>')[0];
+    console.log(data);
+
+
+    var app =new Vue({
+        el: '#wapper',
+        data:{
+            jdyj: data.jdyj,
+            lsydzj: data.lsydzj,
+            lsdbfk: data.lsdbfk,
+            lsydsm: data.lsydsm,
+            ndyj: data.ndyj,
+            ydyj: data.ydyj,
+            ydsm: data.ydsm
+        },
+        filters:{
+            getAns(num){
+                let pattern = /(?=((?!\b)\d{3})+$)/g;
+                return String(num).replace(pattern, ',');
+            }
+        },
+
+    })
+</script>
+</body>
+</html>

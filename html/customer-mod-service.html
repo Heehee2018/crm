@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CRM-修改服务</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/app2.css">
+    <link rel="stylesheet" href="css/swiper-3.4.1.min.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <style>
+        .sfgz .bzjin,.sfgz .gqfei,.sfgz .dbfei,.sfgz .pgfei{
+            display: none;
+        }
+        .sfgz .row{ margin: 0}
+        .sfgz .col-xs-6{padding-right: 0;padding-left: 0}
+        .lh34{ height: 34px;  line-height:34px;}
+        .wid120{
+            width: 120px;
+        }
+    </style>
+    <script>
+        function iframeResize() {
+            var obj = parent.document.getElementById("updateServiceIfm");  //取得父页面IFrame对象
+
+            //obj.height = this.document.body.scrollHeight;
+            $(obj).css('height',$('body').height())
+
+        }
+
+
+    </script>
+</head>
+<body style="background: #f0f0f0" onload="iframeResize()">
+<div id="changeServiceModal">
+    <form method="post" id="form" onsubmit="return checkDisable();">
+        <input type="hidden" name="ipt-contractid" value="">
+        <div class="modal-dialog">
+            <? echo $msg ?>
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="title pd15">
+                        <h4 class="pull-left">修改服务</h4>
+                        <span class="pull-right btn-close"></span>
+                    </div>
+                    <input type="hidden" name="ipt-id" value="<?echo $html["id"] ?>">
+
+                    <input type="hidden" name="ipt-dkjdu_qd" value="" id="ipt-dkjdu_qd"> <!-- 弃贷原因 -->
+
+                    <div class="inner-container dkjd">
+                        <div class="subtitle pd15">贷款进度</div>
+                        <div class="table-progress">
+                            <div class="table-cell sdstatus active"><span class="progress-circle"></span>申贷</div>
+                            <div class="table-cell pd84 relative"><div class="progress-line"></div></div>
+                            <div class="table-cell shstatus"><span class="progress-circle"></span>审核</div>
+                            <div class="table-cell pd84 relative"><div class="progress-line"></div></div>
+                            <div class="table-cell pdstatus"><span class="progress-circle"></span>批贷</div>
+                            <div class="table-cell pd84 relative"><div class="progress-line"></div></div>
+                            <div class="table-cell fkstatus"><span class="progress-circle"></span>放款</div>
+                        </div>
+                        <div class="progress-option">
+                            <div class="table-cell">
+                                <select class="form-control wid180 sd mr8" name="ipt-dkjdu">
+                                    <option value="0" <? echo if_selected($html["dkjdu"],0) ?>>收集资料中</option>
+                                    <option value="1" <? echo if_selected($html["dkjdu"],1) ?>>已进件</option>
+                                    <option value="3" <? echo if_selected($html["dkjdu"],3) ?>>弃贷</option>
+                                </select>
+                                <select class="form-control wid180 sdyy">
+                                    <option value="0" <? echo if_selected($html["dkjdu_qd"],0) ?>></option>
+                                    <option value="1" <? echo if_selected($html["dkjdu_qd"],1) ?>>销售沟通问题</option>
+                                    <option value="2" <? echo if_selected($html["dkjdu_qd"],2) ?>>销售过度承诺</option>
+                                    <option value="3" <? echo if_selected($html["dkjdu_qd"],3) ?>>利息太高</option>
+                                    <option value="4" <? echo if_selected($html["dkjdu_qd"],4) ?>>额度太低</option>
+                                    <option value="5" <? echo if_selected($html["dkjdu_qd"],5) ?>>期限太短</option>
+                                    <option value="6" <? echo if_selected($html["dkjdu_qd"],6) ?>>还款方式不满意</option>
+                                    <option value="7" <? echo if_selected($html["dkjdu_qd"],7) ?>>客户想自己操作</option>
+                                    <option value="8" <? echo if_selected($html["dkjdu_qd"],8) ?>>其他</option>
+                                </select>
+                            </div>
+
+                            <div class="table-cell shstep" style="display: none">
+                                <div class="inline-block">
+                                    <select class="form-control wid120 ds " name="ipt-dkjdu_sh_ds">
+                                        <option value="0" <? echo if_selected($html["dkjdu_sh_ds"],0) ?>></option>
+                                        <option value="1" <? echo if_selected($html["dkjdu_sh_ds"],1) ?>>电审等待中</option>
+                                        <option value="2" <? echo if_selected($html["dkjdu_sh_ds"],2) ?>>电审通过</option>
+                                        <option value="3" <? echo if_selected($html["dkjdu_sh_ds"],3) ?>>电审拒绝</option>
+                                    </select>
+
+                                    <select class="form-control wid120 dsyy" name="ipt-dkjdu_sh_ds_text">
+                                        <option value="0" <? echo if_selected($html["dkjdu_sh_ds_text"],0) ?>></option>
+                                        <option value="1" <? echo if_selected($html["dkjdu_sh_ds_text"],1) ?>>未及时接听</option>
+                                        <option value="2" <? echo if_selected($html["dkjdu_sh_ds_text"],2) ?>>口误被拒</option>
+                                        <option value="3" <? echo if_selected($html["dkjdu_sh_ds_text"],3) ?>>信息回答错误</option>
+                                        <option value="4" <? echo if_selected($html["dkjdu_sh_ds_text"],4) ?>>单位固话不配合</option>
+                                        <option value="5" <? echo if_selected($html["dkjdu_sh_ds_text"],5) ?>>电话异常</option>
+                                        <option value="6" <? echo if_selected($html["dkjdu_sh_ds_text"],6) ?>>客户主动拒绝</option>
+                                        <option value="7" <? echo if_selected($html["dkjdu_sh_ds_text"],7) ?>>接听地点吵杂</option>
+                                        <option value="8" <? echo if_selected($html["dkjdu_sh_ds_text"],8) ?>>其他</option>
+                                    </select>
+                                </div>
+                                <div class="inline-block">
+                                    <select class="form-control wid120 mq " name="ipt-dkjdu_sh_mq">
+                                        <option value="0" <? echo if_selected($html["dkjdu_sh_mq"],0) ?>></option>
+                                        <option value="1" <? echo if_selected($html["dkjdu_sh_mq"],1) ?>>面签等待中</option>
+                                        <option value="2" <? echo if_selected($html["dkjdu_sh_mq"],2) ?>>面签通过</option>
+                                        <option value="3" <? echo if_selected($html["dkjdu_sh_mq"],3) ?>>面签拒绝</option>
+                                    </select>
+
+                                    <select class="form-control wid120 mqyy" name="ipt-dkjdu_sh_mq_text">
+                                        <option value="0" <? echo if_selected($html["dkjdu_sh_mq_text"],0) ?>></option>
+                                        <option value="1" <? echo if_selected($html["dkjdu_sh_mq_text"],1) ?>>口误被拒</option>
+                                        <option value="2" <? echo if_selected($html["dkjdu_sh_mq_text"],2) ?>>信息回答错误</option>
+                                        <option value="3" <? echo if_selected($html["dkjdu_sh_mq_text"],3) ?>>联网核查不通过</option>
+                                        <option value="4" <? echo if_selected($html["dkjdu_sh_mq_text"],4) ?>>低分否决</option>
+                                        <option value="5" <? echo if_selected($html["dkjdu_sh_mq_text"],5) ?>>单位异常</option>
+                                    </select>
+                                </div>
+                                <div class="inline-block">
+                                    <select class="form-control wid120 smsc mr8" name="ipt-dkjdu_sh_sm">
+                                        <option value="0" <? echo if_selected($html["dkjdu_sh_sm"],0) ?>></option>
+                                        <option value="1" <? echo if_selected($html["dkjdu_sh_sm"],1) ?>>上门审查等待中</option>
+                                        <option value="2" <? echo if_selected($html["dkjdu_sh_sm"],2) ?>>上门审查通过</option>
+                                        <option value="3" <? echo if_selected($html["dkjdu_sh_sm"],3) ?>>上门审查拒绝</option>
+                                    </select>
+
+                                    <select class="form-control wid120 smscyy" name="ipt-dkjdu_sh_sm_text">
+                                        <option value="0" <? echo if_selected($html["dkjdu_sh_sm_text"],0) ?>></option>
+                                        <option value="1" <? echo if_selected($html["dkjdu_sh_sm_text"],1) ?>>客户拒绝上门</option>
+                                        <option value="2" <? echo if_selected($html["dkjdu_sh_sm_text"],2) ?>>办公场地太差</option>
+                                        <option value="3" <? echo if_selected($html["dkjdu_sh_sm_text"],3) ?>>无法提供有效单据</option>
+                                        <option value="4" <? echo if_selected($html["dkjdu_sh_sm_text"],4) ?>>无法提供经营流水</option>
+                                        <option value="5" <? echo if_selected($html["dkjdu_sh_sm_text"],5) ?>>经营异常</option>
+                                        <option value="6" <? echo if_selected($html["dkjdu_sh_sm_text"],6) ?>>地址与实际经营不符</option>
+                                        <option value="7" <? echo if_selected($html["dkjdu_sh_sm_text"],7) ?>>其他</option>
+                                    </select>
+                                </div>
+                                <div class="mt8">
+                                    <label for="abandon" class="abandon">
+                                        <input type="checkbox" id="abandon">弃贷
+                                    </label>
+
+                                    <select class="form-control wid290 inline-block qdyy">
+                                        <option value="" <? echo if_selected($html["dkjdu_qd"],'') ?>></option>
+                                        <option value="1" <? echo if_selected($html["dkjdu_qd"],1) ?>>销售沟通问题</option>
+                                        <option value="2" <? echo if_selected($html["dkjdu_qd"],2) ?>>销售过度承诺</option>
+                                        <option value="3" <? echo if_selected($html["dkjdu_qd"],3) ?>>利息太高</option>
+                                        <option value="4" <? echo if_selected($html["dkjdu_qd"],4) ?>>额度太低</option>
+                                        <option value="5" <? echo if_selected($html["dkjdu_qd"],5) ?>>期限太短</option>
+                                        <option value="6" <? echo if_selected($html["dkjdu_qd"],6) ?>>还款方式不满意</option>
+                                        <option value="7" <? echo if_selected($html["dkjdu_qd"],7) ?>>客户想自己操作</option>
+                                        <option value="8" <? echo if_selected($html["dkjdu_qd"],8) ?>>其他</option>
+                                    </select>
+                                </div>
+                                <div class="text-right btn-spi" style="display: none">
+                                    <button type="button" class="btn btn-default wid160 mr8 mt8">完成审批</button>
+                                </div>
+
+                            </div>
+
+                            <div class="table-cell fkstep" style="display: none">
+                                <select class="form-control wid180 fkuan" name="ipt-dkjdu_fk">
+                                    <option value="0" <? echo if_selected($html["dkjdu_fk"],0) ?>></option>
+                                    <option value="1" <? echo if_selected($html["dkjdu_fk"],1) ?>>已批准放款</option>
+                                    <option value="2" <? echo if_selected($html["dkjdu_fk"],2) ?>>拒绝放款</option>
+                                    <option value="3" <? echo if_selected($html["dkjdu_fk"],3) ?>>弃贷</option>
+                                    <option value="4" <? echo if_selected($html["dkjdu_fk"],4) ?>>已放款</option>
+                                </select>
+
+                                <select class="form-control wid180 fkyy" >
+                                    <option value="" <? echo if_selected($html["dkjdu_qd"],'') ?>></option>
+                                    <option value="1" <? echo if_selected($html["dkjdu_qd"],1) ?>>销售沟通问题</option>
+                                    <option value="2" <? echo if_selected($html["dkjdu_qd"],2) ?>>销售过度承诺</option>
+                                    <option value="3" <? echo if_selected($html["dkjdu_qd"],3) ?>>利息太高</option>
+                                    <option value="4" <? echo if_selected($html["dkjdu_qd"],4) ?>>额度太低</option>
+                                    <option value="5" <? echo if_selected($html["dkjdu_qd"],5) ?>>期限太短</option>
+                                    <option value="6" <? echo if_selected($html["dkjdu_qd"],6) ?>>还款方式不满意</option>
+                                    <option value="7" <? echo if_selected($html["dkjdu_qd"],7) ?>>客户想自己操作</option>
+                                    <option value="8" <? echo if_selected($html["dkjdu_qd"],8) ?>>其他</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="inner-container dkcp">
+                        <div class="subtitle pd15">贷款产品</div>
+
+                        <div class="table-cell pl95">
+                            <div>
+                                <label>机构</label>
+                                <select class="form-control wid160" id="ipt-jigou" name="ipt-jigou">
+                                </select>
+                            </div>
+                            <div class="mt8">
+                                <label>放款</label>
+                                <select class="form-control wid160" id="ipt-fangkuan" name="ipt-fangkuan">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-cell pr95">
+                            <div>
+                                <label class="wid56 text-right">公司</label>
+                                <select class="form-control wid160" id="ipt-gongsi" name="ipt-gongsi">
+                                </select>
+                            </div>
+                            <div class="mt8">
+                                <label>操作产品</label>
+                                <select class="form-control wid160" id="ipt-caozuochanpin" name="ipt-caozuochanpin">
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="inner-container sqed">
+                        <div class="subtitle pd15">申请额度</div>
+                        <div class="table-cell pl64">
+                            <div class="sqedu">
+                                <label>申请额度</label>
+                                <input type="text" class="form-control wid160" name="ipt-sqmoney" value="<? echo $html["sqmoney"] ?>"/> <span>万元</span>
+                            </div>
+                            <div class="mt8 fkedu">
+                                <label>放款额度</label>
+                                <input type="text" class="form-control wid160" name="ipt-fkmoney" value="<? echo $html["fkmoney"] ?>" /> <span>万元</span>
+                            </div>
+                        </div>
+                        <div class="table-cell pr64">
+                            <div class="sqrqi">
+                                <label>申请日期</label>
+                                <div class="inline-block relative ">
+                                    <input type="text" class="form-control wid160 date" name="ipt-sqdate" value="<? echo $html["sqdate"] ?>"/>
+                                    <span class="calendar"></span>
+                                </div>
+                            </div>
+                            <div class="mt8 fkrqi">
+                                <label>放款日期</label>
+                                <div class="inline-block relative">
+                                    <input type="text" class="form-control wid160 date" name="ipt-fkdate" value="<? echo $html["fkdate"] ?>"/>
+                                    <span class="calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="inner-container sfgz" >
+                        <div class="subtitle pd15">收费规则</div>
+                        <div class="row pl64" style="margin-top: 20px;">
+                            <div class="col-xs-6 lh34">
+                                <label>合同编号</label>
+                                <select id="htbhao" class="form-control wid120" style="display: none">
+                                    <option value=""></option>
+                                </select>
+                                <select name="" id="sel_fwlx"  class="form-control wid120" style="display: none"></select>
+                                <strong class="htbhao" style="display: none"></strong>
+                            </div>
+                            <div class="col-xs-6 lh34 fwflv">
+                                <label class="wid56 text-right">服务费率</label>
+                                <strong>0.0</strong> <span>%</span>
+                            </div>
+                            <div class="col-xs-6 lh34 cyjin">
+                                <label class="wid56">诚意金</label>
+                                <strong>0</strong> <span>元</span>
+                            </div>
+                            <div class="col-xs-6 lh34 bzjin">
+                                <label class="wid56">保证金</label>
+                                <strong>100</strong> <span>元</span>
+                            </div>
+                            <div class="col-xs-6 lh34 gqfei">
+                                <label class="wid56">过桥费</label>
+                                <strong>100</strong> <span>元</span></div>
+                            <div class="col-xs-6 lh34 dbfei">
+                                <label class="wid56">担保费</label>
+                                <strong>100</strong> <span>元</span>
+                            </div>
+                            <div class="col-xs-6 lh34 pgfei">
+                                <label class="wid56">评估费</label>
+                                <strong>100</strong> <span>元</span>
+                            </div>
+
+                        </div>
+                        <div class="row pl64 lh34">
+                            <label class="wid56">应收款</label>
+                            <strong class="yskuan">0.00</strong> <span>元</span>
+                        </div>
+                    </div>
+
+                    <div class="inner-container fwsf">
+                        <div class="subtitle pd15">服务收费 <a class="icon-btn-add"></a></div>
+                        <div class="table-row">
+                            <div class="table-cell pl64 pt20">
+                                <label>服务收费</label>
+                                <input type="text" class="form-control wid100" name="ipt-fwmoney" value="<? echo $html["fwmoney"] ?>" /> <span>元</span>
+                            </div>
+                            <div class="table-cell">
+                                <label class="ml7">付款方式</label>
+                                <select class="form-control wid100" name="ipt-fkfshi" id="ipt-fkfshi">
+                                    <option value="" <? echo if_selected($html["fkfshi"],'')?>></option>
+                                    <option value="1"  <? echo if_selected($html["fkfshi"],1)?>>客户转账</option>
+                                    <option value="2"  <? echo if_selected($html["fkfshi"],2)?>>代扣</option>
+                                    <option value="3"  <? echo if_selected($html["fkfshi"],3)?>>现金</option>
+                                    <option value="4"  <? echo if_selected($html["fkfshi"],4)?>>POS刷卡</option>
+                                </select>
+                            </div>
+                            <div class="table-cell">
+                                <label class="ml7">到款日期</label>
+                                <div class="inline-block relative">
+                                    <input type="text" class="form-control wid160 date" name="ipt-dkdate" value="<? echo $html["dkdate"] ?>"/>
+                                    <span class="calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fwsfList">
+                        </div>
+
+                    </div>
+
+                    <div class="inner-container qtfy">
+                        <div class="subtitle pd15">其他费用 <a class="icon-btn-add"></a></div>
+                        <div class="qtfy-inner">
+                        </div>
+
+                    </div>
+
+                    <div class="inner-container hktx">
+                        <div class="subtitle pd15">还款提醒 <a class="icon-btn-add"></a></div>
+                        <input type="hidden" id="needMsgTip" name="ipt-istx" value="1"/>
+                        <ul class="hktx-inner">
+                        </ul>
+
+
+
+                    </div>
+
+                    <button type="submit" class="btn btn-default btn-save" id="saveForm">保存</button>
+                    <div style="height: 60px"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<script src="js/moment.js"></script>
+<script src="js/zh-cn.js"></script>
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+
+<script>
+    var qtsfeiDataService = <? echo $html["qtsfei"] ?>;
+    var qtfyongDataService = <? echo $html["qtfyong"]?>;
+    var hkgzeDataService = <? echo $html["hkgze"] ?>;
+
+</script>
+<script src="js/app3.js"></script>
+<script src="js/app4.js"></script>
+<script src="js/jquery.form.js"></script>
+
+<script>
+    var serviceContractData = <? echo $html["service_contract"] ?>;
+    console.log(serviceContractData);
+
+    // 当前登录人部门
+    var dept = <? echo $html["deptid"] ?>;
+    console.log(dept); //1总经理 2 销售 3 渠道
+
+    var contractid = <? echo $html['contractid'] ?>;
+
+    if(contractid==""&&dept==3){
+        $('#sel_fwlx,#htbhao').show();
+    }
+
+    if(contractid!=""){
+        $('.htbhao').show();
+    }else{
+        $('.htbhao').hide();
+        if(dept==2){
+            $('.fwsf,.qtfy').hide();
+        }
+    }
+
+
+
+    var htbhaoIdx = { "idx":"", "listIdx":""};
+    if(serviceContractData!=null){
+
+        for(var i in serviceContractData){
+            var list = serviceContractData[i].list;
+
+            $('#htbhao').append('<option value="'+ list[0].id +'">'+serviceContractData[i].code+'</option>');
+
+            for(var j in list){
+               if( list[j].id == contractid ){
+                   htbhaoIdx["listIdx"] = j;
+                   break;
+               }
+            }
+
+            if(htbhaoIdx["listIdx"]!=""){
+                htbhaoIdx["idx"] = i;
+                break;
+            }
+
+        }
+
+        if(htbhaoIdx["idx"]!=""){
+            $('#htbhao').val(contractid);
+            var fwlx = serviceContractData[htbhaoIdx["idx"]].list[htbhaoIdx["listIdx"]].fwlxing==1?'抵押贷款':'信用贷款';
+            $('.htbhao').html(serviceContractData[htbhaoIdx["idx"]].list[htbhaoIdx["listIdx"]].code+'<span style="padding-left: 20px;">'+ fwlx +'</span>');
+            $('[name="ipt-contractid"]').val(contractid);
+            $('.sfgz').find('.cyjin>strong').text(serviceContractData[htbhaoIdx["idx"]].list[htbhaoIdx["listIdx"]].cyjin);
+            $('.sfgz').find('.fwflv>strong').text(serviceContractData[htbhaoIdx["idx"]].list[htbhaoIdx["listIdx"]].fwflv);
+
+            if(serviceContractData[htbhaoIdx["idx"]].list[htbhaoIdx["listIdx"]].qtfy!=""){
+                var qtfy = JSON.parse(serviceContractData[htbhaoIdx["idx"]].list[htbhaoIdx["listIdx"]].qtfy);
+                qtfy.forEach(function (t) {
+                    t.type=='保证金'?$('.sfgz').find('.bzjin').show().find('strong').text(t.value):
+                        t.type=='过桥费'?$('.sfgz').find('.gqfei').show().find('strong').text(t.value):
+                            t.type=='担保费'?$('.sfgz').find('.dbfei').show().find('strong').text(t.value):$('.sfgz').find('.pgfei').show().find('strong').text(t.value)
+                })
+            }
+            var fkAmount = 0 || parseFloat($('[name="ipt-fkmoney"]').val())*10000;
+            var fwflv = parseFloat($('.sfgz').find('.fwflv>strong').text())/100;
+            var finalFare = parseFloat(fkAmount*fwflv).toFixed(2);
+            $('.yskuan').text(finalFare)
+        }
+
+    }
+
+
+    $('#htbhao').change(function () {
+        $('.sfgz .pgfei,.dbfei,.gqfei,.bzjin').hide();
+        $('.sfgz').find('.cyjin>strong').text('0');
+        $('.sfgz').find('.fwflv>strong').text('0');
+        $('[name="ipt-contractid"]').val('');
+
+        if($(this).val()!=""){
+            $('.fwsf,.qtfy').show();
+            var index = $(this).get(0).selectedIndex-1;
+            $('.sfgz').find('.cyjin>strong').text(serviceContractData[index].list[0].cyjin);
+            $('.sfgz').find('.fwflv>strong').text(serviceContractData[index].list[0].fwflv);
+            $('[name="ipt-contractid"]').val(serviceContractData[index].list[0].id);
+
+            if(serviceContractData[index].list[0].qtfy!=""){
+                var qtfy = JSON.parse(serviceContractData[index].list[0].qtfy);
+                qtfy.forEach(function (t) {
+                    t.type=='保证金'?$('.sfgz').find('.bzjin').show().find('strong').text(t.value):
+                        t.type=='过桥费'?$('.sfgz').find('.gqfei').show().find('strong').text(t.value):
+                            t.type=='担保费'?$('.sfgz').find('.dbfei').show().find('strong').text(t.value):$('.sfgz').find('.pgfei').show().find('strong').text(t.value)
+
+                })
+            }
+            if(serviceContractData[index].list.length>1){
+                var list = serviceContractData[index].list;
+                $('#sel_fwlx').html('');
+                for(var j in list){
+                    var fwlx_name = list[j].fwlxing==1?'抵押贷款':'信用贷款';
+                    $('#sel_fwlx').append('<option value="'+ list[j].id +'">'+ fwlx_name +'</option>');
+                }
+                $('#sel_fwlx').show();
+            }else{
+                $('#sel_fwlx').hide();
+            }
+
+        }else{
+            $('.fwsf,.qtfy').hide();
+            $('#sel_fwlx').hide();
+        }
+        var fkAmount = 0 || parseFloat($('[name="ipt-fkmoney"]').val())*10000;
+        var fwflv = parseFloat($('.sfgz').find('.fwflv>strong').text())/100;
+        var finalFare = parseFloat(fkAmount*fwflv).toFixed(2);
+        $('.yskuan').text(finalFare)
+    })
+
+    $('#sel_fwlx').change(function(){
+        $('.sfgz .pgfei,.dbfei,.gqfei,.bzjin').hide();
+        var value = $(this).val();
+        $('[name="ipt-contractid"]').val(value);
+
+        serviceContractData.forEach(function(data){
+            data.list.forEach(function(l){
+                if(l.id == value){
+                    $('.sfgz').find('.cyjin>strong').text(l.cyjin);
+                    $('.sfgz').find('.fwflv>strong').text(l.fwflv);
+                    var qtfy = JSON.parse(l.qtfy);
+                    qtfy.forEach(function (t) {
+                        t.type=='保证金'?$('.sfgz').find('.bzjin').show().find('strong').text(t.value):
+                            t.type=='过桥费'?$('.sfgz').find('.gqfei').show().find('strong').text(t.value):
+                                t.type=='担保费'?$('.sfgz').find('.dbfei').show().find('strong').text(t.value):$('.sfgz').find('.pgfei').show().find('strong').text(t.value)
+                    })
+                }
+            })
+        })
+
+    })
+
+
+    var resizeIfmTimer = setInterval(function () {
+        iframeResize()
+    },500)
+
+    function checkDisable(){
+        $('select[disabled=disabled]').each(function(){
+            if(parseInt($(this).val())!=-1){
+                $(this).attr('disabled',false);
+            }
+        });
+    }
+    
+    $('.btn-close').click(function () {
+        parent.$('#updateServiceIfm', parent.document).trigger('closeModal');
+    })
+
+
+    if(dept == 2){
+
+        $('.progress-option').hide();
+        $('.dkjd').find('input[type=checkbox]').attr('readonly','true');
+        $('.dkcp').find('select').css({
+            'border':'none',
+            'box-shadow':'none',
+            '-webkit-box-shadow':'none',
+            'appearance':'none',
+            '-webkit-appearance':'none',
+            '-moz-appearance':'none'
+        }).attr('disabled','disabled');
+
+        $('.sqrqi').html(' <label>申请日期</label><input type="text" class="form-control wid160" value="<? echo $html["sqdate"] ?>">');
+        $('.fkrqi').html(' <label>放款日期</label><input type="text" class="form-control wid160" value="<? echo $html["fkdate"] ?>">');
+        $('.sqed input').css({
+            'border':'none',
+            'box-shadow':'none',
+            '-webkit-box-shadow':'none'
+        }).attr('readonly','true').next().hide();
+
+        $('input[name="ipt-sqmoney"]').val(<? echo $html["sqmoney"] ?> + '万元');
+        $('input[name="ipt-fkmoney"]').val(<? echo $html["fkmoney"] ?> +'万元');
+
+
+        $('.hktx .icon-btn-add').hide();
+
+        setTimeout(function(){
+            $('.hktx .icon-btn-minus').hide();
+
+            $('.hktx-inner input').css({
+                'border':'none',
+                'box-shadow':'none',
+                '-webkit-box-shadow':'none'
+            }).attr('readonly','true').next().hide();
+
+            $('.hktx').find('input[name="ipt-hkgze-d[]"]').css({
+                'width': 'auto',
+                'max-width': '65px',
+                'padding': 0,
+                'border': 'none',
+                'box-shadow':'none',
+                '-webkit-box-shadow':'none'
+            });
+
+            $('.hktx-inner input[type=checkbox]').parent().html('');
+
+            $('.hktx-inner input').removeClass('date');
+
+        },100)
+
+        var isZhuli = '<? echo $is["zhuli"] ?>'; //判断是否是助理
+        console.log(isZhuli);
+        if(isZhuli=='true'){
+            $('.qtfy .icon-btn-add').hide();
+
+            setTimeout(function () {
+                $('.qtfy input').css({
+                    'border':'none',
+                    'box-shadow':'none',
+                    '-webkit-box-shadow':'none'
+                }).attr('readonly','true').next().hide();
+
+                $('.qtfy').find('select').css({
+                    'border':'none',
+                    'box-shadow':'none',
+                    '-webkit-box-shadow':'none',
+                    'appearance':'none',
+                    '-webkit-appearance':'none',
+                    '-moz-appearance':'none'
+                }).attr('disabled','disabled');
+
+                $('.qtfy .icon-btn-minus').hide();
+            },500)
+        }else{
+            $('.sfgz input').css({
+                'border':'none',
+                'box-shadow':'none',
+                '-webkit-box-shadow':'none'
+            }).attr('readonly','true').next().hide();
+
+            $('input[name="ipt-qzlxi"]').val(<? echo $html["qzlxi"] ?>+'厘');
+            $('input[name="ipt-hkqshu"]').val(<? echo $html["hkqshu"] ?>+'期');
+            $('input[name="ipt-fwfl"]').val(<? echo $html["fwfl"] ?>+'%');
+            $('input[name="ipt-fwfzkou"]').val(<? echo $html["fwfzkou"] ?>+'元');
+            $('input[name="ipt-qzlxi"]').val(<? echo $html["qzlxi"] ?>+'厘');
+
+        }
+
+    }
+    else if(dept == 3){
+       // $('.sfgz').hide();
+        $('.fwsf').hide();
+    }
+
+    // 弃贷值
+    var dkjdu_qd = <? echo $html["dkjdu_qd"] ?>;
+    $('#ipt-dkjdu_qd').val(dkjdu_qd);
+
+    // 贷款进度 0收集资料 1进件 2放款 3弃贷
+    var dkjd = <? echo $html["dkjdu"] ?>;
+    console.log(dkjd);
+    dkjd == 1?($('.shstep').show(), $('.shstatus').addClass('active'))
+        :(dkjd==2? ($('.fkstep').show(), $('.dkjd .table-progress>div').addClass('active'))
+        :($('.fkstep').hide(), $('.shstep').hide())
+        );
+
+    // 是否已放款
+    var dkjdu_fk = <? echo $html["dkjdu_fk"] ?>;
+    var dkjdu_ds = <? echo $html["dkjdu_sh_ds"] ?>;
+    var dkjdu_mq = <? echo $html["dkjdu_sh_mq"] ?>;
+    var dkjdu_sm = <? echo $html["dkjdu_sh_sm"] ?>;
+    console.log('dkjdu_fk:'+dkjdu_fk);
+
+    if(dkjdu_fk == 0){
+         if(dkjdu_ds==2  || dkjdu_mq==2 ||  dkjdu_sm==2){
+             $('.btn-spi').show();
+         }
+    }
+
+    jigouVar = <? echo $html["jigou"] ?>;
+
+    gongsiVar = <? echo $html["gongsi"] ?>;
+    fangkuanVar = <? echo $html["fangkuan"] ?>;
+    caozuochanpinVar = <? echo $html["caozuochanpin"] ?>;
+
+    if (jigouVar > 0) {
+        $("#ipt-jigou").html(getOption(0,jigouVar));
+        $("#ipt-gongsi").html(getOption(jigouVar,gongsiVar));
+        $("#ipt-fangkuan").html(getOption(gongsiVar,fangkuanVar));
+        $("#ipt-caozuochanpin").html(getOption(fangkuanVar,caozuochanpinVar));
+    } else {
+        $("#ipt-jigou").html(getOption(0,1));
+        $("#ipt-gongsi").html(getOption(1));
+        pid = $("#ipt-gongsi").val();
+        data = getOption(pid);
+        $("#ipt-fangkuan").html(data);
+        pid = $("#ipt-fangkuan").val();
+        data = getOption(pid);
+        $("#ipt-caozuochanpin").html(data);
+    }
+
+    $("#ipt-jigou").change(function(){
+        var pid = $(this).val();
+        var data = getOption(pid);
+        $("#ipt-gongsi").html(data);
+        pid = $("#ipt-gongsi").val();
+        data = getOption(pid);
+        $("#ipt-fangkuan").html(data);
+        pid = $("#ipt-fangkuan").val();
+        data = getOption(pid);
+        $("#ipt-caozuochanpin").html(data);
+    });
+
+    $("#ipt-gongsi").change(function(){
+        var pid = $(this).val();
+        var data = getOption(pid,0);
+        $("#ipt-fangkuan").html(data);
+        pid = $("#ipt-fangkuan").val();
+        data = getOption(pid,0);
+        $("#ipt-caozuochanpin").html(data);
+    });
+
+    $("#ipt-fangkuan").change(function(){
+        var pid = $(this).val();
+        var data = getOption(pid,0);
+        $("#ipt-caozuochanpin").html(data);
+    });
+
+    function getOption(pid,id,t){
+        var dataGet='';
+        id = id===undefined?0:id;
+        t = t===undefined?'':t;
+
+        $.ajax({
+            'type':'get',
+            'url':'ajax/gen-options.php',
+            'data':'pid='+pid+'&t='+t+'&id='+id,
+            'async':false,
+            'success':function(data){
+                dataGet = data;
+            }
+        });
+        return dataGet;
+    }
+
+    /*$("input[name='ipt-fkmoney']").keyup(function(){
+        console.log(1111)
+    });*/
+
+    var shoukuan = function(obj){
+        $(obj).keyup(function(){
+
+            var fkuan = $("input[name='ipt-fkmoney']").val() || 0;
+
+            var fwflv = $('.sfgz .fwflv>strong').text();
+
+
+                var sum = parseFloat((parseFloat(fwflv)/100)*(parseFloat(fkuan)*10000)).toFixed(2);
+
+                //var sum = (qzlxi  * hkqshu / 10 + fwflv) * 100 * fkuan - fwfzkou;
+
+                $("#changeServiceModal .yskuan").text(parseFloat(sum).toFixed(2));
+            /*}else{
+                $("#changeServiceModal .yskuan").text('0.00');
+            }*/
+
+        })
+    }
+
+    shoukuan("input[name='ipt-fkmoney']");
+    shoukuan("input[name='ipt-qzlxi']");
+    shoukuan("input[name='ipt-hkqshu']");
+    shoukuan("input[name='ipt-fwfl']");
+    shoukuan(".fwfzkou");
+
+    /*function finalShoukuan(){
+        var fkuan = $("input[name='ipt-fkmoney']").val() || 0;
+        var qzlxi = $("input[name='ipt-qzlxi']").val() || 0;
+        var hkqshu = $("input[name='ipt-hkqshu']").val() || 0;
+        var fwflv = $("input[name='ipt-fwfl']").val() || 0;
+        var fwfzkou = $(".fwfzkou").val() || 0;
+        console.log(fkuan, qzlxi, fwflv, hkqshu, fwfzkou);
+        if (fkuan != 0) {
+            var sum = (parseFloat(qzlxi) / 10 * parseFloat(hkqshu) + parseFloat(fwflv)) * 100 * parseFloat(fkuan) + parseFloat(fwfzkou);
+
+            //var sum = (qzlxi  * hkqshu / 10 + fwflv) * 100 * fkuan - fwfzkou;
+
+            $("#changeServiceModal .yskuan").text(sum);
+        }else{
+            $("#changeServiceModal .yskuan").text('0.00');
+        }
+    }
+
+    finalShoukuan();*/
+
+
+
+    function selectChange(obj,ele){
+        $(obj).change(function(){
+            console.log($(this).val());
+            if(obj == '.sd'){
+
+                $('[name="ipt-dkjdu_sh_ds"]').val('');
+                $('[name="ipt-dkjdu_sh_mq"]').val('');
+                $('[name="ipt-dkjdu_sh_sm"]').val('');
+                $('[name="ipt-dkjdu_fk"]').val('');
+                $('[name="ipt-dkjdu_qd"]').val('');
+                $('.abandon').hide();
+                $('#abandon').removeAttr('checked');
+                $('.abandon').next().hide();
+
+                $('.fkstep').hide();
+                $(this).val()==1?($('.abandon').show(),$('.shstep').show(),$('.sdstatus').next().addClass('active'), $('.shstatus').addClass('active'))
+                    :
+                    ($('.shstep').hide(),$('.dkjd').find('.active').removeClass('active'),$('.sdstatus').addClass('active'))
+                ;
+                $(this).val()==3?$(ele).show():$(ele).hide();
+            }
+            else{
+                $(this).val()==3?$(ele).show():($(ele).hide(), $('#ipt-dkjdu_qd').val(''));
+            }
+
+            if(obj == '.ds' || obj == '.mq' || obj== '.smsc'){
+                $('.shstatus .progress-circle').css
+                $('[name="ipt-dkjdu_fk"]').val('');
+                $('[name="ipt-dkjdu_qd"]').val('');
+                $('.fkstep').hide();
+                $('.abandon').show();
+            }
+
+            if($('.ds').val() == 2 || $('.mq').val() == 2 || $('.smsc').val() == 2){
+                if(!$('#abandon').is(':checked')){
+                    $('.btn-spi').show();
+                    $('.pdstatus').removeClass('active').prev().removeClass('active');
+                }
+
+            } else{
+                $('.btn-spi').hide();
+                $('.pdstatus').removeClass('active').prev().removeClass('active');
+            }
+
+            if($('.ds').val() == 2 && $('.mq').val() == 2 && $('.smsc').val() == 2 && $('.sd').val()==1 && !$('#abandon').is(':checked')){
+                $('.btn-spi').hide();
+                $('.abandon').hide();
+
+                $('.fkstep').show();
+                $('.pdstatus').addClass('active').prev().addClass('active');
+
+
+            }
+
+            if(obj == '.fkuan'){
+                $('.btn-spi').hide();
+                $('.dkjd .table-progress>div').addClass('active');
+                $(obj).val() == 4? ''
+                    : ($('.fkstatus').removeClass('active').prev().removeClass('active'))
+            }
+        })
+
+
+    }
+
+    selectChange('.sd','.sdyy');
+    selectChange('.ds','.dsyy');
+    selectChange('.mq','.mqyy');
+    selectChange('.smsc','.smscyy');
+    selectChange('.fkuan','.fkyy');
+
+    function selectChange2(obj, target){
+        $(obj).change(function(){
+            var value = $(this).val();
+            $(target).val(value)
+        })
+    }
+
+    selectChange2('.fkyy', '#ipt-dkjdu_qd');
+    selectChange2('.qdyy', '#ipt-dkjdu_qd');
+    selectChange2('.sdyy', '#ipt-dkjdu_qd');
+
+    $('#abandon').click(function(){
+        if($(this).is(':checked')){
+            $('.qdyy').show();
+            $('.btn-spi').hide();
+        }else{
+            $('.qdyy').hide();
+            $('#ipt-dkjdu_qd').val('');
+            if($('.ds').val() == 2 || $('.mq').val()==2 || $('.smsc').val() == 2){
+                $('.btn-spi').show();
+            }
+        }
+    })
+
+    $('.btn-spi button').click(function(){
+        $(this).hide();
+        $('.abandon').hide();
+        $('.fkstep').show();
+        $('.pdstatus').addClass('active').prev().addClass('active');
+    })
+
+    $('.fwfzkou').focus(function(){
+        $('.redtips').show();
+    })
+
+    $('.fwfzkou').blur(function(){
+        $('.redtips').hide();
+    })
+
+    $('.date').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: moment.locale('zh-cn'),
+        showClear: true,
+        showClose: true,
+    });
+    $('.hkdate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: moment.locale('zh-cn'),
+        showClear: true,
+        showClose: true,
+    });
+
+    $('.calendar').click(function () {
+        $(this).prev().trigger('focus')
+    })
+
+
+
+
+    if( dkjdu_fk!= 0){
+        $('.fkstep').show();
+        $('.abandon').hide();
+        $('.dkjd .table-progress>div').addClass('active');
+
+        dkjdu_fk == 4? ''
+            : ($('.fkstatus').removeClass('active').prev().removeClass('active'))
+
+    }
+
+    if(dkjdu_fk == 3){
+        $('.fkyy').show();
+    }else if(dkjd == 3){
+        $('.sdyy').show();
+    }else{
+        // 审核状态选的弃贷
+        if(dkjdu_qd!=''){
+            $('#abandon').attr('checked',true);
+            $('.qdyy').show();
+        }else{
+
+        }
+
+    }
+
+</script>
+</html>

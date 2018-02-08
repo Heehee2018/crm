@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CRM-客户查询</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/app1.css">
+  <link rel="stylesheet" href="css/app3.css">
+  <link rel="shortcut icon" href="favicon.ico" />
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/moment.js"></script>
+  <script src="js/vue.js"></script>
+
+  <style>
+    body{
+      padding-right: 0;
+    }
+    .tooltip.in p{
+      text-align: left !important;
+      margin-bottom: 0;
+    }
+    .tooltip.in div.tip{
+      margin-bottom: 10px;
+      padding: 5px;
+    }
+    .imgH{
+      height: 24px;
+    }
+    .customer_info .tooltip-inner{
+      max-width: 302px;
+      word-break: break-all;
+    }
+
+    @font-face {
+      font-family: 'ico-call-off';
+
+    }
+    
+    @-webkit-keyframes p8 {
+      0%{
+        background-position: -200px 0px;
+      }
+      7.69%{
+        background-position: -400px 0px;
+      }
+      15.38%{
+        background-position: -600px 0px;
+      }
+      23.07%{
+        background-position: -800px 0px;
+      }
+      30.76%{
+        background-position: -1000px 0px;
+      }
+      46.14%{
+        background-position: -1200px 0px;
+      }
+      53.83%{
+        background-position: -1400px 0px;
+      }
+      61.52%{
+        background-position: -1600px 0px;
+      }
+      69.21%{
+        background-position: -1800px 0px;
+      }
+      76.9%{
+        background-position: -2000px 0px;
+      }
+      84.59%{
+        background-position: -2200px 0px;
+      }
+      92.28%{
+        background-position: -2400px 0px;
+      }
+      100%{
+        background-position: -2600px 0px;
+      }
+    }
+
+    .ani{
+      -webkit-animation: p8 steps(1,end) 1.5s;
+      position:absolute;
+      top:50%;
+      left:50%;
+      z-index:5;
+      width: 200px;
+      height: 207px;
+      background: url(images/animate-sprite.png) no-repeat;
+      margin-top:-104px;
+      margin-left:-100px;
+    }
+
+  </style>
+  <script>
+      var mainTitle = '<? echo $config["title"] ?>';
+      var etPmyExt = '<? echo $is["ext"] ?>',etPmyPort = '<? echo $is["port"] ?>';
+      console.log(etPmyExt,etPmyPort);
+
+
+      var parentHomeFlag = window.parent.homeFlag;
+      if(parentHomeFlag==undefined){
+          window.close();
+      }
+      console.log('parentHomeFlag', parentHomeFlag);
+
+      function unload(){
+          //sessionStorage.setItem('dialIdx', dialIdx);
+          //sessionStorage.setItem('callStatus', 1);
+      }
+
+  </script>
+
+</head>
+<body onunload="unload()" >
+<div class="main-container">
+  <div class="wapper">
+    <? require_once("html/modal.html") ?>
+
+    <section class="query-container">
+      <div role="alert" class="alert alert-success alert-dismissible" v-cloak><button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>返回 {{json.totalrs}} 条记录</div>
+
+      <div class="top-title clearfix">
+        <p class="pull-left">客户管理</p>
+        <p class="pull-left">客户查询</p>
+      </div>
+
+      <form name="form1" id="form1">
+        <input type="hidden" name="act" value="json">
+        <input type="hidden" name="ipt-order" value="">
+        <input type="hidden" name="ipt-desc" value="">
+        <ul class="list-unstyled clearfix query-list">
+          <!--<li class="mt6">客户状态</li>-->
+          <li>
+            <select name="ipt-status" id="" class="form-control">
+              <option value="">-请选择-</option>
+              <option value="0">W-无需求</option>
+              <option value="1">N-未联系</option>
+              <option value="2">Y-有需求</option>
+              <option value="3">S-近期跟进</option>
+              <option value="4">L-长期跟进</option>
+              <option value="5">M-已上门</option>
+              <option value="6">B-已签约办理中</option>
+              <option value="7">QX1-进件条件不足</option>
+              <option value="8">D-等待放款</option>
+              <option value="9">QX2-银行拒放款</option>
+              <option value="10">QX3-客户弃贷</option>
+              <option value="11">F-已放款</option>
+              <option value="12">V-已完成</option>
+            </select>
+          </li>
+          <!--<li class="mt6">姓名</li>-->
+          <li>
+            <input type="text" class="form-control" name="ipt-name" placeholder="姓名">
+          </li>
+          <li>
+            <select name="ipt-from" class="form-control">
+              <option value="">星级</option>
+              <option value="★★★★★" >★★★★★</option>
+              <option value="★★★★" >★★★★</option>
+              <option value="★★★" >★★★</option>
+              <option value="★★" >★★</option>
+              <option value="★" >★</option>
+            </select>
+          </li>
+          <!--<li class="mt6">手机/身份证</li>-->
+          <li>
+            <input type="text" class="form-control" name="ipt-phone" placeholder="手机/身份证">
+          </li>
+          <!--<li class="mt6">合同编号</li>-->
+          <li>
+            <input type="text" class="form-control" name="ipt-contracts-code" placeholder="合同编号">
+          </li>
+          <!--<li class="mt6">跟进记录</li>-->
+          <li>
+            <input type="text" class="form-control" name="ipt-keyword" placeholder="跟进记录">
+          </li>
+          <li>
+            <button type="button" id="checkForm" style="margin-top: 12px;" @click="getCusByCondition">查询</button>
+          </li>
+        </ul>
+        <div class="select_user clearfix">
+          <div class="user_active_list pull-left">
+            <div class="user_active" v-for="item in selDeptUser" v-cloak>{{item.name}} <span class="del_user" @click="delSelUser(item,$event)"></span></div>
+          </div>
+
+          <div class="relative pull-left">
+            <div class="add_dept" @click="selectUser($event)"><i></i></div>
+            <div class="user_list" v-show="showUserList" :style="{width: userlist_wid + 'px'}">
+              <ul class="list-unstyled" v-for="user in userList" v-cloak>
+                <li @click="getSelUser(user,1,$event)"><span :class="{'active': user.active}">{{user.title}}</span></li>
+                <li v-for="uname in user.list" @click="getSelUser(uname,0,$event)"><span :class="{'active': uname.active}">{{uname.cname}}</span></li>
+              </ul>
+            </div>
+          </div>
+
+
+        </div>
+        <table class="table table-hover" style="table-layout: fixed">
+          <thead>
+          <tr>
+            <th v-show="isAdding" @click="checkAll"><input type="checkbox"></th>
+            <th width="5%" class="text-center">序号</th>
+            <th width="5%"  class="relative state" @click="orderList(1,'.state','state-desc',$event)" style="cursor: pointer">状态 <i class="asc_triangle"></i><i class="desc_triangle"></i></th>
+            <th width="7%">姓名</th>
+            <th width="5%">性别</th>
+            <th width="7%" class="relative star" @click="orderList(2,'.star','star-desc',$event)" style="cursor: pointer">星级 <i class="asc_triangle"></i><i class="desc_triangle"></i></th>
+            <th width="26%">客户标签</th>
+            <th width="13%">跟进记录</th>
+            <th width="13%">下一步工作</th>
+            <th width="10%" class="relative follow" style="cursor: pointer;padding-left: 25px" @click="orderList(3,'.follow','follow-desc',$event)" v-cloak> <span class="change_triangle" @click="changeTimeWay(1,$event)"></span> {{getTitle}}<i class="asc_triangle asc_triangle1"></i><i class="desc_triangle desc_triangle1"></i></th>
+            <th width="10%" class="relative in" style="cursor: pointer;display: none;;padding-left: 25px" @click="orderList(5,'.in','in-desc',$event)" v-cloak> <span class="change_triangle" @click="changeTimeWay(2,$event)"></span> {{getTitle}}<i class="asc_triangle asc_triangle1"></i><i class="desc_triangle desc_triangle1"></i></th>
+            <th class="sellmember relative job" width="7%" @click="orderList(4,'.job','job-desc',$event)" style="cursor: pointer"><? echo $html["td-last"] ?> <i class="asc_triangle"></i><i class="desc_triangle"></i></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-cloak v-for="(item,index) in json.data" @click="jump2detail(item,index,$event)">
+            <td v-show="isAdding"><input type="checkbox" :data-id="item.id"></td>
+            <td class="text-center" width="5%"><div v-html="item.index"></div></td>
+            <td width="5%"><div class="icon_status" :class="getItemStatus(item.status)">{{item.status==0?'W':item.status==2?'Y':item.status==3?'S':item.status==4?'L':item.status==5?'M':item.status==6?'B':item.status==7?'QX1':item.status==8?'D':item.status==9?'QX2':item.status==10?'QX3':item.status==11?'F':item.status==12?'V':'N'}}</div></td>
+            <td width="7%">{{item.name}}</td>
+            <td width="5%"><div :class="item.sex==1?'icon_female':'icon_male'"></div></td>
+            <td width="7%">{{item.from}}</td>
+            <td width="26%" class="customer_info" >
+              <div v-if="getCustomerTag(item).length>0" :class="getCustomerTag(item).length>4?'cus_tag_sm':'cus_tag'" data-toggle="tooltip" data-placement="top" :data-original-title="item.customerinfo">
+                <span v-for="item1 in getCustomerTag(item)" :class="item1.class">{{item1.name}}</span>
+              </div>
+              <div v-else data-toggle="tooltip" data-placement="top" :data-original-title="item.customerinfo" v-html="item.customerinfo" class="customer_info_text" style="width: 260px"></div>
+            </td>
+            <td width="13%" ><div class="ellipsis" data-toggle="tooltip" data-placement="top" :data-original-title="'<p><b>'+item.follow_user+'：</b>'+item.follow_memo+'</p>'">{{item.follow_memo}}</div></td>
+            <td width="13%">
+              <div class="ellipsis" data-toggle="tooltip" data-placement="top" :data-original-title="item.tip">{{item.follow_memo2}}</div>
+            </td>
+            <td width="100px" class="in_td"><div data-toggle="tooltip" data-placement="top" :data-original-title="'转入时间:\n'+item.in_time" style="height: 40px">{{ item.follow_time}}</div></td>
+            <td width="100px" class="follow_td" style="display: none"><div data-toggle="tooltip" data-placement="top" :data-original-title="'最近跟进:\n'+ item.follow_time" style="height: 40px">{{ item.in_time}}</div></td>
+            <td width="7%">{{item.username}}</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <div class="page">
+          <ul class="page-content1 list-inline">
+            <li class="btn_first" @click="jump2Home"></li>
+            <li class="btn_prev" v-show="prevPage" @click="jump2Prev(cur)"></li>
+
+            <template v-for="index in indexs">
+              <li class="page-item" :class="classRenderer(index)" @click="jump2Page(index)" v-if="index">{{index}}</li>
+              <li class="crt" v-else>...</li>
+            </template>
+
+            <li class="btn_next" v-show="nextPage" @click="jump2Next(cur)"></li>
+            <li class="btn_last" @click="jump2Last"></li>
+
+            <li class="wid50">
+              <input type="text" class="form-control text-center" name="ipt-page" id="ipt-page" v-model="cur">
+            </li>
+            <li class="wid50">
+              <button type="button" class="btn btn-default mr30" @click="jump2Page">GO</button>
+            </li>
+            <li>
+              <select name="ipt-pagesize" id="ipt-pagesize" class="form-control" style="display: inline-block;width: 75px;" @change="changePageSize">
+                <option value="10">10条</option>
+                <option value="20">20条</option>
+                <option value="50">50条</option>
+                <option value="100">100条</option>
+              </select>
+            </li>
+
+          </ul>
+
+        </div>
+
+      </form>
+    </section>
+    <br><br><br><br><br>
+    <div style="font-size: 10px; margin-left: 48%;background-color: #323535 ;color: #666">这里是底部了</div>
+  </div>
+
+  <div class="call-wrap">
+    <div class="call-tab" style="position: relative">
+      <div class="gsi-call" @click="openCallDetail(1)"><strong>公司群呼 6</strong></div>
+      <div class="is-ending-mask is-gsi" style="display: none">
+        <p>公司群呼进行中，是否结束?</p>
+        <button type="button" class="btn btn-default">结束</button>
+        <button type="button" class="btn btn-default">取消</button>
+      </div>
+      <div class="gren-call" @click="openCallDetail(2)"><strong>个人群呼<span v-text="grenListLen"></span></strong></div>
+      <div class="is-ending-mask is-gren" style="display: none">
+        <p>个人群呼进行中，是否结束?</p>
+        <button type="button" class="btn btn-default">结束</button>
+        <button type="button" class="btn btn-default">取消</button>
+      </div>
+      <div class="add-call" :class="{'add-call-lineHeight':!isAdding}" @click="addCallList"><i class="glyphicon glyphicon-plus"></i><span v-show="isAdding">添加到列表</span></div>
+      <div class="cancel-add-list" v-show="isAdding" @click="isAdding=false,refreshIpt()">取消</div>
+      <div class="call-refresh" @click="refreshList"></div>
+    </div>
+
+    <div class="call-detail" v-show="showCallDetail=='true'">
+        <div class="call-stop-mask" v-show="isStopping">
+          <div>
+            <p class="text-center">是否清空列表并终止个人群呼？</p>
+            <div class="text-center">
+              <button type="button" class="btn btn-success" @click="toCallFor('3'),isStopping=false">确定</button>
+              <button type="button" class="btn btn-default" @click="isStopping=false">取消</button>
+            </div>
+
+          </div>
+
+
+        </div>
+
+        <div class="call-btn-group" :class="call_detail_flag=='gsi'?'orange-group':'green-group'">
+          <button type="button" @click="toCallFor('0')" v-if="callStatus==0 || callStatus==2"><i class="glyphicon glyphicon-play"></i>开始</button>
+          <button type="button" @click="toCallFor('1')" v-else="callStatus==1"><i class="glyphicon glyphicon-pause"></i>暂停</button>
+          <button type="button" @click="toCallFor('2')" ><i class="glyphicon glyphicon-step-forward"></i>下一个</button>
+          <button type="button" @click="isStopping=true" ><i class="glyphicon glyphicon-stop"></i>结束</button>
+        </div>
+        <div class="way-group">
+          主叫号码： <span v-text="callWay==1?'固话':'手机'"></span> <button type="button" class="btn btn-default pull-right" @click="changeCallWay">切换</button>
+        </div>
+        <div class="call-list">
+          <div>
+            <div class="call-list-item" :class="{'active':item.state==1 || (item.state==4 && item.time=='00:00:00'),'calling': item.isDialing}" v-for="(item,index) in calloutList" @mouseover="item.activeClass=true" @mouseout="item.activeClass=false" @click="jump2detail(item)">
+              <div v-text="index+1"></div>
+              <div class="call-item-detail" >
+                <div v-text="item.name"></div>
+                <div v-cloak v-if="item.state==4 && item.time!='00:00:00'" style="color: #787878">{{item.time}}</div>
+                <div v-cloak v-else-if="item.state==0" style="color: #787878"></div>
+                <div v-cloak v-else-if="item.state==3" style="color: #787878">未拨通</div>
+                <div v-else-if="item.state==1" style="color:#fff">呼叫中...</div>
+                <div v-else-if="item.state==4" style="color:#fff">通话中...</div>
+                <div v-if="call_detail_flag=='gsi'" class="gsi-call-ico"><i class="glyphicon glyphicon-plus mr10" v-show="item.activeClass"></i><i class="glyphicon glyphicon-trash" v-show="item.activeClass"></i></div>
+                <div v-else class="gren-call-ico"><i :class="item.flag==1?'green':''" class="glyphicon glyphicon-star mr10" v-show="item.activeClass || item.flag==1" @click="addflag(item.taskid,item.flag,$event)"></i><i class="glyphicon glyphicon-trash" v-show="item.activeClass" @click="deltask(item.taskid, $event)"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gsi-call-join" style="display: none">
+            公司群呼进行中，是否加入？
+            <button type="button" class="btn btn-default">立即加入</button>
+          </div>
+
+
+        </div>
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+</div>
+
+
+<script src="js/app1.js"></script>
+<script src="js/date.js"></script>
+<script src="js/jquery.form.js"></script>
+<script src="js/commonFun.js"></script>
+<script src="js/getExtNum.js"></script>
+<script>
+    $(function(){
+        $('[data-toggle="tooltip"]').tooltip({html:true});
+
+    })
+</script>
+<script>
+    var info = <? echo $html["json"] ?>;
+    console.log('json',info);
+
+    if(info.data){
+        info.data.forEach(function (t) {
+            if(t.in_time!=""){
+                t.in_time = formatDate(new Date(t.in_time*1000),'yyyy-MM-dd hh:mm:ss');
+            }
+            if(t.follow_time!=""){
+                t.follow_time = formatDate(new Date(t.follow_time*1000),'yyyy-MM-dd hh:mm:ss');
+            }
+
+            t.tip = '<div class="tip"><p>提醒时间：' + t.follow_memo2_tx + '</p><p><b>'+ t.username +'：</b>'+ t.follow_memo2 +'</p></div>'
+
+
+        });
+    }else{
+        info.data = []
+    }
+
+    // 获取筛选的角色名字
+    info.userlist.forEach(function (t) {
+        t.active = false;
+        t.list.forEach(function (g) {
+            g.active = false;
+        })
+
+    })
+</script>
+<script>
+
+  // 获取客户data
+  function getCustomerData(data, callback){
+      $.ajax({
+          type:'GET',
+          url:'customer-search.php?'+data,
+          success:function (res) {
+              var json = JSON.parse(res);
+              console.log(json);
+              if(json.data){
+                  json.data.forEach(function (t) {
+                      if(t.in_time!=""){
+                          t.in_time = formatDate(new Date(t.in_time*1000),'yyyy-MM-dd hh:mm:ss');
+                      }
+                      if(t.follow_time!=""){
+                          t.follow_time = formatDate(new Date(t.follow_time*1000),'yyyy-MM-dd hh:mm:ss');
+                      }
+
+                      t.tip = '<div class="tip"><p>提醒时间：' + t.follow_memo2_tx + '</p><p><b>'+ t.username +'：</b>'+ t.follow_memo2 +'</p></div>'
+
+
+                  });
+              }else{
+                  json.data = []
+              }
+
+              // 获取筛选的角色名字
+              json.userlist.forEach(function (t) {
+                  t.active = false;
+                  t.list.forEach(function (g) {
+                      g.active = false;
+                  })
+
+              })
+              
+              callback(json)
+          }
+      })
+  }
+
+
+    var dialIdx=0, // 拨号开始的标志
+        grenCallLen=0, //个人群呼列表长度
+        callOutList=[],  //个人群呼列表数组
+        pauseFlag = false, //是否暂停，初始化时不暂停
+        startConnectedTime,  //接通电话时当前时间
+        calltimer; //拨打电话还未接情况下的计时器，30秒后未接挂掉
+
+
+    /*
+    * 转化时间格式为00:00:00
+    * [params] value 秒数
+    * */
+    function formatSeconds(value) {
+        var secondTime = parseInt(value); //秒
+        var minuteTime = 0;
+        var hourTime = 0;
+        if(secondTime>=60){
+            minuteTime = parseInt(secondTime/60);
+            secondTime = parseInt(secondTime%60);
+            if(minuteTime>=60){
+                hourTime = parseInt(minuteTime/60);
+                minuteTime = parseInt(minuteTime%60);
+            }
+        }
+
+        var result = secondTime<10?  ('0'+secondTime): (secondTime);
+        if(minuteTime>0){
+            result = minuteTime<10? ('0'+minuteTime+':'+result) : (minuteTime+':'+result)
+        }else{
+            result = '00:'+result
+        }
+        if(hourTime>0){
+            result = hourTime<10? ('0'+hourTime+':'+result): (hourTime+':'+result)
+        }else{
+            result = '00:'+result
+        }
+
+
+        return result;
+    }
+
+  /**
+   * 获取个人群呼列表
+   * [params]callback 回调函数
+   */
+  function getTask(callback){
+      $.ajax({
+          type:'POST',
+          url:'ajax/member-callout.php?action=gettask',
+          success:function (res) {
+              var result = JSON.parse(res);
+              if(result.list!=null){
+                  result.list.forEach(function(t){
+                      t.activeClass=false;
+                      t.isDialing = false;
+                  })
+              }else{
+                  var result = {"list":[]}
+              }
+
+              callOutList = result.list;
+              callback(result);
+
+              //window.parent.etOlazyPhonePost.getPortDatas(etPmyPort); //获取话机状态
+          }
+      })
+  }
+
+  /**
+   * 修改个人群呼列表
+   * [params] obj ajax请求传的参数对象
+   * [params]callback 回调函数
+   */
+  function updateTask(obj,callback){
+      $.ajax({
+          type:'POST',
+          url:'ajax/member-callout.php?action=statetask',
+          data:obj,
+          success: function(res){
+            console.log('修改',res);
+            if(callback){
+                callback(res);
+            }
+              
+          }
+      })
+  }
+
+
+  /**
+   * dial 拨号方法
+   * [params]phone 电话号码
+   * */
+  function dial(phone){
+      window.parent.searchPageCall = true;
+      callOutList.forEach(function (t) {
+          t.isDialing = false;
+      })
+
+      if (!window.parent.etPsLoginBool||!window.parent.etPoIsFlash){
+          var timer = setInterval(function(){
+              if (window.parent.etPsLoginBool||window.parent.etPoIsFlash){
+                  clearInterval(timer);
+                  console.log(phone);
+
+                  window.open("customer-detail.php?id="+ callOutList[dialIdx].id);
+                  window.parent.etFsDialNo(phone);
+                  callOutList[dialIdx].isDialing = true;
+                  app.calloutList = callOutList;
+
+                  if(calltimer!=undefined){
+                      clearTimeout(calltimer);
+                      calltimer = setTimeout(function () {
+                          if(startConnectedTime==undefined){
+                              hangOff();
+                          }
+                      },33000)
+                  }
+
+              }
+          },2000)
+      }else{
+          console.log(phone);
+
+          window.open("customer-detail.php?id="+ callOutList[dialIdx].id);
+          window.parent.etFsDialNo(phone);
+          callOutList[dialIdx].isDialing = true;
+          app.calloutList = callOutList;
+
+          if(calltimer!=undefined){
+              clearTimeout(calltimer); //先清空
+              calltimer = setTimeout(function () {
+                  if(startConnectedTime==undefined){
+                      hangOff();
+                  }
+              },33000)
+          }
+      }
+  }
+
+  /*
+  * hangOff 挂机
+  * */
+  function hangOff(){
+      window.parent.etOlazyPhonePost.hangOff()
+  }
+
+  window.parent.etFsSocketOnData = function(res){
+      var data = JSON.parse(res);
+      console.log('socket', data);
+
+      if(data.MsgName == 'oncall'){ //呼叫中
+          updateTask({"ipt-state":1,"ipt-taskid[]":callOutList[dialIdx].taskid});
+          callOutList[dialIdx].isDialing = false;
+          callOutList[dialIdx].state=1;
+          app.calloutList = callOutList;
+          /*if(sessionStorage.getItem('isDialing')){
+              sessionStorage.removeItem('isDialing');
+          }*/
+          sessionStorage.setItem('dialIdx', dialIdx);
+          sessionStorage.setItem('callStatus', app.callStatus);
+      }
+      if(data.MsgName == 'onpbxidle'){ //挂断
+          clearTimeout(calltimer);
+          callOutList[dialIdx].isDialing = false;
+          /*if(sessionStorage.getItem('isDialing')){
+              sessionStorage.removeItem('isDialing');
+          }*/
+
+          if(window.parent.searchPageCall){
+              if(startConnectedTime!=undefined){
+                  var endConnectedTime = new Date().getTime();
+                  var time = formatSeconds((endConnectedTime - startConnectedTime)/1000);
+
+                  updateTask({
+                      "ipt-taskid[]":callOutList[dialIdx].taskid,
+                      "ipt-time":time,
+                      "ipt-state":4
+                  })
+                  callOutList[dialIdx].time = time;
+                  callOutList[dialIdx].state=4;
+              }else{
+                  updateTask({
+                      "ipt-taskid[]":callOutList[dialIdx].taskid,
+                      "ipt-state":3
+                  })
+                  callOutList[dialIdx].state=3;
+              }
+
+              if(!pauseFlag){ //不是暂停导致电话挂断
+                  dialIdx++;
+                  if(dialIdx<grenCallLen){
+                      var isState0 = false;
+                      for(var i=dialIdx;i<grenCallLen;i++){
+                          if(callOutList[i].state==0){
+                              dialIdx = i;
+                              isState0 = true;
+                              break;
+                          }
+
+                      }
+                      console.log('dialIdx', dialIdx);
+                      if(isState0){
+                          switch (app.callWay){
+                              case 1:
+                                  if(callOutList[dialIdx].phone_dict=='广东 广州'){
+                                      dial('8'+callOutList[dialIdx].phone)
+                                  }else{
+                                      dial('0'+callOutList[dialIdx].phone)
+                                  }
+                                  break;
+                              case 2:
+                                  dial('9'+callOutList[dialIdx].phone);
+                                  break;
+                          }
+                      }
+                  }else{
+                      app.callStatus=2;//变成开始拨打状态
+                      dialIdx=0;
+                      startConnectedTime=undefined;
+                  }
+              }
+              else{ //暂停
+                  dialIdx++;
+              }
+              sessionStorage.setItem('dialIdx', dialIdx);
+              sessionStorage.setItem('callStatus', app.callStatus);
+              app.calloutList = callOutList;
+              startConnectedTime=undefined;
+          }
+      }
+      if(data.MsgName == 'onpbxconnected'){ //接通
+          clearTimeout(calltimer);
+          callOutList[dialIdx].isDialing = false;
+          startConnectedTime = new Date().getTime();
+          updateTask({"ipt-taskid[]":callOutList[dialIdx].taskid, "ipt-state":4})
+          callOutList[dialIdx].state=4;
+          app.calloutList = callOutList;
+          /*if(sessionStorage.getItem('isDialing')){
+              sessionStorage.removeItem('isDialing');
+          }*/
+          sessionStorage.setItem('dialIdx', dialIdx);
+          sessionStorage.setItem('callStatus', app.callStatus);
+      }
+      if(data.MsgName == 'onpbxhurryup'){ //对方挂电话
+          clearTimeout(calltimer);
+          callOutList[dialIdx].isDialing = false;
+          if(!pauseFlag && window.parent.searchPageCall){
+              hangOff();
+          }
+      }
+      if(data.MsgName == 'onGetPortStates'){
+
+          if(data.vPortStates.split(',')[0].split('=')[1]==5){ //回铃
+              console.log('回铃中。。。');
+              updateTask({"ipt-state":1,"ipt-taskid[]":callOutList[dialIdx].taskid})
+              callOutList[dialIdx].isDialing = false;
+              callOutList[dialIdx].state=1;
+              app.calloutList = callOutList;
+          }
+          if(data.vPortStates.split(',')[0].split('=')[1]==7){
+              console.log('通话中。。。');
+              updateTask({"ipt-state":4,"ipt-taskid[]":callOutList[dialIdx].taskid})
+              callOutList[dialIdx].isDialing = false;
+              callOutList[dialIdx].state=4;
+              app.calloutList = callOutList;
+
+          }
+          if(data.vPortStates.split(',')[0].split('=')[1]==6){
+              console.log('催挂中。。。');
+              updateTask({"ipt-state":3,"ipt-taskid[]":callOutList[dialIdx].taskid})
+              callOutList[dialIdx].isDialing = false;
+              callOutList[dialIdx].state=3;
+              app.calloutList = callOutList;
+          }
+          if(data.vPortStates.split(',')[0].split('=')[1]==1){
+              callOutList[dialIdx].isDialing = true;
+              app.calloutList = callOutList;
+          }
+
+      }
+
+  }
+
+
+  // 获取话机状态
+  /*window.parent.etFcOnGetPortStates = function(res){
+      console.info('result', res);
+      if(res[2]==5){
+          console.log('回铃中。。。');
+          updateTask({"ipt-state":1,"ipt-taskid[]":callOutList[dialIdx].taskid},function(res){
+              if(res==1){
+                  callOutList[dialIdx].state=1;
+                  app.calloutList = callOutList;
+
+              }
+          })
+      }
+      if(res[2]==7){
+          console.log('通话中。。。');
+          app.calloutList = callOutList;
+          updateTask({"ipt-state":4,"ipt-taskid[]":callOutList[dialIdx].taskid},function(res){
+              if(res==1){
+                  callOutList[dialIdx].state=4;
+                  app.calloutList = callOutList;
+
+              }
+          })
+
+      }
+      if(res[2]==6){
+          console.log('催挂钟。。。');
+          app.calloutList = callOutList;
+          updateTask({"ipt-state":3,"ipt-taskid[]":callOutList[dialIdx].taskid},function(res){
+              if(res==1){
+                  callOutList[dialIdx].state=3;
+                  app.calloutList = callOutList;
+
+              }
+          })
+      }
+  }
+
+  // 电话摘机
+  window.parent.etFcOnPBXDial = function () {
+      console.log('摘机中...');
+      /!*updateTask({"ipt-state":1,"ipt-taskid[]":callOutList[dialIdx].taskid},function(res){
+          if(res==1){
+              callOutList[dialIdx].state=1;
+              app.calloutList = callOutList;
+          }
+      })*!/
+
+  }
+
+  // 电话已挂断
+  window.parent.etFcOnPBXIdle = function(){
+      clearTimeout(calltimer);
+
+      if(window.parent.searchPageCall){
+
+          if(!pauseFlag){ //不是暂停导致电话挂断
+              if(startConnectedTime!=undefined){
+                  var endConnectedTime = new Date().getTime();
+                  var time = formatSeconds((endConnectedTime - startConnectedTime)/1000);
+                  callOutList[dialIdx].time = time;
+                  updateTask({
+                      "ipt-taskid[]":callOutList[dialIdx].taskid,
+                      "ipt-time":time,
+                      "ipt-state":4
+                  },function(res){
+                    if(res==1){
+                        callOutList[dialIdx].state=4;
+                        app.calloutList = callOutList;
+                    }
+                  })
+              }else{
+                  updateTask({
+                      "ipt-taskid[]":callOutList[dialIdx].taskid,
+                      "ipt-state":3
+                  },function(res){
+                      if(res==1){
+                          callOutList[dialIdx].state=3;
+                          app.calloutList = callOutList;
+                      }
+                  })
+              }
+
+              dialIdx++;
+              if(dialIdx<grenCallLen){
+                  var isState0 = false;
+                  for(var i=dialIdx;i<grenCallLen;i++){
+                      if(callOutList[i].state==0){
+                          dialIdx = i;
+                          isState0 = true;
+                          break;
+                      }
+
+                  }
+                  console.log('dialIdx', dialIdx);
+                  if(isState0){
+                      switch (app.callWay){
+                          case 1:
+                              if(callOutList[dialIdx].phone_dict=='广东 广州'){
+                                  dial('8'+callOutList[dialIdx].phone)
+                              }else{
+                                  dial('0'+callOutList[dialIdx].phone)
+                              }
+                              break;
+                          case 2:
+                              dial('9'+callOutList[dialIdx].phone);
+                              break;
+                      }
+                  }
+
+              }else{
+                  app.callStatus=0;//变成开始拨打状态
+                  dialIdx=0;
+                  startConnectedTime=undefined;
+              }
+          }
+          else{ //暂停
+              updateTask({"ipt-taskid[]":callOutList[dialIdx].taskid, "ipt-state":3},function (res) {
+                  if(res==1){
+                      callOutList[dialIdx].state=0;
+                      app.calloutList = callOutList;
+                  }
+              })
+          }
+
+          app.calloutList = callOutList;
+          startConnectedTime=undefined;
+      }
+
+
+
+
+  }
+
+  // 对方挂电话或线路忙
+  window.parent.etFcOnPBXHurryup = function () {
+      clearTimeout(calltimer);
+
+      if(!pauseFlag && window.parent.searchPageCall){
+          hangOff();
+      }
+  }
+
+
+  // 电话拨通了，在通话状态
+  window.parent.etFcOnPBXConnected=function(obj){
+      switch(obj[0]){
+          case 0:
+              console.log("通话中,关联端口："+obj[2]+" 号码："+obj[1]+",呼入");
+              break;
+          default:
+              //console.log("通话中,关联端口："+obj[2]+" 号码:"+obj[1]+",呼出");
+              clearTimeout(calltimer);
+              startConnectedTime = new Date().getTime();
+              callOutList[dialIdx].state=4;
+              app.calloutList = callOutList;
+
+              break;
+      }
+  }*/
+  
+
+
+
+
+    Vue.prototype.getCustomerTag = getCustomerTag;
+    Vue.prototype.getParameter = getParameter;
+    Vue.prototype.setCookie= setCookie;
+    Vue.prototype.getCookie = getCookie;
+
+
+    var app = new Vue({
+        el: '.main-container',
+        data: {
+            json: info,
+            userList: info.userlist,
+            showUserList: false,
+            deptActive:0,
+            deptUser:[],
+            selDeptUser:[],
+            userlist_wid: 50+info.userlist.length*74+info.userlist.length*5,
+            cur:1,
+            pageNo:info.page.total,
+            selTitle:1, //选择最近跟进还是转入时间
+            isAdding: false, //判断是否点击群呼的添加列表
+            call_detail_flag: 'gsi',
+            showCallDetail: 'false',
+            grenListLen:'',
+            calloutList:'',
+            callStatus:0, //用来标志当前打电话的状态，0是未拨，1是公司群呼开始，2是公司群呼暂停，3是公司群呼结束，4是个人群呼开始，5是个人群呼暂停，6是个人群呼结束
+            checkAllFlag: false, //是否开启全选
+            callWay:1, //默认拨打方式是固话
+            isStopping:false, //是否结束
+            isCallOut: startConnectedTime,  //判断是否拨通电话
+            orderState:[0,0,0,0,0], //表格中状态，星级，最近跟进，销售,转入时间的排序状态
+            addListArr:[], //保存添加的用户列表数组
+
+        },
+        filters:{
+            formatDate(time){
+                if(time==""){
+                    return ''
+                }else{
+                    let date = new Date(time*1000); //这个是unix时间戳
+                    return formatDate(date,'yyyy-MM-dd hh:mm:ss');
+                }
+
+            }
+        },
+        methods: {
+            // 根据筛选条件查询客户
+            getCusByCondition(){
+                var that = this;
+                $('.ani').remove();
+                getCustomerData($('#form1').serialize(),function (res) {
+                    $('body').append('<div class="ani"></div>');
+                    that.json = res;
+                    that.userList = res.userlist;
+                    that.userlist_wid = 50+res.userlist.length*74+res.userlist.length*5;
+                    that.cur = parseInt(res.page.index);
+                    that.pageNo = res.page.total;
+                })
+            },
+            jump2detail(item,index,e){
+                if(!this.isAdding){
+                    this.addListArr=[];
+                    var tagArr =  getCustomerTag(item);
+                    setCookie('tagArr',JSON.stringify(tagArr),1)
+                    window.open("customer-detail.php?id="+ item.id);
+                }else{
+                    this.addListArr.push(item.id);
+                    if($(e.target).data('id')==undefined){
+                        if($('tbody input[type="checkbox"]').eq(index).is(':checked')){
+                          $('tbody input[type="checkbox"]').eq(index).removeAttr('checked');
+                      }else{
+                          $('tbody input[type="checkbox"]').eq(index).prop('checked',true);
+                      }
+
+                    }
+
+
+                }
+
+            },
+            selectUser(e){
+                e.stopPropagation();
+                this.showUserList = true;
+                console.log(this.userList)
+
+            },
+            getSelUser(user,flag,e){
+                e.stopPropagation();
+                var that = this;
+                user.active = !user.active;
+                if(user.active==true){
+                    if(flag==1) { //证明是父级
+                        $('form').append('<input type="hidden" name="ipt-attach[]" value="'+ user.titleid +'" id="'+ user.titleid +'">');
+                        user.list.forEach(function (t) {
+                            $('form').append('<input type="hidden" name="ipt-attach[]" value="'+ t.id +'"  data-pid="'+ user.titleid +'">');
+                        })
+                        that.selDeptUser.push({id: user.titleid ,name: user.title, pid: 1,list:user.list });
+                        sessionStorage.setItem('selDeptUser', JSON.stringify(that.selDeptUser));
+                    }else {
+                        $('form').append('<input type="hidden" name="ipt-attach[]" value="'+ user.id +'" id="'+ user.id +'">')
+                        that.selDeptUser.push({id: user.id ,name: user.cname, pid: 0 });
+                        sessionStorage.setItem('selDeptUser', JSON.stringify(that.selDeptUser));
+                    }
+                }else{
+                    if(flag==1){
+                        that.selDeptUser.forEach(function (u,index) {
+                            if (u.id == user.titleid) {
+                                that.selDeptUser.splice(index, 1);
+                                sessionStorage.setItem('selDeptUser', JSON.stringify(that.selDeptUser));
+                                $('form').find('#'+u.id).remove();
+                                $('form').find('[data-pid="'+ user.titleid +'"]').remove();
+                            }
+                        })
+                    }else{
+                        that.selDeptUser.forEach(function (u,index) {
+                            if (u.id == user.id) {
+                                that.selDeptUser.splice(index, 1);
+                                sessionStorage.setItem('selDeptUser', JSON.stringify(that.selDeptUser));
+                                $('form').find('#'+u.id).remove();
+                            }
+                        })
+                    }
+
+
+                }
+
+            },
+            delSelUser(item,e){
+                e.stopPropagation();
+                var that = this;
+                that.selDeptUser.forEach(function (u,index) {
+                    if(u.id == item.id){
+                        that.selDeptUser.splice(index,1);
+                        sessionStorage.setItem('selDeptUser', JSON.stringify(that.selDeptUser));
+                        $('#'+item.id).remove();
+                        if(item.pid==1){
+                            $('form').find('[data-pid="'+ item.id +'"]').remove();
+                        }
+                    }
+                    if(u.pid==1){
+                        that.userList.forEach(function (t) {
+                            if(t.titleid == item.id){t.active = false;}
+                        })
+                    }else{
+                        that.userList.forEach(function (t) {
+                            t.list.forEach(function (g) {
+                                if(g.id == item.id){g.active = false;}
+                            })
+                        })
+                    }
+                });
+
+            },
+            orderList(orderType,descType,descVal,e) {
+                var that = this;
+                $('[name="ipt-order"]').val(orderType);
+                $(descType).find('i').removeClass('active');
+                if($(e.target).attr('class')=='desc_triangle'){
+                    $(e.target).addClass('active');
+                    $('[name="ipt-desc"]').val(1);
+                    this.orderState[orderType-1] = 1;
+                }else if($(e.target).attr('class')=='asc_triangle'){
+                    $(e.target).addClass('active');
+                    $('[name="ipt-desc"]').val(0);
+                    this.orderState[orderType-1] = 0;
+                }else{
+                    this.orderState[orderType-1]==1?(this.orderState[orderType-1] =0,$(descType).find('.asc_triangle').addClass('active')):(this.orderState[orderType-1] = 1,$(descType).find('.desc_triangle').addClass('active'));
+                    $('[name="ipt-desc"]').val(this.orderState[orderType-1]);
+
+                }
+              getCustomerData($('#form1').serialize(),function (res) {
+                    that.json = res;
+                    that.userList = res.userlist;
+                    that.userlist_wid = 50+res.userlist.length*74+res.userlist.length*5;
+                    that.cur = res.page.index;
+                    that.pageNo = res.page.total;
+               })
+            },
+            classRenderer:function(index){
+                var $this = this;
+                var cur = $this.cur;
+                if(index == cur){
+                    return 'active';
+                }
+                return '';
+            },
+            jump2Home(){
+              var that = this;
+              $('#ipt-page').val('1');
+              if(getParameter('ipt-order')!=null){
+                  $('[name="ipt-order"]').val(getParameter('ipt-order'));
+                  $('[name="ipt-desc"]').val(getParameter('ipt-desc'));
+                  $('#form1').append('<input type="hidden" name="flag1" value="'+ getParameter('flag1') +'" />');
+                  $('#form1').append('<input type="hidden" name="flag2" value="'+ getParameter('flag2') +'" />');
+              }
+              getCustomerData($('#form1').serialize(), function (res) {
+                  that.json = res;
+                  that.userList = res.userlist;
+                  that.userlist_wid = 50+res.userlist.length*74+res.userlist.length*5;
+                  that.cur = 1;
+                  that.pageNo = res.page.total;
+              })
+
+            },
+            jump2Prev(data){
+                var that = this;
+                data--;
+                that.cur = data;
+                that.showTail=true;
+                if(data == 1){
+                    that.showPre=false;
+
+                }else{
+                    that.showPre=true;
+                }
+                $('#ipt-page').val(data);
+                if(getParameter('ipt-order')!=null){
+                    $('[name="ipt-order"]').val(getParameter('ipt-order'));
+                    $('[name="ipt-desc"]').val(getParameter('ipt-desc'));
+                    $('#form1').append('<input type="hidden" name="flag1" value="'+ getParameter('flag1') +'" />');
+                    $('#form1').append('<input type="hidden" name="flag2" value="'+ getParameter('flag2') +'" />');
+                }
+                getCustomerData($('#form1').serialize(), function (res) {
+                    that.json = res;
+                    that.userList = res.userlist;
+                    that.userlist_wid = 50+res.userlist.length*74+res.userlist.length*5;
+                    that.cur = parseInt(res.page.index);
+                    that.pageNo = res.page.total;
+                })
+            },
+            jump2Page(page){
+                var that = this;
+                if(page){
+                    $('#ipt-page').val(page);
+                }
+
+                if(getParameter('ipt-order')!=null){
+                    $('[name="ipt-order"]').val(getParameter('ipt-order'));
+                    $('[name="ipt-desc"]').val(getParameter('ipt-desc'));
+                    $('#form1').append('<input type="hidden" name="flag1" value="'+ getParameter('flag1') +'" />');
+                    $('#form1').append('<input type="hidden" name="flag2" value="'+ getParameter('flag2') +'" />');
+                }
+                getCustomerData($('#form1').serialize(), function (res) {
+                    that.json = res;
+                    that.userList = res.userlist;
+                    that.userlist_wid = 50+res.userlist.length*74+res.userlist.length*5;
+                    that.cur = parseInt(res.page.index);
+                    that.pageNo = res.page.total;
+                })
+            },
+            jump2Next(data){
+                var that = this;
+                data++;
+                that.cur = data;
+                that.showPre=true;
+                if (data == that.pageNo)
+                {
+                    that.showTail=false;
+                }else
+                {
+                    that.showTail=true;
+                }
+                $('#ipt-page').val(data);
+                if(getParameter('ipt-order')!=null){
+                    $('[name="ipt-order"]').val(getParameter('ipt-order'));
+                    $('[name="ipt-desc"]').val(getParameter('ipt-desc'));
+                    $('#form1').append('<input type="hidden" name="flag1" value="'+ getParameter('flag1') +'" />');
+                    $('#form1').append('<input type="hidden" name="flag2" value="'+ getParameter('flag2') +'" />');
+                }
+                getCustomerData($('#form1').serialize(), function (res) {
+                    that.json = res;
+                    that.userList = res.userlist;
+                    that.userlist_wid = 50+res.userlist.length*74+res.userlist.length*5;
+                    that.cur = parseInt(res.page.index);
+                    that.pageNo = res.page.total;
+                })
+            },
+            jump2Last(){
+                var that = this;
+                $('#ipt-page').val(that.json.page.total);
+                if(getParameter('ipt-order')!=null){
+                    $('[name="ipt-order"]').val(getParameter('ipt-order'));
+                    $('[name="ipt-desc"]').val(getParameter('ipt-desc'));
+                    $('#form1').append('<input type="hidden" name="flag1" value="'+ getParameter('flag1') +'" />');
+                    $('#form1').append('<input type="hidden" name="flag2" value="'+ getParameter('flag2') +'" />');
+                }
+                getCustomerData($('#form1').serialize(), function (res) {
+                    that.json = res;
+                    that.userList = res.userlist;
+                    that.userlist_wid = 50+res.userlist.length*74+res.userlist.length*5;
+                    that.cur = parseInt(res.page.total);
+                    that.pageNo = res.page.total;
+                })
+            },
+            changePageSize(){
+                var that = this;
+               console.log($('#ipt-pagesize').val());
+                getCustomerData($('#form1').serialize(), function (res) {
+                    that.json = res;
+                    that.userList = res.userlist;
+                    that.userlist_wid = 50+res.userlist.length*74+res.userlist.length*5;
+                    that.cur = parseInt(res.page.index);
+                    that.pageNo = res.page.total;
+                })
+            },
+            getItemStatus(status) {
+                return status==1?'bg_darkgrey':status==2?'bg_lightyellow':status==3?'bg_green':status==4?'bg_lightgreen':status==5?'bg_orange':status==6?'bg_red':status==8?'bg_yellow':status==11?'bg_lightblue':status==12?'bg_darkblue':'bg_grey';
+
+            },
+            changeTimeWay(type,event){
+                if(event){
+                    event.stopPropagation();
+                }
+
+                type==1?(this.selTitle = 2,$('th.in,.follow_td').show(),$('.in_td,th.follow').hide(),$('.follow_td').tooltip('fixTitle')):(this.selTitle =1,$('.in_td,th.follow').show(),$('.follow_td,th.in').hide(),$('.in_td').tooltip('fixTitle')); //1 转入时间 2跟进
+
+
+
+            },
+            // 群呼添加拨号成员
+            addCallList(){
+                var that = this;
+                that.isAdding = !that.isAdding;
+              if(that.isAdding == false){ //勾选人员完毕
+                 var form = new FormData();
+                 that.addListArr.forEach(function(t){
+                     form.append('ipt-id[]',t)
+                 })
+
+                 $.ajax({
+                     type:'POST',
+                     url:'ajax/member-callout.php?action=addtask',
+                     async: false,
+                     cache: false,
+                     contentType: false,
+                     processData: false,
+                     data: form,
+                     success:function (data) {
+                         console.log(data);
+                         if(data!=1){
+                             alert('添加群呼成员失败');
+                         }else{
+                             getTask(function (res) {
+                                 that.calloutList = res.list;
+                                 that.grenListLen = res.list.length;
+                                 grenCallLen = res.list.length;
+                                 if(dialIdx!=0){
+                                     that.calloutList = that.calloutList;
+                                 }
+                             })
+
+                         }
+                     }
+                 })
+
+              }
+              else{
+                  $("[type='checkbox']").removeAttr('checked');
+                  that.addListArr=[];
+              }
+
+            },
+            /*
+            * 获取群呼成员列表
+            * [params] type 1 公司群呼 2 个人群呼
+            * */
+            openCallDetail(type){
+              var that  = this;
+              that.showCallDetail = that.showCallDetail == 'false'?'true' : 'false';
+              sessionStorage.setItem('showCallDetailFlag', that.showCallDetail)
+
+              if(type==2){
+                  that.call_detail_flag = 'gren';
+                  sessionStorage.setItem('callType', that.call_detail_flag)
+                  /*getTask(function (res) {
+                      that.calloutList = res.list;
+                      that.grenListLen = res.list.length;
+                      grenCallLen = res.list.length;
+                  })*/
+              }else{
+                  //that.call_detail_flag = 'gsi';
+                  alert('尚未开发完成！');
+                  return;
+                  sessionStorage.setItem('callType', that.call_detail_flag)
+              }
+
+
+
+            },
+            // 点击勾选群呼成员阻止冒泡
+            addtask(e){
+              e.stopPropagation();
+            },
+            // 进行拨打电话等一系列操作
+            toCallFor(state){
+                if(this.call_detail_flag == 'gren'){
+                    if(state=='0'){
+                        pauseFlag=false;
+                        var isState0 = false;
+                        for(var i=dialIdx;i<this.calloutList.length;i++){
+                            if(callOutList[i].state==0){
+                                dialIdx = i;
+                                isState0 = true;
+                                break;
+                            }
+
+                        }
+                        console.log('dialIdx', dialIdx);
+                        if(isState0){
+                            this.callStatus = 1; //开始变暂停
+                            switch (this.callWay){
+                                case 1:
+                                    if(callOutList[dialIdx].phone_dict=='广东 广州'){
+                                        dial('8'+callOutList[dialIdx].phone)
+                                    }else{
+                                        dial('0'+callOutList[dialIdx].phone)
+                                    }
+                                    break;
+                                case 2:
+                                    dial('9'+callOutList[dialIdx].phone);
+                                    break;
+                            }
+                        }else{
+                            this.callStatus = 2;
+                            alert('列表已呼完，请添加客户')
+                        }
+
+                    }else if(state=='1'){ //要暂停
+                        this.callStatus = 0;
+                        pauseFlag = true;
+                        hangOff();
+                    }else if(state=='2'){ //要挂断并拨打下一个
+                        hangOff();
+                    }
+                    else{
+                        var that = this;
+                        pauseFlag = true;
+                        that.callStatus = 2;
+                        sessionStorage.setItem('callStatus',2);
+                        hangOff();
+                        dialIdx=0; //要回到原始状态
+                        startConnectedTime=undefined;
+
+                        for(var i=0;i<that.calloutList.length;i++){
+                            that.deltask(that.calloutList[i].taskid);
+                        }
+                        getTask(function (res) {
+                            that.calloutList = res.list;
+                            that.grenListLen = res.list.length;
+                            grenCallLen = res.list.length;
+                        })
+
+
+
+
+                    }
+                }
+            },
+            // 全选勾选要加入群呼的成员
+            checkAll(){
+                this.checkAllFlag = !this.checkAllFlag;
+                if(this.checkAllFlag){
+                    $("[type='checkbox']").prop('checked',true);
+                    for(var i in this.json.data){
+                        this.addListArr.push(this.json.data[i].id);
+                    }
+
+                }else{
+                    $("[type='checkbox']").removeAttr('checked');
+                    this.addListArr = [];
+                }
+
+            },
+            // 删除任务
+            deltask(id,e){
+                if(e){
+                    e.stopPropagation();
+                }
+
+                var that = this;
+                $.ajax({
+                    type:'POST',
+                    url:'ajax/member-callout.php?action=deltask',
+                    data: {
+                        "ipt-taskid[]":id
+                    },
+                    success:function (data) {
+                        if(data==1){
+                            getTask(function (res) {
+                                that.grenListLen = res.list.length;
+                                that.calloutList = res.list;
+                                grenCallLen = res.list.length;
+                            })
+                        }else{
+                            alert('删除失败')
+                        }
+                    }
+                })
+            },
+            refreshIpt(){ //取消添加群呼成员时恢复CheckBox的原始状态
+                $("[type='checkbox']").removeAttr('checked');
+            },
+            addflag(taskid, flag,e){ // 修改任务
+                e.stopPropagation();
+                var that = this;
+                flag = flag==0?1:0;
+                updateTask({
+                    "ipt-taskid[]":taskid,
+                    "ipt-flag": flag
+                },function(data){
+                    if(data==1){
+                        getTask(function (res) {
+                            that.calloutList = res.list;
+                            that.grenListLen = res.list.length;
+                            grenCallLen = res.list.length;
+                        })
+                    }
+
+                })
+            },
+            changeCallWay(){ //切换拨打方式
+              this.callWay = this.callWay==1?2:1;
+            },
+            refreshList(){ //刷新列表
+                var that  = this;
+                getTask(function(res){
+                    that.calloutList = res.list;
+                    that.grenListLen = res.list.length;
+                    grenCallLen = res.list.length;
+                })
+            }
+
+        },
+        mounted(){
+            var that = this;
+            document.addEventListener('click',function () {
+                that.showUserList = false;
+            });
+
+            $('#ipt-pagesize').val('50');
+            if(getParameter('ipt-status')!=null){
+                var status = getParameter('ipt-status');
+                $('[name="ipt-status"]').val(status);
+
+            }
+
+            // 判断现在的状态
+            //1.判断当前是否存在呼叫状态，如果存在，则证明当前已经是呼叫状态或者暂停状态
+            if(sessionStorage.getItem('callStatus') && sessionStorage.getItem('callStatus')!=2){
+                that.callStatus = sessionStorage.getItem('callStatus');
+                dialIdx = sessionStorage.getItem('dialIdx');
+                /*setTimeout(function () {
+                    if(callOutList.length>0){
+                        callOutList[dialIdx].isDialing = true;
+                        app.calloutList = callOutList;
+
+                    }
+                },1000)*/
+                window.parent.etOlazyPhonePost.portState(etPmyPort);
+
+            }
+
+            if(sessionStorage.getItem('showCallDetailFlag')){
+                that.showCallDetail = sessionStorage.getItem('showCallDetailFlag');
+            }
+
+            if(sessionStorage.getItem('callType')){
+                that.call_detail_flag = sessionStorage.getItem('callType');
+            }
+
+
+        },
+        created(){
+            var that = this;
+
+            /*if(window.location.href.split('?')[1].indexOf('ipt-attach') == -1){
+                sessionStorage.removeItem('selDeptUser')
+            }*/
+
+            if(sessionStorage.getItem('selDeptUser')){
+                that.selDeptUser = JSON.parse(sessionStorage.getItem('selDeptUser'));
+                that.selDeptUser.forEach(function (t) {
+                    $('form').append('<input type="hidden" name="ipt-attach[]" value="'+ t.id +'" id="'+ t.id +'">')
+                    if(t.pid==1){
+                        t.list.forEach(function (s) {
+                            $('form').append('<input type="hidden" name="ipt-attach[]" value="'+ s.id +'" data-pid="'+ t.id +'">')
+                        })
+                    }
+                })
+
+            }
+
+            getTask(function (res) {
+                console.info('群呼列表', res);
+                that.calloutList = res.list;
+                that.grenListLen = res.list.length;
+                grenCallLen = res.list.length;
+            })
+
+            $('#ipt-pagesize').val('50');
+
+
+
+
+
+
+
+        },
+        computed:{
+          getTitle: function(){
+              return this.selTitle==1?'最近跟进':'转入时间';
+          },
+          indexs: function(){
+              var that = this;
+              let pageNum = that.pageNo,
+                  index = that.cur,
+                  arr = [];
+              if (pageNum <= 5) {
+                  for(let i = 1; i <= pageNum; i++) {
+                      arr.push(i)
+                  }
+                  return arr
+              }
+              if (index <= 2) return [1,2,3,0,pageNum]
+              if (index >= pageNum -1) return [1,0, pageNum -2, pageNum -1, pageNum]
+              if (index === 3) return [1,2,3,4,0,pageNum]
+              if (index === pageNum -2) return [1,0, pageNum-3, pageNum-2, pageNum-1, pageNum]
+              return [1,0, index-1, index, index + 1, 0, pageNum]
+
+          },
+          prevPage: function(){
+              return this.cur!=1
+          },
+          nextPage: function(){
+              return this.cur<this.pageNo && this.cur;
+          }
+        }
+
+    })
+
+
+
+
+
+</script>
+
+</body>
+</html>

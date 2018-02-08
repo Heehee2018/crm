@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRM-通话上门统计表</title>
+
+    <link href="js/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/formvalidation/0.6.1/css/formValidation.min.css" rel="stylesheet">
+    <link href="css/app1.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/formValidation.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/framework/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/formvalidation/0.6.1/js/language/zh_CN.min.js"></script>
+    <script src="http://cdn.bootcss.com/moment.js/2.11.1/moment.min.js"></script>
+    <script src="http://cdn.bootcss.com/moment.js/2.11.1/locale/zh-cn.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .call-container .seldate-container>div{
+            float: left;
+        }
+        .call-container .seldate-container>div:nth-child(2){
+            height: 36px;
+            line-height: 36px;
+            padding: 0 15px;
+        }
+        .call-container .seldate-container button{
+            width: 120px;
+            margin-left: 20px;
+        }
+        .call-container .ipt-date-group{
+            position: relative;
+            width: 200px;
+            height: 36px;
+            border:1px solid #c8c8c8;
+            border-radius: 5px;
+            padding:6px 8px;
+        }
+        .call-container .ipt-date-group input{
+            border: none;
+        }
+        .call-container .ipt-date-group .ipt-addon{
+            position: absolute;
+            right:5px;
+            top:9px;
+            width: 27px;
+            height: 36px;
+            background: url("images/icon_calendar.png") no-repeat;
+        }
+        .call-container .data-container{
+            margin-top: 22px;
+        }
+        .call-container .data-item{
+            width: 100%;
+            border: 1px solid #c8c8c8;
+        }
+        .call-container .data-item .data-item-head{
+            background: #f5f5f8;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #c8c8c8;
+            padding: 0 10px;
+        }
+        .call-container .data-item .data-item-head select{
+            margin-top: 9px;
+            background: transparent;
+            border: none;
+        }
+        .call-container .data-item .data-item-head a{
+            color: #000;
+        }
+        .call-container .data-item:first-child table{
+            margin-bottom: 0;
+        }
+        .call-container .data-item:first-child table td{
+            font-size: 15px;
+        }
+        .call-container .data-item .username{
+            display: inline-block;
+            margin-right: 20px;
+            width: 70px;
+        }
+        .call-container .data-item input{
+            outline: none;
+        }
+
+        [v-cloak]{
+            display: none;
+        }
+
+
+    </style>
+    <script>
+        var mainTitle = '<? echo $config["title"] ?>';
+        var etPmyExt = '<? echo $is["ext"] ?>',etPmyPort = '<? echo $is["port"] ?>';
+        console.log(etPmyExt,etPmyPort);
+    </script>
+</head>
+<body>
+<div class="wapper">
+    <? require_once("html/modal.html")?>
+    <div class="call-container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>客户管理<small> 通话上门统计表</small></h3>
+            </div>
+            <div class="panel-body" id="chart-container">
+                <form action="" method="post">
+                    <div class="seldate-container clearfix">
+                        <div class="ipt-date-group">
+                            <input type="text" class="date" name="dateb">
+                            <span class="ipt-addon"></span>
+                        </div>
+                        <div>至</div>
+                        <div class="ipt-date-group">
+                            <input type="text" class="date" name="datee">
+                            <span class="ipt-addon"></span>
+                        </div>
+                        <button type="button" class="btn btn-default" @click="getJson">查询</button>
+                    </div>
+                    <div class="data-container">
+                        <div class="data-item">
+                            <div class="data-item-head">
+                                <select class="pull-left" v-model="selected" name="jobtitleid" @change="getJson" v-cloak>
+                                    <option :value="group" v-for="(group,index) in json.groupid">{{index==0?'全部':'销售'+index+'部'}}</option>
+                                    <option :value="-1">部门统计</option>
+                                </select>
+                                <a class="pull-right" @click="exportExcel">导出&gt;</a>
+                            </div>
+                            <table class="table table-striped" id="test">
+                                <thead>
+                                    <th class="text-center">序号</th>
+                                    <th>姓名</th>
+                                    <th class="text-center">签约</th>
+                                    <th class="text-center">上门面谈</th>
+                                    <th class="text-center">通话数量</th>
+                                    <th class="text-center">累计通话时长</th>
+                                    <th class="text-center">60s以下</th>
+                                    <th class="text-center">60s-180s</th>
+                                    <th class="text-center">180s-300s</th>
+                                    <th class="text-center">300s以上</th>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(user,index) in json.list">
+                                    <td class="text-center" v-text="index+1"></td>
+                                    <td v-text="user.cname"></td>
+                                    <td class="text-center" v-text="user.qyue"></td>
+                                    <td class="text-center" v-text="user.sm"></td>
+                                    <td class="text-center" v-text="user.thsl"></td>
+                                    <td class="text-center" v-cloak>{{user.t | formatSeconds}}</td>
+                                    <td class="text-center" v-text="user.t60"></td>
+                                    <td class="text-center" v-text="user.t60_180"></td>
+                                    <td class="text-center" v-text="user.t180_300"></td>
+                                    <td class="text-center" v-text="user.t300"></td>
+                                </tr>
+                                <tr style="background-color: #f5f5f8">
+                                    <td></td>
+                                    <td>全部</td>
+                                    <td class="text-center" v-cloak><strong>{{json.total.qyue}}</strong></td>
+                                    <td class="text-center" v-cloak><strong>{{json.total.sm}}</strong></td>
+                                    <td class="text-center" v-cloak><strong>{{json.total.thsl}}</strong></td>
+                                    <td class="text-center" v-cloak><strong>{{json.total.t | formatSeconds}}</strong></td>
+                                    <td class="text-center" v-cloak><strong>{{json.total.t60}}</strong></td>
+                                    <td class="text-center" v-cloak><strong>{{json.total.t60_180}}</strong></td>
+                                    <td class="text-center" v-cloak><strong>{{json.total.t180_300}}</strong></td>
+                                    <td class="text-center" v-cloak><strong>{{json.total.t300}}</strong></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/tableExporter.min.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/getExtNum.js"></script>
+<script>
+    $(function () {
+
+        /* getJson 初始化json数据
+        * [params] url 请求url
+        * [params] _async 同步还是异步请求
+        * [params] callback 回调方法获得异步返回的数据
+        * */
+        function getJsonData(url,_async,callback){
+            $.ajax({
+                url: url,
+                type:'GET',
+                dataType:'json',
+                async:_async,
+                success:function (res) {
+                    callback(res)
+                }
+
+            })
+        }
+
+        $('.ipt-addon').click(function () {
+            $(this).prev().trigger('focus')
+        });
+
+        getJsonData('member-call-statistics.php?action=getlist', false, function (_data) {
+            var app = new Vue({
+                el:'.wapper',
+                data:{
+                    json: _data,
+                    selected: _data.jobtitle,
+                },
+                filters: {
+                    formatSeconds: function (value) {
+                        var secondTime = parseInt(value); //秒
+                        var minuteTime = 0;
+                        var hourTime = 0;
+                        if(secondTime>=60){
+                            minuteTime = parseInt(secondTime/60);
+                            secondTime = parseInt(secondTime%60);
+                            if(minuteTime>=60){
+                                hourTime = parseInt(minuteTime/60);
+                                minuteTime = parseInt(minuteTime%60);
+                            }
+                        }
+
+                        var result = secondTime<10?  ('0'+secondTime): (secondTime);
+                        if(minuteTime>0){
+                            result = minuteTime<10? ('0'+minuteTime+':'+result) : (minuteTime+':'+result)
+                        }else{
+                            result = '00:'+result
+                        }
+                        if(hourTime>0){
+                            result = hourTime<10? ('0'+hourTime+':'+result): (hourTime+':'+result)
+                        }else{
+                            result = '00:'+result
+                        }
+
+
+                        return result;
+                    }
+                },
+                methods:{
+                    getJson(){
+                        var that = this;
+                        if(that.selected=='-1'){
+                            $.ajax({
+                                url: 'member-call-statistics.php?action=getgrouplist&dateb='+$('[name="dateb"]').val()+'&datee='+$('[name="datee"]').val()+'&jobtitleid=0',
+                                type:'GET',
+                                dataType:'json',
+                                success:function (res) {
+                                    that.selected='-1';
+                                    that.json=res;
+                                }
+                            })
+                        }else{
+                            getJsonData('member-call-statistics.php?action=getlist&'+$('form').serialize(), true, function (data) {
+                                console.log('json', data);
+                                that.selected=data.jobtitle;
+                                that.json=data;
+                            })
+                        }
+
+                    },
+                    // 导出表格
+                    exportExcel(){
+                        window.location.href='member-call-statistics.php?action=export&'+$('form').serialize()
+
+                    },
+
+                },
+                mounted:function () {
+                    // 选择日期插件初始化
+                    $('.date').datetimepicker({
+                        format: 'YYYY-MM-DD',
+                        showClear: true,
+                        showClose: true,
+                        defaultDate: new Date()
+                    });
+
+                    $('.ipt-addon').click(function () {
+                        $(this).prev().trigger('focus')
+                    });
+
+                }
+            })
+        })
+
+
+
+
+
+
+
+    })
+</script>
+<script>
+
+</script>
+</body>
+</html>

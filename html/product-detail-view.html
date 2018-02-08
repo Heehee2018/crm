@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+
+<meta charset="UTF-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"-->
+
+<title>CRM-产品查询</title>
+
+	<link rel="shortcut icon" href="favicon.ico" />
+<link href="js/bootstrap.min.css" rel="stylesheet">
+<link
+	href="http://cdn.bootcss.com/formvalidation/0.6.1/css/formValidation.min.css"
+	rel="stylesheet">
+<link href="css/app1.css" rel="stylesheet" />
+<link rel="stylesheet" href="css/app3.css">
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/formvalidation/0.6.1/js/formValidation.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/formvalidation/0.6.1/js/framework/bootstrap.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/formvalidation/0.6.1/js/language/zh_CN.min.js"></script>
+
+<script src="http://cdn.bootcss.com/moment.js/2.11.1/moment.min.js"></script>
+<script src="http://cdn.bootcss.com/moment.js/2.11.1/locale/zh-cn.js"></script>
+<script
+	src="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+<link
+	href="http://cdn.bootcss.com/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"
+	rel="stylesheet">
+<!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<script src="js/vue.js"></script>
+	<script src="js/vue-resource.min.js"></script>
+	<style>
+		.bd-head{overflow: hidden;padding:15px 15px 23px;}
+		.bd-head>div{
+			float: left;
+		}
+		.bd-head>div select.form-control{
+			display: inline-block;
+			width: 140px;
+		}
+		.bd-head>div .list-inline>li{
+			margin-top: 10px;
+		}
+		.bd-head button{
+			width: 120px;
+			height: 34px;
+			margin-left: 9px;
+		}
+		.bd-head .btn-red{
+			background: #a61625 ;
+			color: #fff;
+		}
+		.bd-head .btn-wrap{
+			line-height: 88px;
+			padding-left: 22px;
+		}
+		.other-msg{
+			position: absolute;
+			left:-500px;
+			top:0;
+			width: 500px;
+			border:1px solid #c8c8c8;
+			border-radius: 5px;
+			padding: 15px 25px 15px;
+			margin-top: 10px;
+			z-index: 10;
+			display: none;
+			background: #fff;
+		}
+		.triangel-lg,.triangel-sm{
+			display: block;
+			width: 0px;
+			height: 0px;
+			border-left: 11px solid #c8c8c8;
+			border-top: 11px solid transparent;
+			border-bottom: 11px solid transparent;
+			/*以下属性可以是IE5兼容*/
+			font-size: 0px;
+			line-height: 0px;
+			position: absolute;
+			top:9px;
+			right: -11px;
+		}
+		.triangel-sm{
+			border-left: 10px solid #fff;
+			border-top: 10px solid transparent;
+			border-bottom: 10px solid transparent;
+			top:10px;
+			right: -10px;
+		}
+		.panel-body{
+			padding: 0;
+		}
+		.gray-text{
+			color:#979797;
+		}
+		.other-msg table td{
+			padding-bottom: 15px;
+			vertical-align: top;
+		}
+		.table thead{
+			background: #f6f7f7;
+		}
+		.table-body>tr:nth-child(even){
+			background: #f6f7f7;
+		}
+		.relative{
+			position: relative;
+		}
+		.hide{
+			display: none;
+		}
+		td.relative, .table-body tr{
+			cursor: pointer;
+		}
+		pre{
+			padding: 0;
+			margin: 0;
+			font-size: 12px;
+			color: #333;
+			font-family: 'Microsoft yahei';
+			background-color: transparent;
+			border: none;
+			white-space:pre-wrap;
+			white-space:-moz-pre-wrap;
+			white-space:-o-pre-wrap;
+		}
+		td{
+			font-size: 12px !important;
+			padding: 8px 5px !important;
+		}
+		.table>thead>tr>th{
+			padding:8px 5px;
+		}
+	</style>
+	<script>
+        var etPmyExt = '<? echo $is["ext"] ?>',etPmyPort = '<? echo $is["port"] ?>';
+        console.log(etPmyExt,etPmyPort);
+	</script>
+
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<div class="wapper" id="wapper">
+		<? require_once("html/navbar.html")?>
+		<div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3>产品管理<small>产品查询</small></h3>
+				</div>
+				<div class="panel-body">
+					<form action="" id="searchForm">
+						<div class="bd-head">
+							<div>
+								<ul class="list-inline">
+									<li>
+										<span>年龄要求</span>
+										<select name="ipt-nlfwei" class="form-control">
+											<option value=""></option>
+										</select>
+									</li>
+									<li>
+										<span>进件条件</span>
+										<select name="ipt-jjtjian1" class="form-control">
+											<option value=""></option>
+										</select>
+									</li>
+									<li>
+										<span>适用对象</span>
+										<select name="ipt-syrqun" class="form-control">
+											<option value=""></option>
+										</select>
+									</li>
+									<li>
+										<span>还款方式</span>
+										<select name="ipt-hkfshi" class="form-control">
+											<option value=""></option>
+										</select>
+									</li>
+								</ul>
+								<ul class="list-inline">
+									<li>
+										<span>贷款额度</span>
+										<select name="ipt-dkedu" class="form-control">
+											<option value=""></option>
+										</select>
+									</li>
+									<li>
+										<span>贷款利率</span>
+										<select name="ipt-dklxi" class="form-control">
+											<option value=""></option>
+										</select>
+									</li>
+									<li>
+										<span>放款时间</span>
+										<select name="ipt-pksjian" class="form-control">
+											<option value=""></option>
+										</select>
+									</li>
+									<li>
+										<span>还款年限</span>
+										<select name="ipt-hkqxian" class="form-control">
+											<option value=""></option>
+										</select>
+									</li>
+								</ul>
+							</div>
+							<div class="btn-wrap">
+								<button type="button" class="btn btn-default btn-red" id="queryForm">查询</button>
+								<button type="button" class="btn btn-default" id="clearForm">清除筛选条件</button>
+							</div>
+						</div>
+
+						<table class="table">
+							<thead>
+								<th width="4%">序号</th>
+								<th width="4%">机构</th>
+								<th width="7%">机构名称</th>
+								<th width="5%">产品</th>
+								<th width="5%">对象</th>
+								<th width="22%">进件条件</th>
+								<th width="18%">进件资料</th>
+								<th width="6%">范围</th>
+								<th width="8%">利息</th>
+								<th width="5%">放款</th>
+								<th width="16%">可贷额度</th>
+							</thead>
+							<tbody class="table-body">
+							</tbody>
+						</table>
+
+
+						<div class="bd-footer query-container">
+							<div class="page100">
+								<div class="page-content1 clearfix">
+									<button type="button" class="pull-left btn_first firstpage"></button>
+									<button type="button" class="pull-left btn_prev prevpage"></button>
+									<div class="pull-left page-item jump-page page1"></div>
+									<div class="pull-left page-item active"></div>
+									<div class="pull-left page-item jump-page page2"></div>
+									<button type="button" class="pull-left btn_next nextpage"></button>
+									<button type="button" class="pull-left btn_last mr30 lastpage"></button>
+
+									<input type="text" class="form-control text-center" name="ipt-page" id="ipt-page" value="">
+									<button type="button" class="btn btn-default mr30" id="jump2page" style="height: 32px;margin-top: -2px;">GO</button>
+
+									<div class="page_size">
+										每页显示
+										<select name="ipt-pagesize" id="ipt-pagesize" class="form-control" style="display: inline-block;width: 75px;">
+											<option value="10">10条</option>
+											<option value="20">20条</option>
+											<option value="50">50条</option>
+											<option value="100">100条</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+</div>
+
+<script src="js/jquery.form.js"></script>
+<script src="js/watermark.js"></script>
+<script src="js/getExtNum.js"></script>
+<script>
+	$(function(){
+	    $(window).scroll(function () {
+            var $scroll_height = $(window).scrollTop();
+            if($scroll_height >263){
+                $('thead').css({
+					'position':'fixed',
+					'top':'60px',
+					'z-index':3,
+                    '-webkit-transform': 'translateZ(0)'
+				})
+				$('thead th').eq(0).css({
+					'width':'48px'
+				})
+                $('thead th').eq(1).css({
+                    'width':'48px'
+                })
+                $('thead th').eq(2).css({
+                    'width':'84px'
+                })
+				$('thead th').eq(3).css({
+                    'width':'60px'
+                })
+				$('thead th').eq(4).css({
+                    'width':'60px'
+                })
+                $('thead th').eq(5).css({
+                    'width':'264px'
+                })
+                $('thead th').eq(6).css({
+                    'width':'216px'
+                })
+				$('thead th').eq(7).css({
+                    'width':'72px'
+                })
+                $('thead th').eq(8).css({
+                    'width':'96px'
+                })
+                $('thead th').eq(9).css({
+                    'width':'60px'
+                })
+                $('thead th').eq(10).css({
+                    'width':'192px'
+                })
+
+
+			}else{
+                $('thead').css({
+                    'position':'static',
+                })
+			}
+        })
+		
+	    var jjtjian1Array = ["无","月供房","红本房","保单","代发","公积金","社保","个税","抵押房","二押贷","企业贷"];
+	    var h = document.body.scrollHeight - 90;
+	    $('.panel').css('min-height', h+'px');
+	    var json = {}
+
+	    /* 获得转化日期 */
+	    function getNowFormatDate(){
+	        var date = new Date();
+	        var month = date.getMonth()+1;
+	        return date.getFullYear() +'年' + month +'月' + date.getDate()+'日'+' '+ date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
+		}
+
+	    /* 获取查询条件 */
+	    function getOptions(){
+	        $.getJSON('ajax/database.json', function (data) {
+	            json = data.queryProductOption;
+				data.jjtjian.forEach(function (t) {
+                    $('[name="ipt-jjtjian1"]').append('<option value="'+t.id+'">'+t.name+'</option>')
+				});
+
+				data.syrqun.forEach(function (t) {
+				    $('[name="ipt-syrqun"]').append('<option value="'+t.id+'">'+t.name+'</option>')
+				});
+
+                data.hkfshi.forEach(function (t) {
+                    $('[name="ipt-hkfshi"]').append('<option value="'+t.id+'">'+t.name+'</option>')
+                });
+
+                data.dklxi.forEach(function (t) {
+                    $('[name="ipt-dklxi"]').append('<option value="'+t.id+'">'+t.name+'</option>')
+                });
+
+                data.pksjian.forEach(function (t) {
+                    $('[name="ipt-pksjian"]').append('<option value="'+t.id+'">'+t.name+'</option>')
+                });
+
+                data.hkqxian.forEach(function (t) {
+                    $('[name="ipt-hkqxian"]').append('<option value="'+t.id+'">'+t.name+'</option>')
+                });
+
+                //var initCount = 5;
+                for(var i=1,initCount = 5; i<=20; i++){
+                    $('[name="ipt-dkedu"]').append('<option value="'+initCount+'">'+initCount+'</option>');
+                    initCount += 5;
+                }
+
+                for(var i=16; i<=75; i++){
+                    $('[name="ipt-nlfwei"]').append('<option value="'+i+'">'+i+'</option>');
+                }
+            })
+		}
+
+		/* 查询出所有信息 */
+        var page1,page2;
+		function queryAllMsg() {
+		    if($('[name="ipt-page"]').val()==''){
+                $('[name="ipt-page"]').val(1);
+                $('[name="ipt-pagesize"]').val(10);
+			}
+            $('.table-body').empty();
+		    $('body .mask_div').remove();
+            $('#searchForm').ajaxSubmit({
+                type: 'POST',
+                url: 'product-detail.php?action=ajaxsearch',
+                success: function (data) {
+                    var result = eval('(' + data + ')');
+                    console.log(result);
+                    sessionStorage.setItem('json', JSON.stringify(result));
+
+                    result.data.forEach(function (t) {
+                        var srrding = t.srrding == ''? 'hide': '';
+                        var zxyqi = t.zxyqi == ''? 'hide': '';
+                        var zxcxun = t.zxcxun == ''? 'hide': '';
+                        var fzgshi = t.fzgshi == ''? 'hide': '';
+                        var str = '',jgou ='';
+                        t.syrqun.split(',').forEach(function (g) {
+							str+= g==1?'自雇':g==2?'受薪':'';
+                        })
+						if(t.fkjgou=="0"){  //没有选择放款机构显示机构名称
+							jgou = t.jgmcheng_name
+						}else{
+						    jgou = t.fkjgou_name
+						}
+                        $('.table-body').append('<tr id="'+ t.id +'"><td width="4%">'+ t.i +'</td><td width="4%">' + t.jglxing_name + '</td> <td width="7%">' + jgou + '</td><td width="5%">'+ jjtjian1Array[t.jjtjian1] +'</td><td width="5%">'+ str +'</td> <td width="22%"><pre>' + t.jjtjian + '</pre></td> <td width="18%"><pre>' + t.jjzliao + '</pre></td> <td width="6%"><pre>' + t.dkedu + '</pre></td> <td width="8%"><pre>' + t.dklxi + '</pre></td> <td width="5%"><pre>' + t.pksjian + '</pre></td> <td class="relative" width="16%"><pre>' + t.kdedu + '</pre><div class="other-msg"><i class="triangel-lg"></i><i class="triangel-sm"></i><table><tr class="'+srrding+'"><td class="gray-text" width="18%">收入认定：</td><td width="82%"><pre>'+ t.srrding +'</pre></td></tr><tr class="'+zxyqi+'"><td class="gray-text">征信逾期：</td><td><pre>'+ t.zxyqi +'</pre></td></tr><tr class="'+zxcxun+'"><td class="gray-text">征信查询：</td><td><pre>'+ t.zxcxun +'</pre></td></tr><tr class="'+fzgshi+'"><td class="gray-text">负债公式：</td><td><pre>'+ t.fzgshi +'</pre></td></tr></table></div></td> </tr>')
+                    });
+                    $('.lastpage').attr('data-page',result.page.total);
+                    $('.prevpage').attr('data-page', result.page.prev);
+                    $('.nextpage').attr('data-page', result.page.next);
+
+                    result.page.prev==0?($('.prevpage').hide(),page1 =''):($('.prevpage').show(),page1 = result.page.prev);
+                    result.page.next==0?($('.nextpage').hide(),page2 =''):($('.nextpage').show(),page2 = result.page.next);
+                    $('.page1').html(page1);
+                    $('.page2').html(page2);
+                    $('.page-item.active').html(result.page.index)
+
+					// 背景添加水印
+					var nowTime = getNowFormatDate();
+                    var pagesize = $('[name="ipt-pagesize"]').val();
+                    var row = pagesize >=50? 100 : 50;
+                    watermark({
+						watermark_txt:'查阅人：'+result.user.name+ nowTime,
+						watermark_color: '#000',
+                        watermark_alpha: '0.1',
+						watermark_width:110,
+						watermark_angle:30,
+						watermark_x: (document.body.clientWidth-1200)/2,
+                        watermark_y: 303,
+						watermark_rows:row,
+						watermark_cols:6
+                    });
+
+                }
+            });
+
+        }
+
+	    // 查询
+		$('#queryForm').click(function () {
+            queryAllMsg()
+        });
+
+		// 清空
+		$('#clearForm').click(function () {
+			$('.bd-head select').val('');
+        });
+
+	    $(document).on('mouseover','.table-body .relative',function (e) {
+			$(this).find('.other-msg').show();
+        });
+
+        $(document).on('mouseout', '.table-body .relative', function () {
+            $(this).find('.other-msg').hide();
+        });
+        
+        // 跳转至编辑页面
+		$(document).on('click', '.table-body>tr', function () {
+        	var id = $(this).attr('id');
+        	var data = JSON.parse(sessionStorage.getItem('json')).data;
+        	$.each(data, function (i,val) {
+				if(val.id == id){
+				    sessionStorage.setItem('thisItemData', JSON.stringify(val))
+				    return false;  //退出循环
+				}
+            })
+			window.location.href = 'product-detail.php?view=product-detail-edit';
+        });
+
+        // 首页点击
+		$('.firstpage').click(function () {
+            $('[name="ipt-page"]').val(1);
+            $('.table-body').empty();
+            queryAllMsg();
+
+        });
+		// 尾页点击
+		$('.lastpage').click(function () {
+            $('[name="ipt-page"]').val($(this).data('page'));
+            queryAllMsg();
+        });
+		// 前一页点击
+		$('.prevpage').click(function () {
+		    if($(this).data('value')==0){
+		        return;
+			}
+            $('[name="ipt-page"]').val($('.page1').html());
+            queryAllMsg();
+        });
+		// 后一页点击
+		$('.nextpage').click(function () {
+            if($(this).data('page')==0){
+                return;
+            }
+            $('[name="ipt-page"]').val($('.page2').html());
+            queryAllMsg();
+        });
+		$('.page-item').click(function () {
+            $('[name="ipt-page"]').val(parseInt($(this).html()));
+            queryAllMsg();
+        });
+		$('[name="ipt-pagesize"]').change(function () {
+            queryAllMsg();
+        });
+		
+		document.onkeydown = function (e) {
+
+            var ev = document.all ? window.event : e;
+            if(ev.keyCode==13) {
+                e.preventDefault();
+                queryAllMsg();
+            }
+        }
+
+        $('#jump2page').click(function () {
+            queryAllMsg();
+        })
+
+
+        getOptions();
+        queryAllMsg();
+
+
+	})
+</script>
+<script>
+
+</script>
+
+</body>
+
+</html>

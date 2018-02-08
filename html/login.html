@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CRM-登录</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="shortcut icon" href="favicon.ico" />
+    <script src="js/jquery.min.js"></script>
+</head>
+<body>
+  <div class="login-bg">
+    <img src="images/login_bg.png" alt="">
+  </div>
+
+  <div class="login-container">
+    <div class="logo">
+      <img src="images/welcome2.png" alt="">
+    </div>
+    <form method="post">
+      <?echo $msg?>
+      <label class="user" for="input-item01">
+        <div class="input-inner">
+          <input class="form-control" type="text" placeholder="请输入用户名" name="doc-ipt-username" value="<?echo $username?>" id="input-item01">
+        </div>
+        <div class="user-icon login-icon"></div>
+      </label>
+      <label class="password" for="input-item02">
+        <div class="input-inner">
+          <input class="form-control" type="password" placeholder="请输入密码" name="doc-ipt-password" value="<?echo $password?>" id="input-item02">
+        </div>
+        <div class="password-icon login-icon"></div>
+        <div class="pw-show-icon login-icon" id="pwShow"></div>
+      </label>
+      <div class="clearfix">
+        <div class="verification-img pull-left">
+          <img title="点击刷新" src="lib/class.validatecode.php"
+               style="width:130px; height:50px;"
+               onclick="this.src='lib/class.validatecode.php?'+Math.random();"/>
+        </div>
+        <div class="verification-code pull-left">
+          <input type="text" class="form-control" placeholder="请输入验证码" name="doc-ipt-authvc">
+        </div>
+      </div>
+      <button class="login-btn">登录</button>
+    </form>
+  </div>
+<script type="text/javascript" src="js/app1.js"></script>
+<script type="text/javascript">
+  var winH = window.innerHeight;
+  document.body.style.height = winH+'px';
+
+  var passwordShow = false;
+  $("#pwShow").click(function(){
+    if (passwordShow == false) {
+      $("#pwShow").addClass("show");
+      passwordShow = true;
+      $(".password input").attr("type","text");
+      return;
+    };
+    if (passwordShow) {
+      $("#pwShow").removeClass("show");
+      passwordShow = false;
+      $(".password input").attr("type","password");
+      return;
+    };
+  })
+  
+  $(window).resize(function(){
+    winH = window.innerHeight;
+    document.body.style.height = winH+'px';
+  })
+
+</script>  
+</body>
+</html>

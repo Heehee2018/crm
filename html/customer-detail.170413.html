@@ -1,0 +1,4137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/app1.css">
+  <link rel="stylesheet" href="css/swiper-3.4.1.min.css">
+  <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="wapper">
+  <? require_once("html/navbar.html") ?>
+
+  <section class="client">
+    <? echo $msg ?>
+  
+    <div class="row header">
+      <div class="col-md-6 left-part">
+        <div class="title">客户管理</div>
+        <div class="name">详细资料－<? echo $html["attach"] ?></div>
+        <div class="dropdown select-client">
+          <select name="status" class="form-control">
+            <? echo $html["opt_status"] ?>
+          </select>
+        </div>
+        <div class="tags">
+          <span><? echo $html["quality"] ?></span>
+          <span class="pl10"><? echo $html["from"] ?></span>
+        </div>
+        <div class="date text-right f12">
+          <div class="text-blue"><? echo $html["inputdate"] ?></div>
+          <div class="text-blue"><? echo $html["inputtime"] ?></div>
+          <div class="text-gray"><? echo $html["cdate"] ?></div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="clearfix">
+          <ul class="list-unstyled pull-left item-list list-inline">
+            <li>流水贷</li>
+            <li>抵押贷</li>
+            <li>工薪贷</li>
+            <li>月供房</li>
+            <li>保单贷</li>
+          </ul>
+          <div class="pull-right right-btn">
+            <button class="move-top client-icon arrow-top"></button>
+            <button class="move-bottom client-icon arrow-down"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row person">
+      <div class="col-md-6 border-r2">
+        <div class="clearfix">
+          <div class="pull-left name"><? echo $html["name"] ?></div>
+          <div class="pull-left sex-icon <? echo $html["sex"] ?>"></div>
+          <div class="pull-right" style="width: 258px;">
+            <div class="clearfix">
+              <div class="pull-left client-icon tel"></div>
+              <div class="pull-left client-icon email"></div>
+              <div class="pull-left pr10 tel-number"><? echo $html["phone"] ?></div>
+              <div class="text-blue pull-left address"><? echo $html["phone_dict"] ?></div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="pull-left age"><? echo $html["age"] ?>岁</div>
+          <div class="pull-left hun-icon"></div>
+          <div class="pull-left client-icon ou" data-id="<? echo $html["poxxi"] ?>" style="display: none;"></div>
+          <div class="pull-right width230">
+            <div class="clearfix">
+              <div class="pull-left client-icon zhu"></div>
+              <div class="pull-left text-blue adderss2"><? echo $html["xzinfo"] ?></div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix pt10">
+          <div class="pull-left client-icon zi"></div>
+          <div class="pull-left text-normal"><? echo $html["znv"] ?></div>
+          <div class="pull-right width230">
+            <div class="clearfix">
+              <div class="pull-left client-icon hu"></div>
+              <div class="pull-left adderss2"><? echo $html["hxinfo"] ?></div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix pt10">
+          <div class="pull-left client-icon zheng"></div>
+          <div class="pull-left text-normal"><? echo $html["certcode"] ?></div>
+        </div>
+        <div class="clearfix pt10">
+          <div class="pull-left client-icon qi"></div>
+          <div class="pull-left text-normal"><? echo $html["sfzyxqi"] ?></div>
+        </div>
+        <div class="clearfix pt10">
+          <div class="pull-left client-icon zhi"></div>
+          <div class="pull-left text-normal"><? echo $html["sfzdzinfo"] ?></div>
+        </div>
+
+        <div class="clearfix pt20">
+          <div class="pull-left">副手机号</div>
+          <div class="pull-right tel-title">固定电话</div>
+        </div>
+        <div class="clearfix">
+          <div class="pull-left client-icon tel"></div>
+          <div class="pull-left client-icon email"></div>
+          <div class="pull-left pr10 tel-number"><? echo $html["phone1"] ?></div>
+          <div class="pull-left text-blue address"><? echo $html["phone1_dict"] ?></div>
+          <div class="pull-right width230">
+            <div class="clearfix">
+              <p class="client-icon tel"></p>
+              <p class="pr10 tel-number"><? echo $html["tel1"] ?></p>
+              <p class="text-blue address"></p>
+            </div>
+          </div>
+          
+        </div>
+        <div class="clearfix">
+          <div class="pull-left client-icon tel"></div>
+          <div class="pull-left client-icon email"></div>
+          <div class="pull-left pr10 tel-number"><? echo $html["phone2"] ?></div>
+          <div class="pull-left text-blue address"><? echo $html["phone2_dict"] ?></div>
+          <div class="pull-right width230">
+            <div class="clearfix">
+              <p class="client-icon tel"></p>
+              <p class="pr10 tel-number"><? echo $html["tel2"] ?></p>
+              <p class="text-blue address"></p>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="pull-left client-icon tel"></div>
+          <div class="pull-left client-icon email"></div>
+          <div class="pull-left pr10 tel-number"><? echo $html["phone3"] ?></div>
+          <div class="pull-left text-blue address"><? echo $html["phone3_dict"] ?></div>
+          <div class="pull-right width230">
+            <div class="clearfix">
+              <p class="client-icon tel"></p>
+              <p class="pr10 tel-number"><? echo $html["tel3"] ?></p>
+              <p class="text-blue address"></p>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="pull-left client-icon tel"></div>
+          <div class="pull-left client-icon email"></div>
+          <div class="pull-left pr10 tel-number"><? echo $html["phone4"] ?></div>
+          <div class="pull-left text-blue address"><? echo $html["phone4_dict"] ?></div>
+          <div class="pull-right width230">
+            <div class="clearfix">
+              <p class="client-icon tel"></p>
+              <p class="pr10 tel-number"><? echo $html["tel4"] ?></p>
+              <p class="text-blue address"></p>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix pt16">
+          <button class="client-icon card mr10" data-toggle="modal" data-target="#cardMsgModal"></button>
+          <button class="client-icon zhang mr10" data-toggle="modal" data-target="#contractModal"></button>
+          <button class="client-icon wu mr10" data-toggle="modal" data-target="#assetsMsgModal"></button>
+          <button class="client-icon zheng1 mr10" data-toggle="modal" data-target="#creditModal"></button>
+          <button class="client-icon back pull-right ml10"></button>
+          <button class="client-icon edit pull-right" data-toggle="modal" data-target="#baseMsgModal"></button>
+        </div>
+      </div>
+      <div class="col-md-6 information-list">
+        <ul class="list-unstyled list-inline">
+          <li class="col-md-4">
+            <a class="item-need">
+              <span>客户需求</span>
+            </a>
+
+            <div class="msg-icon icon06" data-toggle="modal" data-target="#needModal"></div>
+          </li>
+          <li class="col-md-4">
+            <a class="item-gongzuo">
+              <span>工作信息</span>
+            </a>
+
+            <div class="msg-icon icon06" data-toggle="modal" data-target="#jobModal"></div>
+          </li>
+          <li class="col-md-4 import-msg">
+            <a class="item-shouru">
+              <span>收入信息</span>
+            </a>
+
+            <div class="msg-icon icon05" data-toggle="modal" data-target="#wagesModal"></div>
+            <div class="msg-icon icon04" data-toggle="modal" data-target="#insuranceModal"></div>
+            <div class="msg-icon icon03" data-toggle="modal" data-target="#demand"></div>
+            <div class="msg-icon icon02" data-toggle="modal" data-target="#taxModal"></div>
+            <div class="msg-icon icon01" data-toggle="modal" data-target="#flowModal"></div>
+          </li>
+          <li class="col-md-4">
+            <a class="item-fangchan">
+              <span>房产信息</span>
+            </a>
+
+            <div class="msg-icon icon06" data-toggle="modal" data-target="#houseModal"></div>
+          </li>
+          <li class="col-md-4">
+            <a class="item-chechan">
+              <span>车产信息</span>
+            </a>
+
+            <div class="msg-icon icon06" data-toggle="modal" data-target="#carMsgModal"></div>
+          </li>
+          <li class="col-md-4">
+            <a class="item-chewei">
+              <span>车位信息</span>
+            </a>
+
+            <div class="msg-icon icon06" data-toggle="modal" data-target="#carPosModal"></div>
+          </li>
+          <li class="col-md-4">
+            <a class="item-baodan">
+              <span>保单信息</span>
+            </a>
+
+            <div class="msg-icon icon06" data-toggle="modal" data-target="#policyMsgModal"></div>
+          </li>
+          <li class="col-md-4">
+            <a class="item-zhaiwu">
+              <span>债务信息</span>
+            </a>
+
+            <div class="msg-icon icon06" data-toggle="modal" data-target="#debtMsgModal"></div>
+          </li>
+          <li class="col-md-4">
+            <a class="item-zhengxin">
+              <span>征信信息</span>
+            </a>
+
+            <div class="msg-icon icon06" data-toggle="modal" data-target="#creditMsgModal"></div>
+          </li>
+          <li class="col-md-4">
+            <a class="item-sifa">
+              <span>司法案件信息</span>
+            </a>
+
+            <div class="msg-icon icon06" data-toggle="modal" data-target="#judicialModal"></div>
+          </li>
+          <li class="col-md-4">
+            <a class="item-beizhu">
+              <span>备注</span>
+            </a>
+
+            <div class="msg-icon icon06" data-toggle="modal" data-target="#remarkModal"></div>
+          </li>
+        </ul>
+
+
+        <div class="msg-container xuqiu">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+            </div>
+            <div class="swiper-pagination swiper-p1"></div>
+
+            <button class="client-icon unstyle swiper-button-prev"></button>
+            <button class="client-icon unstyle swiper-button-next"></button>
+          </div>
+
+          <button class="client-icon edit btn-edit"></button>
+          <button class="btn-close glyphicon glyphicon-remove"></button>
+        </div>
+
+        <div class="msg-container gongzuo">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+            </div>
+            <div class="swiper-pagination swiper-m2"></div>
+
+            <button class="client-icon unstyle swiper-button-prev"></button>
+            <button class="client-icon unstyle swiper-button-next"></button>
+          </div>
+
+          <button class="client-icon edit btn-edit"></button>
+          <button class="btn-close glyphicon glyphicon-remove"></button>
+        </div>
+
+        <div class="msg-container shouru">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+            </div>
+            <div class="swiper-pagination swiper-m3"></div>
+
+            <button class="client-icon unstyle swiper-button-prev"></button>
+            <button class="client-icon unstyle swiper-button-next"></button>
+          </div>
+
+          <button class="client-icon edit btn-edit"></button>
+          <button class="btn-close glyphicon glyphicon-remove"></button>
+        </div>
+
+        <div class="msg-container fangchan">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+            </div>
+            <div class="swiper-pagination swiper-m4"></div>
+
+            <button class="client-icon unstyle swiper-button-prev"></button>
+            <button class="client-icon unstyle swiper-button-next"></button>
+          </div>
+
+          <button class="client-icon edit btn-edit"></button>
+          <button class="btn-close glyphicon glyphicon-remove"></button>
+        </div>
+
+        <div class="msg-container chechan">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+            </div>
+            <div class="swiper-pagination swiper-m5"></div>
+
+            <button class="client-icon unstyle swiper-button-prev"></button>
+            <button class="client-icon unstyle swiper-button-next"></button>
+          </div>
+
+          <button class="client-icon edit btn-edit"></button>
+          <button class="btn-close glyphicon glyphicon-remove"></button>
+        </div>
+
+        <div class="msg-container chewei">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+            </div>
+            <div class="swiper-pagination swiper-m6"></div>
+
+            <button class="client-icon unstyle swiper-button-prev"></button>
+            <button class="client-icon unstyle swiper-button-next"></button>
+          </div>
+
+          <button class="client-icon edit btn-edit"></button>
+          <button class="btn-close glyphicon glyphicon-remove"></button>
+        </div>
+
+        <div class="msg-container baodan">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+            </div>
+            <div class="swiper-pagination swiper-m7"></div>
+
+            <button class="client-icon unstyle swiper-button-prev"></button>
+            <button class="client-icon unstyle swiper-button-next"></button>
+          </div>
+
+          <button class="client-icon edit btn-edit"></button>
+          <button class="btn-close glyphicon glyphicon-remove"></button>
+        </div>
+
+        <div class="msg-container zhaiwu">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <!-- <div class="swiper-slide">
+                <div class="msg-content lh26 f14">
+                  <div class="xinyongka-msg">
+                    <div class="row">
+                      <div class="col-xs-5 font-bold">信用卡</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">张数</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].zshu +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">总授信额</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].zsxe +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">单张最高授信额</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dzzgsxe +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">当前已用</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dqyyong +'元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">近6个月均用</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].jlgyjyong +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">特殊状态</div>
+                      <div class="col-xs-5 pl20 color-gray">
+                        <div class="row">
+                          <div class="col-xs-12">呆帐'+ zhaiwuData[i].dzhang +'张</div>
+                          <div class="col-xs-12">冻结'+ zhaiwuData[i].djie +'张</div>
+                          <div class="col-xs-12">止付'+ zhaiwuData[i].zfu +'张</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="xinyongdaikuan-msg">
+                    <div class="row">
+                      <div class="col-xs-5 font-bold">信用贷款贷款</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">机构</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].jgou +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">公司</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].gsi +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">放款</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].fkuan +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">贷款金额</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dkje +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">剩余本金</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].sybjin +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">放款时间</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].fksjian +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">贷款期限</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dkqxian +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">还款方式</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].hkfshi +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">月供金额</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].ygje +'元</div>
+                    </div>
+                  </div>
+
+                  <div class="xinyongdaikuan-msg">
+                    <div class="row">
+                      <div class="col-xs-5 font-bold">对外担保</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">担保金额</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dbje +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">担保类型</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dblxing +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">担保状态</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dbztai +'</div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <!-- <div class="swiper-slide">
+                <div class="msg-content lh26 f14">
+                  <div class="xinyongka-msg">
+                    <div class="row">
+                      <div class="col-xs-5 font-bold">信用卡</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">张数</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].zshu +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">总授信额</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].zsxe +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">单张最高授信额</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dzzgsxe +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">当前已用</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dqyyong +'元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">近6个月均用</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].jlgyjyong +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">特殊状态</div>
+                      <div class="col-xs-5 pl20 color-gray">
+                        <div class="row">
+                          <div class="col-xs-12">呆帐'+ zhaiwuData[i].dzhang +'张</div>
+                          <div class="col-xs-12">冻结'+ zhaiwuData[i].djie +'张</div>
+                          <div class="col-xs-12">止付'+ zhaiwuData[i].zfu +'张</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="diyadaikuan-msg">
+                    <div class="row">
+                      <div class="col-xs-5 font-bold">抵押贷款</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">放款银行</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].fwyhang +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">房屋贷款</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].fwdkuan +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">贷款日期</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dkrqi +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">贷款本金</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dkbjin +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">月供金额</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].ygje +'元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">还款方式</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].hkfshi +'</div>
+                    </div>
+                  </div>
+
+                  <div class="xinyongdaikuan-msg">
+                    <div class="row">
+                      <div class="col-xs-5 font-bold">信用贷款贷款</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">机构</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].xy_jgou +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">公司</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].xy_gsi +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">放款</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].xy_fkuan +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">贷款金额</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].xy_dkje +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">剩余本金</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].xy_sybjin +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">放款时间</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].xy_fksjian +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">贷款期限</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].xy_dkqxian +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">还款方式</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].xy_hkfshi +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">月供金额</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].xy_ygje +'元</div>
+                    </div>
+                  </div>
+
+                  <div class="xinyongdaikuan-msg">
+                    <div class="row">
+                      <div class="col-xs-5 font-bold">对外担保</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">担保金额</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dwdb_dbje +'万元</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">担保类型</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dwdb_dblxing +'</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 text-right">担保状态</div>
+                      <div class="col-xs-5 pl20 color-gray">'+ zhaiwuData[i].dwdb_dbztai +'</div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+            <div class="swiper-pagination swiper-m8"></div>
+
+            <button class="client-icon unstyle swiper-button-prev"></button>
+            <button class="client-icon unstyle swiper-button-next"></button>
+          </div>
+
+          <button class="client-icon edit btn-edit"></button>
+          <button class="btn-close glyphicon glyphicon-remove"></button>
+        </div>
+
+        <div class="msg-container zhengxin">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <!-- <div class="swiper-slide">
+                <div class="msg-content lh26 f14">
+                  <div class="row">
+                    <div class="col-xs-5 text-right">纪录类型</div>
+                    <div class="col-xs-5 pl20 color-gray">'+ sifaData[i].jllxing +'</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-5 text-right">案件时间</div>
+                    <div class="col-xs-5 pl20 color-gray">'+ sifaData[i].ajsjian +'</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-5 text-right">是否可网查</div>
+                    <div class="col-xs-5 pl20 color-gray">'+ sifaData[i].sfkwcha +'</div>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+            <div class="swiper-pagination swiper-m9"></div>
+
+            <button class="client-icon unstyle swiper-button-prev"></button>
+            <button class="client-icon unstyle swiper-button-next"></button>
+          </div>
+
+          <button class="client-icon edit btn-edit"></button>
+          <button class="btn-close glyphicon glyphicon-remove"></button>
+        </div>
+
+        <div class="msg-container sifa">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              <!-- <div class="swiper-slide">
+                <div class="msg-content lh26 f14">
+                  <div class="row">
+                    <div class="col-xs-5 text-right">纪录类型</div>
+                    <div class="col-xs-5 pl20 color-gray">'+ sifaData[i].jllxing +'</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-5 text-right">案件时间</div>
+                    <div class="col-xs-5 pl20 color-gray">'+ sifaData[i].ajsjian +'</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-5 text-right">是否可网查</div>
+                    <div class="col-xs-5 pl20 color-gray">'+ sifaData[i].sfkwcha +'</div>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+            <div class="swiper-pagination swiper-m10"></div>
+
+            <button class="client-icon unstyle swiper-button-prev"></button>
+            <button class="client-icon unstyle swiper-button-next"></button>
+          </div>
+
+          <button class="client-icon edit btn-edit"></button>
+          <button class="btn-close glyphicon glyphicon-remove"></button>
+        </div>
+
+        <div class="msg-container beizhu">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+            </div>
+            <div class="swiper-pagination swiper-m11"></div>
+
+            <button class="client-icon unstyle swiper-button-prev"></button>
+            <button class="client-icon unstyle swiper-button-next"></button>
+          </div>
+
+          <button class="client-icon edit btn-edit"></button>
+          <button class="btn-close glyphicon glyphicon-remove"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="record clearfix">
+      <div class="swiper-container">
+        <ul class="list-unstyled swiper-wrapper">
+        </ul>
+
+        <div class="swiper-pagination swiper-p2"></div>
+
+        <button class="client-icon unstyle swiper-button-prev"></button>
+        <button class="client-icon unstyle swiper-button-next"></button>
+
+        <div class="left-mask"></div>
+        <div class="right-mask"></div>
+
+        <button class="client-icon add-btn unstyle left-add-btn" data-toggle="modal"
+                data-target="#addServiceModal"></button>
+        <button class="client-icon add-btn unstyle right-add-btn" data-toggle="modal"
+                data-target="#addServiceModal"></button>
+      </div>
+    </div>
+
+    <div class="context-record">
+      <div class="header clearfix">
+        <div class="pull-left title">跟进记录</div>
+        <button class="client-icon back-gray unstyle pull-right"></button>
+        <button class="client-icon add-gray unstyle pull-right" data-toggle="modal"
+                data-target="#addFollowModal"></button>
+      </div>
+      <div class="contact-list row">
+        <div class="col-md-4">
+          <div class="contact-tel">
+            <ul class="list-unstyled">
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="contact-face">
+            <ul class="list-unstyled">
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="contact-unknow">
+            <ul class="list-unstyled">
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 收入信息-个人所得税弹窗 -->
+<div class="modal fade width410" id="taxModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="saveincome4">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">收入信息</div>
+
+          <div class="header clearfix">
+            <div class="wages-icon icon14 pull-left"></div>
+            <div class="pull-left text-center tax-title">个人所得税</div>
+          </div>
+          <div class="row">
+            <div class="col-xs-4 text-right">缴纳状态：</div>
+            <div class="col-xs-8 pl10">
+              <label for="tax01">
+                <input id="tax01" value="2" type="radio" name="ipt-sds_jnztai" <? if_checked($html["m"]["income"]["sds_jnztai"], 1) ?>>
+                缴纳中
+              </label>
+              <br>
+              <label for="tax02">
+                <input id="tax02" value="2" type="radio" name="ipt-sds_jnztai" <? if_checked($html["m"]["income"]["sds_jnztai"], 2) ?>>
+                中断后续缴
+              </label>
+              <br>
+              <label for="tax03">
+                <input id="tax03" value="3" type="radio" name="ipt-sds_jnztai" <? if_checked($html["m"]["income"]["sds_jnztai"], 3) ?>>
+                已中断一个月以上
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt10 item01">
+            <div class="col-xs-4 text-right lh34">起缴月份：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar03">
+                <input id="calendar03" class="form-control form_datetime" type="text" size="16" value="<? echo $html["m"]["income"]["sds_xxyfen"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+          <div class="row mt10 item02">
+            <div class="col-xs-4 text-right lh34">续缴月份：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar03">
+                <input id="calendar03" class="form-control form_datetime" type="text" size="16" value="<? echo $html["m"]["income"]["sds_xxyfen"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+          <div class="row mt10 item03">
+            <div class="col-xs-4 text-right lh34">中断月份：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar03">
+                <input id="calendar03" class="form-control form_datetime" type="text" size="16" value="<? echo $html["m"]["income"]["sds_xxyfen"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt30 lh34">
+            <div class="col-xs-4 text-right">税前工资：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control width70 pull-left" type="text" name="ipt-sds_sqgzi" value="<? echo $html["m"]["income"]["sds_sqgzi"] ?>">
+              <span class="pull-left pl5">元</span>
+            </div>
+          </div>
+          <div class="row mt10 lh34">
+            <div class="col-xs-4 text-right">个税金额：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control width70 pull-left" type="text" name="ipt-sds_gsmoney" value="<? echo $html["m"]["income"]["sds_gsmoney"] ?>">
+              <span class="pull-left pl5">元</span>
+            </div>
+          </div>
+
+          <div class="row mt30">
+            <div class="col-xs-4 text-right lh34">缴纳地：</div>
+            <div class="col-xs-8 pl10" id="selectAddress">
+              <div class="form-group">
+                <select class="form-control" name="ipt-sds_jndsheng" data-province="<? echo $html["m"]["income"]["sds_jndsheng"] ?>"></select>
+              </div>
+              <div class="form-group ml10">
+                <select class="form-control" name="ipt-sds_jndshi" data-city="<? echo $html["m"]["income"]["sds_jndshi"] ?>"></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row lh34 mt10">
+            <div class="col-xs-4 text-right">缴纳单位：</div>
+            <div class="col-xs-6 pl10">
+              <label for="thisCpm05">
+                <input id="thisCpm05" type="radio" name="ipt-sds_jndwei" value="1" <? if_checked($html["m"]["income"]["sds_jndwei"], 1) ?>>
+                本公司
+              </label>
+              <label for="otherCpm06" class="ml50">
+                <input id="otherCpm06" type="radio" name="ipt-sds_jndwei" value="2" <? if_checked($html["m"]["income"]["sds_jndwei"], 2) ?>>
+                第三方
+              </label>
+            </div>
+          </div>
+
+          <div class="row lh34 mt10">
+            <div class="col-xs-4 text-right">第三方公司名：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control" name="ipt-sds_dsfgsming" value="<? echo $html["m"]["income"]["sds_dsfgsming"] ?>">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 收入信息-社保弹窗 -->
+<div class="modal fade width410" id="insuranceModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="saveincome2">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">收入信息</div>
+
+          <div class="header clearfix">
+            <div class="wages-icon icon12 pull-left"></div>
+            <div class="pull-left text-center insurance-title">社会保险</div>
+          </div>
+          <div class="row">
+            <div class="col-xs-4 text-right">社保缴纳状态：</div>
+            <div class="col-xs-8 pl10">
+              <label for="shebao01">
+                <input id="shebao01" type="radio" name="ipt-sb_sbjnztai" value="1" <? if_checked($html["m"]["income"]["sb_sbjnztai"], 1) ?>>
+                缴纳中
+              </label>
+              <br>
+              <label for="shebao02">
+                <input id="shebao02" type="radio" name="ipt-sb_sbjnztai" value="2" <? if_checked($html["m"]["income"]["sb_sbjnztai"], 2) ?>>
+                中断后续缴
+              </label>
+              <br>
+              <label for="shebao03">
+                <input id="shebao03" type="radio" name="ipt-sb_sbjnztai" value="3" <? if_checked($html["m"]["income"]["sb_sbjnztai"], 3) ?>>
+                已中断一个月以上
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt10 item01">
+            <div class="col-xs-4 text-right lh34">社保起缴月份：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar03">
+                <input id="calendar03" class="form-control form_datetime" type="text" size="16" name="" value="<? echo $html["m"]["income"]["sb_sbxxyfen"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+          <div class="row mt10 item02">
+            <div class="col-xs-4 text-right lh34">社保续缴月份：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar03">
+                <input id="calendar03" class="form-control form_datetime" type="text" size="16" name="" value="<? echo $html["m"]["income"]["sb_sbxxyfen"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+          <div class="row mt10 item03">
+            <div class="col-xs-4 text-right lh34">社保中断月份：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar03">
+                <input id="calendar03" class="form-control form_datetime" type="text" size="16" name="" value="<? echo $html["m"]["income"]["sb_sbxxyfen"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+          <div class="row mt30">
+            <div class="col-xs-4 text-right lh34"></div>
+            <div class="col-xs-3 pl10">公司</div>
+            <div class="col-xs-3 pl10 ml10">个人</div>
+          </div>
+          <div class="row mt10">
+            <div class="col-xs-4 text-right lh34">养老基数：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control width100" type="text" name="ipt-sb_gs_yljs" value="<? echo $html["m"]["income"]["sb_gs_yljs"] ?>">
+            </div>
+            <div class="col-xs-3 pl10 ml10">
+              <input class="form-control width100" type="text" name="ipt-sb_gr_yljs" value="<? echo $html["m"]["income"]["sb_gr_yljs"] ?>">
+            </div>
+          </div>
+          <div class="row mt10 lh34">
+            <div class="col-xs-4 text-right">社保缴纳比例：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control width70 pull-left" type="text" name="ipt-sb_gs_sbjnbli" value="<? echo $html["m"]["income"]["sb_gs_sbjnbli"] ?>">
+              <span class="pull-left pl5">%</span>
+            </div>
+            <div class="col-xs-3 pl10 ml10">
+              <input class="form-control width70 pull-left" type="text" name="ipt-sb_gr_sbjnbli" value="<? echo $html["m"]["income"]["sb_gr_sbjnbli"] ?>">
+              <span class="pull-left pl5">%</span>
+            </div>
+          </div>
+          <div class="row mt10 lh34">
+            <div class="col-xs-4 text-right">社保缴纳金额：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control width70 pull-left" type="text" name="ipt-sb_gs_sbjnmoney" value="<? echo $html["m"]["income"]["sb_gs_sbjnmoney"] ?>">
+              <span class="pull-left pl5">元</span>
+            </div>
+            <div class="col-xs-3 pl10 ml10">
+              <input class="form-control width70 pull-left" type="text" name="ipt-sb_gr_sbjnmoney" value="<? echo $html["m"]["income"]["sb_gr_sbjnmoney"] ?>">
+              <span class="pull-left pl5">元</span>
+            </div>
+          </div>
+          <div class="row mt30">
+            <div class="col-xs-4 text-right lh34">社保缴纳地：</div>
+            <div class="col-xs-8 pl10" id="selectAddress2">
+              <div class="form-group">
+                <select class="form-control" name="ipt-sb_sbjndsheng" data-province="<? echo $html["m"]["income"]["sb_sbjndsheng"] ?>"></select>
+              </div>
+              <div class="form-group ml10">
+                <select class="form-control" name="ipt-sb_sbjndshi" data-city="<? echo $html["m"]["income"]["sb_sbjndshi"] ?>"></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row lh34 mt10">
+            <div class="col-xs-4 text-right">社保缴纳单位：</div>
+            <div class="col-xs-6 pl10">
+              <label for="thisCpm03">
+                <input id="thisCpm03" type="radio" name="ipt-sb_sbjndwei" value="1" <? if_checked($html["m"]["income"]["sb_sbjndwei"], 1) ?>>
+                本公司
+              </label>
+              <label for="otherCpm04" class="ml50">
+                <input id="otherCpm04" type="radio" name="ipt-sb_sbjndwei" value="2" <? if_checked($html["m"]["income"]["sb_sbjndwei"], 2) ?>>
+                第三方
+              </label>
+            </div>
+          </div>
+
+          <div class="row lh34 mt10">
+            <div class="col-xs-4 text-right">第三方公司名：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control" name="ipt-sb_dsfgsming" value="<? echo $html["m"]["income"]["sb_dsfgsming"] ?>">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 收入信息-流水信息弹窗 -->
+<div class="modal fade width410" id="flowModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="saveincome5">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">收入信息</div>
+          <div class="header clearfix">
+            <div class="wages-icon icon13 pull-left"></div>
+            <div class="pull-left text-center flow-title">流水信息</div>
+          </div>
+          <div class="row mt20">
+            <div class="col-xs-3 text-right sub-title">公帐流水&nbsp;&nbsp;</div>
+          </div>
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">月均流水：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-ls_gz_yjlshui" value="<? echo $html["m"]["income"]["ls_gz_yjlshui"] ?>">
+            </div>
+            <div class="col-xs-2 pl10 lh34">万元／月</div>
+          </div>
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">结息：</div>
+            <div class="col-xs-9">
+              <div class="row">
+                <div class="col-xs-6 pl10">
+                  <label class="input-group" for="calendar03">
+                    <input id="calendar03" class="form-control form_datetime" type="text" size="16" name="ipt-ls_gz_jxdate1" value="<? echo $html["m"]["income"]["ls_gz_jxdate1"] ?>">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </label>
+                </div>
+                <div class="col-xs-3 pl10">
+                  <input class="form-control " type="text" name="ipt-ls_gz_jxmoney1" value="<? echo $html["m"]["income"]["ls_gz_jxmoney1"] ?>">
+                </div>
+                <div class="col-xs-3 pl10 lh34">万元／月</div>
+              </div>
+
+              <div class="row pt10">
+                <div class="col-xs-6 pl10">
+                  <label class="input-group" for="calendar03">
+                    <input id="calendar03" class="form-control form_datetime" type="text" size="16" name="ipt-ls_gz_jxdate2" value="<? echo $html["m"]["income"]["ls_gz_jxdate2"] ?>">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </label>
+                </div>
+                <div class="col-xs-3 pl10">
+                  <input class="form-control " type="text" name="ipt-ls_gz_jxmoney2" value="<? echo $html["m"]["income"]["ls_gz_jxmoney2"] ?>">
+                </div>
+                <div class="col-xs-3 pl10 lh34">万元／月</div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-3 text-right sub-title">开票流水&nbsp;&nbsp;</div>
+          </div>
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">月均流水：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-ls_kp_yjlshui" value="<? echo $html["m"]["income"]["ls_kp_yjlshui"] ?>">
+            </div>
+            <div class="col-xs-2 pl10 lh34">万元／月</div>
+          </div>
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">结息：</div>
+            <div class="col-xs-9">
+              <div class="row">
+                <div class="col-xs-6 pl10">
+                  <label class="input-group" for="calendar03">
+                    <input id="calendar03" class="form-control form_datetime" type="text" size="16" name="ipt-ls_kp_jxdate1" value="<? echo $html["m"]["income"]["ls_kp_jxdate1"] ?>">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </label>
+                </div>
+                <div class="col-xs-3 pl10">
+                  <input class="form-control " type="text" name="ipt-ls_kp_jxmoney1" value="<? echo $html["m"]["income"]["ls_kp_jxmoney1"] ?>">
+                </div>
+                <div class="col-xs-3 pl10 lh34">万元／月</div>
+              </div>
+
+              <div class="row pt10">
+                <div class="col-xs-6 pl10">
+                  <label class="input-group" for="calendar03">
+                    <input id="calendar03" class="form-control form_datetime" type="text" size="16" name="ipt-ls_kp_jxdate2" value="<? echo $html["m"]["income"]["ls_kp_jxdate2"] ?>">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </label>
+                </div>
+                <div class="col-xs-3 pl10">
+                  <input class="form-control " type="text" name="ipt-ls_kp_jxmoney2" value="<? echo $html["m"]["income"]["ls_kp_jxmoney2"] ?>">
+                </div>
+                <div class="col-xs-3 pl10 lh34">万元／月</div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-3 text-right sub-title">私账流水&nbsp;&nbsp;</div>
+          </div>
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">月均流水：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-ls_sz_yjlshui" value="<? echo $html["m"]["income"]["ls_sz_yjlshui"] ?>">
+            </div>
+            <div class="col-xs-2 pl10 lh34">万元／月</div>
+          </div>
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">结息：</div>
+            <div class="col-xs-9">
+              <div class="row">
+                <div class="col-xs-6 pl10">
+                  <label class="input-group" for="calendar03">
+                    <input id="calendar03" class="form-control form_datetime" type="text" size="16" name="ipt-ls_sz_jxdate1" value="<? echo $html["m"]["income"]["ls_sz_jxdate1"] ?>">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </label>
+                </div>
+                <div class="col-xs-3 pl10">
+                  <input class="form-control " type="text" name="ipt-ls_sz_jxmoney1" value="<? echo $html["m"]["income"]["ls_sz_jxmoney1"] ?>">
+                </div>
+                <div class="col-xs-3 pl10 lh34">万元／月</div>
+              </div>
+
+              <div class="row pt10">
+                <div class="col-xs-6 pl10">
+                  <label class="input-group" for="calendar03">
+                    <input id="calendar03" class="form-control form_datetime" type="text" size="16" name="ipt-ls_sz_jxdate2" value="<? echo $html["m"]["income"]["ls_sz_jxdate2"] ?>">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </label>
+                </div>
+                <div class="col-xs-3 pl10">
+                  <input class="form-control " type="text" name="ipt-ls_sz_jxmoney2" value="<? echo $html["m"]["income"]["ls_sz_jxmoney2"] ?>">
+                </div>
+                <div class="col-xs-3 pl10 lh34">万元／月</div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-3 text-right sub-title">POS机流水&nbsp;&nbsp;</div>
+          </div>
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">月均流水：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-ls_pos_yjlshui" value="<? echo $html["m"]["income"]["ls_pos_yjlshui"] ?>">
+            </div>
+            <div class="col-xs-2 pl10 lh34">万元／月</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- 收入信息-工资信息弹窗 -->
+<div class="modal fade width410" id="wagesModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="saveincome1">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">收入信息</div>
+          <div class="header clearfix">
+            <div class="wages-icon icon10 pull-left"></div>
+            <div class="pull-left text-center wages-title">工资信息</div>
+          </div>
+          <div class="row mt20">
+            <div class="col-xs-4 text-right">工资发放形式：</div>
+            <div class="col-xs-8 pl10">
+              <label for="wagesWay01">
+                <input id="wagesWay01" type="radio" name="ipt-gz_gzffxshi" value="1" <? if_checked($html["m"]["income"]["gz_gzffxshi"], 1) ?>>
+                银行代发
+              </label>
+              <label for="wagesWay02" class="ml20">
+                <input id="wagesWay02" type="radio" name="ipt-gz_gzffxshi" value="2" <? if_checked($html["m"]["income"]["gz_gzffxshi"], 2) ?>>
+                公司转账
+              </label>
+              <label for="wagesWay03" class="ml20">
+                <input id="wagesWay03" type="radio" name="ipt-gz_gzffxshi" value="3" <? if_checked($html["m"]["income"]["gz_gzffxshi"], 3) ?>>
+                现金
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">工资金额：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-gz_gzmoney" value="<? echo $html["m"]["income"]["gz_gzmoney"] ?>">
+            </div>
+            <div class="col-xs-2 pl10 lh34">元／月</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 收入信息-公积金弹窗 -->
+<div class="modal fade width410" id="demand" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="saveincome3">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">收入信息</div>
+
+          <div class="header clearfix">
+            <div class="wages-icon icon11 pull-left"></div>
+            <div class="pull-left text-center gongjijin-title">公积金</div>
+          </div>
+          <div class="row">
+            <div class="col-xs-4 text-right">公积金缴纳状态：</div>
+            <div class="col-xs-8 pl10">
+              <label for="gongji01">
+                <input id="gongji01" type="radio" name="ipt-gjj_gjjjnztai" value="1" <? if_checked($html["m"]["income"]["gjj_gjjjnztai"], 1) ?>>
+                缴纳中
+              </label>
+              <br>
+              <label for="gongji02">
+                <input id="gongji02" type="radio" name="ipt-gjj_gjjjnztai" value="2" <? if_checked($html["m"]["income"]["gjj_gjjjnztai"], 2) ?>>
+                中断后续缴
+              </label>
+              <br>
+              <label for="gongji03">
+                <input id="gongji03" type="radio" name="ipt-gjj_gjjjnztai" value="3" <? if_checked($html["m"]["income"]["gjj_gjjjnztai"], 3) ?>>
+                已中断一个月以上
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt10 item01">
+            <div class="col-xs-4 text-right lh34">公积金起缴月份：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar03">
+                <input id="calendar03" class="form-control form_datetime" type="text" size="16" value="<? echo $html["m"]["income"]["gjj_gjjxxyfen"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+          <div class="row mt10 item02">
+            <div class="col-xs-4 text-right lh34">公积金续缴月份：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar03">
+                <input id="calendar03" class="form-control form_datetime" type="text" size="16" value="<? echo $html["m"]["income"]["gjj_gjjxxyfen"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+          <div class="row mt10 item03">
+            <div class="col-xs-4 text-right lh34">公积金中断月份：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar03">
+                <input id="calendar03" class="form-control form_datetime" type="text" size="16" value="<? echo $html["m"]["income"]["gjj_gjjxxyfen"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+          <div class="row mt30">
+            <div class="col-xs-4 text-right lh34"></div>
+            <div class="col-xs-3 pl10">公司</div>
+            <div class="col-xs-3 pl10 ml10">个人</div>
+          </div>
+          <div class="row mt10">
+            <div class="col-xs-4 text-right lh34">公积金基数：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control width100" type="text" name="ipt-gjj_gs_gjjjs" value="<? echo $html["m"]["income"]["gjj_gs_gjjjs"] ?>">
+            </div>
+            <div class="col-xs-3 pl10 ml10">
+              <input class="form-control width100" type="text" name="ipt-gjj_gr_gjjjs" value="<? echo $html["m"]["income"]["gjj_gr_gjjjs"] ?>">
+            </div>
+          </div>
+          <div class="row mt10 lh34">
+            <div class="col-xs-4 text-right">公积金缴纳比例：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control width70 pull-left" type="text" name="ipt-gjj_gs_gjjjnbli" value="<? echo $html["m"]["income"]["gjj_gs_gjjjnbli"] ?>">
+              <span class="pull-left pl5">%</span>
+            </div>
+            <div class="col-xs-3 pl10 ml10">
+              <input class="form-control width70 pull-left" type="text" name="ipt-gjj_gr_gjjjnbli" value="<? echo $html["m"]["income"]["gjj_gr_gjjjnbli"] ?>">
+              <span class="pull-left pl5">%</span>
+            </div>
+          </div>
+          <div class="row mt10 lh34">
+            <div class="col-xs-4 text-right">公积金缴纳金额：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control width70 pull-left" type="text" name="ipt-gjj_gs_gjjjnmoney" value="<? echo $html["m"]["income"]["gjj_gs_gjjjnmoney"] ?>">
+              <span class="pull-left pl5">元</span>
+            </div>
+            <div class="col-xs-3 pl10 ml10">
+              <input class="form-control width70 pull-left" type="text" name="ipt-gjj_gr_gjjjnmoney" value="<? echo $html["m"]["income"]["gjj_gr_gjjjnmoney"] ?>">
+              <span class="pull-left pl5">元</span>
+            </div>
+          </div>
+          <div class="row mt30">
+            <div class="col-xs-4 text-right lh34">公积金缴纳地：</div>
+            <div class="col-xs-8 pl10" id="selectAddress3">
+              <div class="form-group">
+                <select class="form-control" name="ipt-gjj_gjjjndsheng" data-province="<? echo $html["m"]["income"]["gjj_gjjjndsheng"] ?>"></select>
+              </div>
+              <div class="form-group ml10">
+                <select class="form-control" name="ipt-gjj_gjjjndshi" data-city="<? echo $html["m"]["income"]["gjj_gjjjndshi"] ?>"></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row lh34 mt10">
+            <div class="col-xs-4 text-right">公积金缴纳单位：</div>
+            <div class="col-xs-6 pl10">
+              <label for="thisCpm01">
+                <input id="thisCpm01" type="radio" name="ipt-gjj_gjjjndwei" value="1" <? if_checked($html["m"]["income"]["gjj_gjjjndwei"], 1) ?>>
+                本公司
+              </label>
+              <label for="otherCpm02" class="ml50">
+                <input id="otherCpm02" type="radio" name="ipt-gjj_gjjjndwei" value="2" <? if_checked($html["m"]["income"]["gjj_gjjjndwei"], 2) ?>>
+                第三方
+              </label>
+            </div>
+          </div>
+
+          <div class="row lh34 mt10">
+            <div class="col-xs-4 text-right">第三方公司名：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control" name="ipt-gjj_dsfgsming" value="<? echo $html["m"]["income"]["gjj_dsfgsming"] ?>">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 客户需求弹窗 -->
+<div class="modal fade width410" id="needModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <form method="post">
+    <input type="hidden" name="action" value="addneed">
+  
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">客户需求</div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">放款时间：</div>
+            <div class="col-xs-6 pl10">
+              <label class="input-group" for="calendar03">
+                <input id="calendar03" name="ipt-fkdate" class="form-control form_datetime2" type="text" value="<? echo $html["m"]["need"]["fkdate"] ?>" size="16">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">贷款金额：</div>
+            <div class="col-xs-3 pl10">
+              <input name="ipt-dkmoney" class="form-control " type="text" value="<? echo $html["m"]["need"]["dkmoney"] ?>">
+            </div>
+            <div class="col-xs-2 pl10 lh34">万元</div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">还款期限：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-hkqxian" id="qixianSel02" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">贷款类型：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-dklxing" id="loanTypeSel01" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">还款方式：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-hkfshi" id="repayWaySel01" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">急迫性：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-jpxing" id="urgencySel" class="form-control">
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">保存</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- 工作信息弹窗 -->
+<div class="modal fade width650" id="jobModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">工作信息</div>
+
+          <div class="row">
+            <label class="col-xs-2" for="jobOwn">
+              <input type="radio" id="jobOwn" class="jobWay" value="0" name="ipt-jobkind">
+              <span class="pl5">自雇</span>
+            </label>
+            <label class="col-xs-2" for="jobOther">
+              <input type="radio" id="jobOther" class="jobWay" value="1" name="ipt-jobkind">
+              <span class="pl5">受薪</span>
+            </label>
+          </div>
+
+          <div id="job-own">
+            <form method="post">
+              <input type="hidden" name="action" value="savejob1">
+
+              <div class="row mt15 lh34">
+                <div class="col-xs-3 text-right">营业执照：</div>
+                <div class="col-xs-6">
+                  <div class="row pl10">
+                    <label class="col-xs-3" for="hasLicensed">
+                      <input type="radio" id="hasLicensed" name="ipt-yyzzhao" value="1"  <? if_checked($html["m"]["job"]["yyzzhao"], 1) ?>>
+                      <span class="pl5">有</span>
+                    </label>
+                    <label class="col-xs-3" for="noLicensed" value="2">
+                      <input type="radio" id="noLicensed" name="ipt-yyzzhao" value="2"  <? if_checked($html["m"]["job"]["yyzzhao"], 2) ?>>
+                      <span class="pl5">无</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt15 lh34 zggsming">
+                <div class="col-xs-3 text-right">公司名：</div>
+                <div class="col-xs-6 pl10">
+                  <input type="text" class="form-control" name="ipt-gsming" value="<? echo $html["m"]["job"]["gsming"] ?>">
+                </div>
+              </div>
+
+              <div class="row mt15">
+                <div class="col-xs-3 text-right lh34">注册时间：</div>
+                <div class="col-xs-6 pl10">
+                  <label class="input-group" for="calendar03">
+                    <input id="calendar03" name="ipt-zcdate" class="form-control form_datetime2" type="text" value="<? echo $html["m"]["job"]["zcdate"] ?>" size="16">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row mt15">
+                <div class="col-xs-3 text-right lh34">公司地址：</div>
+                <div class="col-xs-9 pl10" id="selectAddress4">
+                  <div class="row">
+                    <div class="form-group col-xs-3">
+                      <select class="form-control" name="ipt-gsdzsheng" data-province="<? echo $html["m"]["job"]["gsdzsheng"] ?>"></select>
+                    </div>
+                    <div class="form-group col-xs-3 ml10">
+                      <select class="form-control" name="ipt-gsdzshi" data-city="<? echo $html["m"]["job"]["gsdzshi"] ?>"></select>
+                    </div>
+                    <div class="form-group col-xs-3 ml10">
+                      <select class="form-control" name="ipt-gsdzqu" data-district="<? echo $html["m"]["job"]["gsdzqu"] ?>"></select>
+                    </div>
+                  </div>
+                  
+                  <div class="row mt10">
+                    <div class="col-xs-8">
+                      <input type="text" class="form-control" name="ipt-gsdzhi" value="<? echo $html["m"]["job"]["gsdzhi"] ?>">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt15">
+                <div class="col-xs-3 text-right lh34">公司类型：</div>
+                <div class="col-xs-8 pl10">
+                  <div class="row">
+                    <div class="col-xs-5 pr5">
+                      <select name="ipt-gslxing" id="cpmTypeSel01" class="form-control">
+                      </select>
+                    </div>
+                    <div class="col-xs-5 pl5 item02">
+                      <select name="ipt-gslxings" id="ipt-gslxings01" class="form-control">
+                        <option value="沪深股市">沪深股市</option>
+                        <option value="欧美股市">欧美股市</option>
+                        <option value="新三板">新三板</option>
+                        <option value="其他">其他</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt15 lh34">
+                <div class="col-xs-3 text-right">法人：</div>
+                <div class="col-xs-6">
+                  <div class="row pl10">
+                    <label class="col-xs-3" for="isLegal">
+                      <input type="radio" id="isLegal" name="ipt-fren" value="1" <? if_checked($html["m"]["job"]["fren"], 1) ?>>
+                      <span class="pl5">是</span>
+                    </label>
+                    <label class="col-xs-3" for="noLegal">
+                      <input type="radio" id="noLegal" name="ipt-fren" value="2" <? if_checked($html["m"]["job"]["fren"], 2) ?>>
+                      <span class="pl5">否</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt15 lh34 yfrgxi-list">
+                <div class="col-xs-3 text-right">与法人关系：</div>
+                <div class="col-xs-6">
+                  <div class="row pl10">
+                    <label class="col-xs-5" for="isParent">
+                      <input type="radio" id="isParent" name="ipt-yfrgxi" value="1" <? if_checked($html["m"]["job"]["yfrgxi"], 1) ?>>
+                      <span class="pl5">法人是父母</span>
+                    </label>
+                    <label class="col-xs-5" for="isSon">
+                      <input type="radio" id="isSon" name="ipt-yfrgxi" value="2" <? if_checked($html["m"]["job"]["yfrgxi"], 2) ?>>
+                      <span class="pl5">法人是子女</span>
+                    </label>
+                  </div>
+                  <div class="row pl10">
+                    <label class="col-xs-5" for="isSponse">
+                      <input type="radio" id="isSponse" name="ipt-yfrgxi" value="3" <? if_checked($html["m"]["job"]["yfrgxi"], 3) ?>>
+                      <span class="pl5">法人是配偶</span>
+                    </label>
+                    <label class="col-xs-5" for="isBrother">
+                      <input type="radio" id="isBrother" name="ipt-yfrgxi" value="4" <? if_checked($html["m"]["job"]["yfrgxi"], 4) ?>>
+                      <span class="pl5">法人是兄妹</span>
+                    </label>
+                  </div>
+                  <div class="row pl10">
+                    <label class="col-xs-3" for="isOtherRes">
+                      <input type="radio" id="isOtherRes" name="ipt-yfrgxi" value="5" <? if_checked($html["m"]["job"]["yfrgxi"], 5) ?>>
+                      <span class="pl5">法人是</span>
+                    </label>
+                    <label class="col-xs-5">
+                      <input type="text" class="form-control" name="ipt-yfrgxid" value="<? echo $html["m"]["job"]["yfrgxid"] ?>">
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt15 lh34">
+                <div class="col-xs-3 text-right">占股比例：</div>
+                <div class="col-xs-6">
+                  <div class="row pl10">
+                    <label class="col-xs-5" for="fullStock">
+                      <input type="radio" id="fullStock" name="ipt-zgbli" value="1" <? if_checked($html["m"]["job"]["zgbli"], 1) ?>>
+                      <span class="pl5">100%</span>
+                    </label>
+                    <label class="col-xs-5" for="tenStock">
+                      <input type="radio" id="tenStock" name="ipt-zgbli" value="2" <? if_checked($html["m"]["job"]["zgbli"], 2) ?>>
+                      <span class="pl5">10%以下</span>
+                    </label>
+                  </div>
+                  <div class="row pl10">
+                    <label class="col-xs-8" for="otherStock">
+                      <div class="col-xs-1">
+                        <input type="radio" id="otherStock" name="ipt-zgbli" value="3" <? if_checked($html["m"]["job"]["zgbli"], 3) ?>>
+                      </div>
+                      <label class="col-xs-5 pl5">
+                        <input type="text" class="form-control" name="ipt-zgblid" value="<? echo $html["m"]["job"]["zgblid"] ?>">
+                      </label>
+
+                      <div class="col-xs-1 pl10">%</div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt15 lh34">
+                <div class="col-xs-3 text-right">股份类型：</div>
+                <div class="col-xs-6">
+                  <div class="row pl10">
+                    <label class="col-xs-5" for="lightStock">
+                      <input type="radio" id="lightStock" name="ipt-gflxing" value="1" <? if_checked($html["m"]["job"]["gflxing"], 1) ?>>
+                      <span class="pl5">明股</span>
+                    </label>
+                    <label class="col-xs-5" for="grayStock">
+                      <input type="radio" id="grayStock" name="ipt-gflxing" value="2" <? if_checked($html["m"]["job"]["gflxing"], 2) ?>>
+                      <span class="pl5">暗股</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-add">保存</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="job-other">
+            <form method="post">
+              <input type="hidden" name="action" value="savejob2">
+
+              <div class="row mt15 lh34">
+                <div class="col-xs-3 text-right">公司名：</div>
+                <div class="col-xs-6 pl10">
+                  <input type="text" class="form-control" name="ipt-gsming" value="<? echo $html["m"]["job"]["gsming"] ?>">
+                </div>
+              </div>
+
+              <div class="row mt15">
+                <div class="col-xs-3 text-right lh34">公司地址：</div>
+                <div class="col-xs-9 pl10" id="selectAddress5">
+                  <div class="row">
+                    <div class="form-group col-xs-3">
+                      <select class="form-control" name="ipt-gsdzsheng" data-province="<? echo $html["m"]["job"]["gsdzsheng"] ?>"></select>
+                    </div>
+                    <div class="form-group ml10 col-xs-3">
+                      <select class="form-control" name="ipt-gsdzshi" data-city="<? echo $html["m"]["job"]["gsdzshi"] ?>"></select>
+                    </div>
+                    <div class="form-group ml10 col-xs-3">
+                      <select class="form-control" name="ipt-gsdzqu" data-district="<? echo $html["m"]["job"]["gsdzqu"] ?>"></select>
+                    </div>
+                  </div>
+                  <div class="row mt10">
+                    <div class="col-xs-8">
+                      <input type="text" class="form-control" name="ipt-gsdzhi" value="<? echo $html["m"]["job"]["gsdzhi"] ?>">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt15">
+                <div class="col-xs-3 text-right lh34">公司类型：</div>
+                <div class="col-xs-8 pl10">
+                  <div class="row">
+                    <div class="col-xs-5 pr5">
+                      <select name="ipt-gslxing" id="cpmTypeSel02" class="form-control">
+                      </select>
+                    </div>
+                    <div class="col-xs-5 pl5 item02">
+                      <select name="ipt-gslxings" id="ipt-gslxings02" class="form-control">
+                        <option value="沪深股市">沪深股市</option>
+                        <option value="欧美股市">欧美股市</option>
+                        <option value="新三板">新三板</option>
+                        <option value="其他">其他</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt15 lh34">
+                <div class="col-xs-3 text-right">岗位：</div>
+                <div class="col-xs-6">
+                  <div class="row pl10">
+                    <label class="col-xs-5" for="gangwei01">
+                      <input type="radio" id="gangwei01" name="ipt-gwei" value="1" <? if_checked($html["m"]["job"]["gwei"], 1) ?>>
+                      <span class="pl5">保安司机</span>
+                    </label>
+                    <label class="col-xs-5" for="gangwei02">
+                      <input type="radio" id="gangwei02" name="ipt-gwei" value="2" <? if_checked($html["m"]["job"]["gwei"], 2) ?>>
+                      <span class="pl5">一线工人</span>
+                    </label>
+                  </div>
+                  <div class="row pl10">
+                    <label class="col-xs-5" for="gangwei03">
+                      <input type="radio" id="gangwei03" name="ipt-gwei" value="3" <? if_checked($html["m"]["job"]["gwei"], 3) ?>>
+                      <span class="pl5">销售人员</span>
+                    </label>
+                    <label class="col-xs-5" for="gangwei04">
+                      <input type="radio" id="gangwei04" name="ipt-gwei" value="4" <? if_checked($html["m"]["job"]["gwei"], 4) ?>>
+                      <span class="pl5">后勤／技术</span>
+                    </label>
+                  </div>
+                  <div class="row pl10">
+                    <label class="col-xs-5" for="gangwei05">
+                      <input type="radio" id="gangwei05" name="ipt-gwei" value="5" <? if_checked($html["m"]["job"]["gwei"], 5) ?>>
+                      <span class="pl5">管理人员</span>
+                    </label>
+                    <label class="col-xs-5" for="gangwei06">
+                      <input type="radio" id="gangwei06" name="ipt-gwei" value="6" <? if_checked($html["m"]["job"]["gwei"], 6) ?>>
+                      <span class="pl5">高层管理</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt15 lh34">
+                <div class="col-xs-3 text-right">岗位名称：</div>
+                <div class="col-xs-6 pl10">
+                  <input type="text" class="form-control" name="ipt-gwmcheng" value="<? echo $html["m"]["job"]["gwmcheng"] ?>">
+                </div>
+              </div>
+
+              <div class="row mt15 lh34">
+                <div class="col-xs-3 text-right">劳动关系：</div>
+                <div class="col-xs-6">
+                  <div class="row pl10">
+                    <label class="col-xs-12" for="laodongRes01">
+                      <input type="radio" id="laodongRes01" name="ipt-ldgxi" value="1" <? if_checked($html["m"]["job"]["ldgxi"], 1) ?>>
+                      <span class="pl5">本公司正式员工</span>
+                    </label>
+                    <label class="col-xs-12" for="laodongRes02">
+                      <input type="radio" id="laodongRes02" name="ipt-ldgxi" value="2" <? if_checked($html["m"]["job"]["ldgxi"], 2) ?>>
+                      <span class="pl5">劳务派遣员工</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt15">
+                <div class="col-xs-3 text-right lh34">劳务派遣公司所在地：</div>
+                <div class="col-xs-8 pl10" id="selectAddress12">
+                  <div class="row">
+                    <div class="form-group col-xs-5">
+                      <select class="form-control" name="ipt-lwpqgsszdsheng" data-province="<? echo $html["m"]["job"]["lwpqgsszdsheng"] ?>"></select>
+                    </div>
+                    <div class="form-group ml10 col-xs-5">
+                      <select class="form-control" name="ipt-lwpqgsszdshi" data-city="<? echo $html["m"]["job"]["lwpqgsszdshi"] ?>"></select>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="row mt15 lh34">
+                <div class="col-xs-3 text-right">劳务派遣公司名：</div>
+                <div class="col-xs-6 pl10">
+                  <input type="text" class="form-control" name="ipt-lwpqgsming" value="<? echo $html["m"]["job"]["lwpqgsming"] ?>">
+                </div>
+              </div>
+              <div class="row mt15">
+                <div class="col-xs-3 text-right lh34">入职时间：</div>
+                <div class="col-xs-6 pl10">
+                  <label class="input-group" for="calendar20">
+                    <input id="calendar20" class="form-control form_datetime2" type="text" name="ipt-rzdate" value="<? echo $html["m"]["job"]["rzdate"] ?>" size="16">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </label>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-add">保存</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-add">保存</button>
+        </div> -->
+      </div>
+    </div>
+</div>
+
+<!-- 备注弹窗 -->
+<div class="modal fade width410" id="remarkModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+    <input type="hidden" name="action" value="savememo">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">备注</div>
+
+          <div class="row mt20">
+            <div class="col-xs-1 col-xs-offset-1">日期</div>
+            <div class="col-xs-8"><? echo $html["m"]["memo"]["date"] ?></div>
+          </div>
+          <div class="row mt15">
+            <div class="col-xs-11 col-xs-offset-1">备注</div>
+            <div class="col-xs-8 col-xs-offset-1 pt5">
+              <textarea class="form-control" name="ipt-memo"><? echo $html["m"]["memo"]["memo"] ?></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">添加</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 司法案件信息弹窗 -->
+<div class="modal fade width410" id="judicialModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="savecase">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">司法案件信息</div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">纪录类型：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-jllxing" id="" class="form-control">
+                <option value="1" <? if_selected($html["m"]["case"]["jllxing"], 1) ?>>原告</option>
+                <option value="2" <? if_selected($html["m"]["case"]["jllxing"], 2) ?>>被执行人</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-4 text-right lh34">案件时间：</div>
+            <div class="col-xs-5 pl10">
+              <label class="input-group" for="calendar04">
+                <input id="calendar04" class="form-control form_datetime2" type="text" size="16" name="ipt-ajsjian" value="<? echo $html["m"]["case"]["ajsjian"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-4 text-right">是否可网查：</div>
+            <div class="col-xs-8">
+              <div class="row pl10">
+                <label class="col-xs-3" for="ChenkOnline">
+                  <input type="radio" id="ChenkOnline" name="ipt-sfkwcha" value="1" <? if_checked($html["m"]["case"]["sfkwcha"], 1) ?>>
+                  <span class="pl5">是</span>
+                </label>
+                <label class="col-xs-3" for="noChenkOnline">
+                  <input type="radio" id="noChenkOnline" name="ipt-sfkwcha" value="2" <? if_checked($html["m"]["case"]["sfkwcha"], 2) ?>>
+                  <span class="pl5">否</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">添加</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 车产信息弹窗 -->
+<div class="modal fade width410" id="carMsgModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="savecar">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">车产信息</div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">车辆类型：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-cllxing" id="carTypeSel" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">车牌：</div>
+            <div class="col-xs-2 pl10">
+              <select name="ipt-cpsheng" id="chepaiSel" class="form-control">
+              </select>
+            </div>
+            <div class="col-xs-2 pl10">
+              <select name="ipt-cpshi" id="zimuSel" class="form-control">
+              </select>
+            </div>
+            <div class="col-xs-3 pl10">
+              <input type="text" class="form-control" name="ipt-cphao" value="<? echo $html["m"]["car"]["cphao"] ?>">
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">车辆品牌：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-clppai" id="carSel001" class="form-control">
+              </select>
+            </div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-clxhao" id="carSel002" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">购车日期：</div>
+            <div class="col-xs-6 pl10">
+              <label class="input-group" for="calendar05">
+                <input id="calendar05" class="form-control form_datetime" type="text" size="16" name="ipt-gcrqi" value="<? echo $html["m"]["car"]["gcrqi"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">裸车价：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-lcjia" value="<? echo $html["m"]["car"]["lcjia"] ?>">
+            </div>
+            <div class="col-xs-2 pl10 lh34">万元</div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">车辆贷款：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-cldkuan" id="carLoanWay" class="form-control">
+                <option value="0" <? if_selected($html["m"]["car"]["cldkuan"], 0) ?>>按揭贷款</option>
+                <option value="1" <? if_selected($html["m"]["car"]["cldkuan"], 1) ?>>抵证贷款</option>
+                <option value="2" <? if_selected($html["m"]["car"]["cldkuan"], 2) ?>>押车贷款</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="item01">
+            <div class="row mt15 lh34">
+              <div class="col-xs-4 text-right">贷款形式：</div>
+              <div class="col-xs-7">
+                <div class="row pl10">
+                  <label class="col-xs-6" for="carLoanWay1">
+                    <input type="radio" id="carLoanWay1" name="ipt-dkxs_fkjg0" value="1" <? if_checked($html["m"]["car"]["dkxs_fkjg"], 1) ?>>
+                    <span class="pl5">银行车贷</span>
+                  </label>
+                  <label class="col-xs-6" for="carLoanWay2">
+                    <input type="radio" id="carLoanWay2" name="ipt-dkxs_fkjg0" value="2" <? if_checked($html["m"]["car"]["dkxs_fkjg"], 2) ?>>
+                    <span class="pl5">银行信用卡车贷</span>
+                  </label>
+                </div>
+                <div class="row pl10">
+                  <label class="col-xs-6" for="carLoanWay3">
+                    <input type="radio" id="carLoanWay3" name="ipt-dkxs_fkjg0" value="3" <? if_checked($html["m"]["car"]["dkxs_fkjg"], 3) ?>>
+                    <span class="pl5">汽车金融</span>
+                  </label>
+                  <label class="col-xs-6" for="carLoanWay4">
+                    <input type="radio" id="carLoanWay4" name="ipt-dkxs_fkjg0" value="4" <? if_checked($html["m"]["car"]["dkxs_fkjg"], 4) ?>>
+                    <span class="pl5">其它金融</span>
+                  </label>
+                </div>
+                <div class="row pl10">
+                  <label class="col-xs-6" for="carLoanWay5">
+                    <input type="radio" id="carLoanWay5" name="ipt-dkxs_fkjg0" value="5" <? if_checked($html["m"]["car"]["dkxs_fkjg"], 5) ?>>
+                    <span class="pl5">以租代购</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="item02">
+            <div class="row mt15 lh34">
+              <div class="col-xs-4 text-right">放款机构：</div>
+              <div class="col-xs-7">
+                <div class="row pl10">
+                  <label class="col-xs-6" for="carLoanWay6">
+                    <input type="radio" id="carLoanWay6" name="ipt-dkxs_fkjg1" value="1" <? if_checked($html["m"]["car"]["dkxs_fkjg"], 1) ?>>
+                    <span class="pl5">银行车贷</span>
+                  </label>
+                  <label class="col-xs-6" for="carLoanWay7">
+                    <input type="radio" id="carLoanWay7" name="ipt-dkxs_fkjg1" value="2" <? if_checked($html["m"]["car"]["dkxs_fkjg"], 2) ?>>
+                    <span class="pl5">银行信用卡车贷</span>
+                  </label>
+                </div>
+                <div class="row pl10">
+                  <label class="col-xs-6" for="carLoanWay8">
+                    <input type="radio" id="carLoanWay8" name="ipt-dkxs_fkjg1" value="3" <? if_checked($html["m"]["car"]["dkxs_fkjg"], 3) ?>>
+                    <span class="pl5">以租代购</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="item03">
+            <div class="row mt15 lh34">
+              <div class="col-xs-4 text-right">放款机构：</div>
+              <div class="col-xs-7">
+                <div class="row pl10">
+                  <label class="col-xs-6" for="carLoanWay9">
+                    <input type="radio" id="carLoanWay9" name="ipt-dkxs_fkjg2" value="1" <? if_checked($html["m"]["car"]["dkxs_fkjg"], 1) ?>>
+                    <span class="pl5">P2P</span>
+                  </label>
+                  <label class="col-xs-6" for="carLoanWay10">
+                    <input type="radio" id="carLoanWay10" name="ipt-dkxs_fkjg2" value="2" <? if_checked($html["m"]["car"]["dkxs_fkjg"], 2) ?>>
+                    <span class="pl5">私贷</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">放款银行：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-fkyhang" id="bank04" class="form-control">
+              </select>
+            </div>
+          </div>
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">贷款日期：</div>
+            <div class="col-xs-6 pl10">
+              <label class="input-group" for="calendar06">
+                <input id="calendar06" class="form-control form_datetime" type="text" size="16" name="ipt-dkrqi" value="<? echo $html["m"]["car"]["dkrqi"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">贷款本金：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-dkbjin" value="<? echo $html["m"]["car"]["dkbjin"] ?>">
+            </div>
+            <div class="col-xs-2 pl10 lh34">万元</div>
+          </div>
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">贷款时长：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-dkschang" id="loanTimeSel01" class="form-control">
+              </select>
+            </div>
+          </div>
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">月供金额：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-ygje" value="<? echo $html["m"]["car"]["ygje"] ?>">
+            </div>
+            <div class="col-xs-2 pl10 lh34">元</div>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!--银行卡信息弹窗 -->
+<div class="modal fade width410" id="cardMsgModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="savebanks">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">银行卡信息</div>
+
+          <ul class="list-unstyled card-msg-list">
+            <li>
+              <div class="row mt15 lh34">
+                <div class="col-xs-4 text-right">银行卡类型：</div>
+                <div class="col-xs-8 pl10">储蓄卡</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">银行：</div>
+                <div class="col-xs-8 pl10">中国工商银行</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">开户行名：</div>
+                <div class="col-xs-8 pl10">广州体育东路支行</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">行号：</div>
+                <div class="col-xs-8 pl10">902348812</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">帐号：</div>
+                <div class="col-xs-8 pl10">1234567891234567890</div>
+              </div>
+              <button class="btn-change">修改</button>
+              <div class="card-type">XA1</div>
+              <div class="bottom-line"></div>
+            </li>
+
+            <li>
+              <div class="row mt15 lh34">
+                <div class="col-xs-4 text-right">银行卡归属：</div>
+                <div class="col-xs-8 pl10">第三方</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">第三方姓名：</div>
+                <div class="col-xs-8 pl10">乔帮主</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">第三方身份证：</div>
+                <div class="col-xs-8 pl10">123456789123456789</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">银行卡类型：</div>
+                <div class="col-xs-8 pl10">存折</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">银行：</div>
+                <div class="col-xs-8 pl10">中国工商银行</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">开户行名：</div>
+                <div class="col-xs-8 pl10">广州体育东路支行</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">行号：</div>
+                <div class="col-xs-8 pl10">902348812</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">帐号：</div>
+                <div class="col-xs-8 pl10">1234567891234567890</div>
+              </div>
+              <button class="btn-change">修改</button>
+              <div class="card-type">YB1</div>
+              <div class="bottom-line"></div>
+            </li>
+
+            <li>
+              <div class="row mt15 lh34">
+                <div class="col-xs-4 text-right">银行卡类型：</div>
+                <div class="col-xs-8 pl10">信用卡</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">银行：</div>
+                <div class="col-xs-8 pl10">中国工商银行</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">开户行名：</div>
+                <div class="col-xs-8 pl10">广州体育东路支行</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">行号：</div>
+                <div class="col-xs-8 pl10">902348812</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-4 text-right">帐号：</div>
+                <div class="col-xs-8 pl10">1234567891234567890</div>
+              </div>
+              <button class="btn-change">修改</button>
+              <div class="card-type">XC1</div>
+              <div class="bottom-line"></div>
+            </li>
+          </ul>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-4 text-right">银行卡归属：</div>
+            <div class="col-xs-8">
+              <div class="row pl10">
+                <label class="col-xs-3" for="cardOwn">
+                  <input type="radio" id="cardOwn" name="ipt-yhkgshu" value="1" <? if_checked($html["m"]["banks"]["yhkgshu"], 1) ?>>
+                  <span class="pl5"><? echo $html["name"] ?></span>
+                </label>
+                <label class="col-xs-3" for="cardOther">
+                  <input type="radio" id="cardOther" name="ipt-yhkgshu" value="2" <? if_checked($html["m"]["banks"]["yhkgshu"], 2) ?>>
+                  <span class="pl5">第三方</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-4 text-right lh34">第三方姓名：</div>
+            <div class="col-xs-4 pl10">
+              <input type="text" class="form-control" name="ipt-dsfxming" value="<? echo $html["m"]["banks"]["dsfxming"] ?>">
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-4 text-right lh34">第三方身份证号码：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control" name="ipt-dsfsfzhma" value="<? echo $html["m"]["banks"]["dsfsfzhma"] ?>">
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-4 text-right">账户类型：</div>
+            <div class="col-xs-8">
+              <div class="row pl10">
+                <label class="col-xs-3" for="cardType1">
+                  <input type="radio" id="cardType1" name="ipt-zhlxing" value="1" <? if_checked($html["m"]["banks"]["zhlxing"], 1) ?>>
+                  <span class="pl5">储蓄卡</span>
+                </label>
+                <label class="col-xs-3" for="cardType2">
+                  <input type="radio" id="cardType2" name="ipt-zhlxing" value="2" <? if_checked($html["m"]["banks"]["zhlxing"], 2) ?>>
+                  <span class="pl5">存折</span>
+                </label>
+                <label class="col-xs-3" for="cardType3">
+                  <input type="radio" id="cardType3" name="ipt-zhlxing" value="3" <? if_checked($html["m"]["banks"]["zhlxing"], 3) ?>>
+                  <span class="pl5">信用卡</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-4 text-right lh34">银行：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-yhang" id="bankSel02" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-4 text-right lh34">行号：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control text-center" placeholder="请输入开户行号" name="ipt-hhao" value="<? echo $html["m"]["banks"]["hhao"] ?>">
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-4 text-right lh34">银行帐号：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control text-center" placeholder="请输入数字" name="ipt-yhzhao" value="<? echo $html["m"]["banks"]["yhzhao"] ?>">
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-4 text-right lh34">信用卡有效期：</div>
+            <div class="col-xs-6 pl10">
+              <label class="input-group" for="calendar09">
+                <input id="calendar09" class="form-control form_datetime" type="text" size="16" name="ipt-xykyxqi" value="<? echo $html["m"]["banks"]["xykyxqi"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-4 text-right lh34">CVC码：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control text-center" placeholder="信用卡背后的三位数字" name="ipt-cvcma" value="<? echo $html["m"]["banks"]["cvcma"] ?>">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">关闭</button>
+          <button type="submit" class="btn btn-add">添加</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!--客户合同信息弹窗 -->
+<div class="modal fade width410" id="contractModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" name="action" class="hetong-form" value="addcontracts">
+      <input type="hidden" class="ipt-id" name="ipt-id" value="">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">客户合同信息</div>
+
+          <ul class="list-unstyled contract-content contract-msg-list card-msg-list">
+            <!-- <li data-contactid="'+ contractData[i].id +'"> 
+              <div class="row mt15 lh34">
+                <div class="col-xs-6 text-right">合同类型：</div>
+                <div class="col-xs-6 pl10">'+ contractData[i].customerid +'</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-6 text-right">上传日期：</div>
+                <div class="col-xs-6 pl10">'+ contractData[i].update +'</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-6 text-right">文件：</div>
+                <div class="col-xs-3 pl10">
+                  <a class="btn-orange" target="view_window" href="'+ contractData[i].wjian +'" data-imgurl="'+ contractData[i].wjian +'">预览</a>
+                </div>
+                <div class="col-xs-2">
+                  <span class="change-btn" style="color: #337ab7; cursor: pointer" data-contactid="'+ contractData[i].id +'">修改</span>
+                </div>
+              </div>
+              <div class="card-type">'+ contractData[i].zllxing +'</div>
+              <div class="bottom-line"></div>
+            </li> -->
+
+            <!-- <li>
+              <div class="row mt15 lh34">
+                <div class="col-xs-6 text-right">合同类型：</div>
+                <div class="col-xs-6 pl10">客户需求</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-6 text-right">上传日期：</div>
+                <div class="col-xs-6 pl10">2017-01-06 17:55</div>
+              </div>
+              <div class="row mt5 lh34">
+                <div class="col-xs-6 text-right">文件：</div>
+                <div class="col-xs-6 pl10">
+                  <button class="btn-orange">预览</button>
+                </div>
+              </div>
+              <div class="card-type">B1</div>
+              <div class="bottom-line"></div>
+            </li> -->
+          </ul>
+          <div class="contract-form">
+            <div class="row mt15 lh34">
+              <div class="col-xs-4 text-right">资料类型：</div>
+              <div class="col-xs-4 pl10">
+                <select name="ipt-zllxing" id="contactTypeSel" class="form-control">
+                </select>
+              </div>
+            </div>
+
+            <div class="row mt15">
+              <div class="col-xs-4 text-right">选择文件：</div>
+              <label class="col-xs-4 pl10" for="contractUpload">
+                <div class="row">
+                  <div class="col-xs-5" style="overflow: hidden">
+                    <input type="file" name="ipt-wjian[]" id="contractUpload">
+                  </div>
+                  <div class="col-xs-7 filename"></div>
+                </div>
+              </label>
+            </div>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">关闭</button>
+          <button type="submit" class="btn btn-add">添加</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!--左侧资产信息弹窗 -->
+<div class="modal fade width410" id="assetsMsgModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" class="zichan-form" name="action" value="addassets">
+      <input type="hidden" class="ipt-id" name="ipt-id" value="">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">客户资产信息</div>
+
+          <ul class="list-unstyled zichan-content contract-msg-list card-msg-list"></ul>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-4 text-right">资料类型：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-zllxing" id="dataTypeSel01" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-4 text-right">选择文件：</div>
+            <label class="col-xs-4 pl10" for="zichanUpload">
+              <div class="row">
+                <div class="col-xs-5" style="overflow: hidden">
+                  <input type="file" name="ipt-wjian[]" id="zichanUpload">
+                </div>
+                <div class="col-xs-7 filename"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">关闭</button>
+          <button type="submit" class="btn btn-add">添加</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 左侧客户征信信息弹窗 -->
+<div class="modal fade width410" id="creditModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" class="zhengxin-form" name="action" value="addcredits">
+      <input type="hidden" class="ipt-id" name="ipt-id" value="">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">客户征信信息</div>
+
+          <ul class="list-unstyled zhengxin-content contract-msg-list card-msg-list"></ul>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-4 text-right">征信类型：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-zllxing" id="zxinTypeSel" class="form-control">
+                <option value="1">银行征信</option>
+                <option value="2">人行征信</option>
+                <option value="3">网查简版征信</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-4 text-right">选择文件：</div>
+            <label class="col-xs-4 pl10" for="zhengxinUpload">
+              <div class="row">
+                <div class="col-xs-5" style="overflow: hidden">
+                  <input type="file" name="ipt-wjian[]" id="zhengxinUpload">
+                </div>
+                <div class="col-xs-7 filename"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">关闭</button>
+          <button type="submit" class="btn btn-add">添加</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 车位信息弹窗 -->
+<div class="modal fade width650" id="carPosModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="savepark">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">车位信息</div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">购买日期：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar10">
+                <input id="calendar10" class="form-control form_datetime" type="text" size="16" name="ipt-gmrqi" value="<? echo $html["m"]["park"]["gmrqi"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">车位面积：</div>
+            <div class="col-xs-9">
+              <div class="row">
+                <div class="col-xs-2 pl10 lh34">建筑面积</div>
+                <div class="col-xs-3 pl10">
+                  <input class="form-control " type="text" name="ipt-cwjzmji" value="<? echo $html["m"]["park"]["cwjzmji"] ?>">
+                </div>
+                <div class="col-xs-3 pl10 lh34">m <sup>2</sup></div>
+              </div>
+              <div class="row pt5">
+                <div class="col-xs-2 pl10 lh34">使用面积</div>
+                <div class="col-xs-3 pl10">
+                  <input class="form-control " type="text" name="ipt-cwsymji" value="<? echo $html["m"]["park"]["cwsymji"] ?>">
+                </div>
+                <div class="col-xs-3 pl10 lh34">m <sup>2</sup></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">购买价格：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-gmjge" value="<? echo $html["m"]["park"]["gmjge"] ?>">
+            </div>
+            <div class="col-xs-3 pl5">万元</div>
+          </div>
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">现价格：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control" type="text" name="ipt-xjge" value="<? echo $html["m"]["park"]["xjge"] ?>">
+            </div>
+            <div class="col-xs-3 pl5">万元</div>
+          </div>
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">车位地址：</div>
+            <div class="col-xs-9 pl10" id="selectAddress6">
+              <div class="row">
+                <div class="form-group col-xs-3">
+                  <select class="form-control" data-province="<? echo $html["m"]["park"]["cwdzsheng"] ?>" name="ipt-cwdzsheng"></select>
+                </div>
+                <div class="form-group col-xs-3 ml10">
+                  <select class="form-control" data-city="<? echo $html["m"]["park"]["cwdzshi"] ?>" name="ipt-cwdzshi"></select>
+                </div>
+                <div class="form-group col-xs-3 ml10">
+                  <select class="form-control" data-district="<? echo $html["m"]["park"]["cwdzqu"] ?>" name="ipt-cwdzqu"></select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-8">
+                  <input type="text" class="form-control" name="ipt-cwdzhi" value="<? echo $html["m"]["park"]["cwdzhi"] ?>">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">车位证：</div>
+            <div class="col-xs-6">
+              <div class="row pl10">
+                <label class="col-xs-5" for="carPosPaper1">
+                  <input type="radio" id="carPosPaper1" name="ipt-cwzheng" value="1" <? if_checked($html["m"]["park"]["cwzheng"], 1) ?>>
+                  <span class="pl5">未办理</span>
+                </label>
+                <label class="col-xs-5" for="carPosPaper2">
+                  <input type="radio" id="carPosPaper2" name="ipt-cwzheng" value="2" <? if_checked($html["m"]["park"]["cwzheng"], 2) ?>>
+                  <span class="pl5">在银行抵押</span>
+                </label>
+              </div>
+              <div class="row pl10">
+                <label class="col-xs-5" for="carPosPaper3">
+                  <input type="radio" id="carPosPaper3" name="ipt-cwzheng" value="3" <? if_checked($html["m"]["park"]["cwzheng"], 3) ?>>
+                  <span class="pl5">在自己手上</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">车位贷款：</div>
+            <div class="col-xs-6">
+              <div class="row pl10">
+                <label class="col-xs-5" for="carPosLoan1">
+                  <input type="radio" id="carPosLoan1" name="ipt-cwdkuan" value="1" <? if_checked($html["m"]["park"]["cwdkuan"], 1) ?>>
+                  <span class="pl5">无</span>
+                </label>
+                <label class="col-xs-5" for="carPosLoan2">
+                  <input type="radio" id="carPosLoan2" name="ipt-cwdkuan" value="2" <? if_checked($html["m"]["park"]["cwdkuan"], 2) ?>>
+                  <span class="pl5">银行按揭抵押</span>
+                </label>
+              </div>
+              <div class="row pl10">
+                <label class="col-xs-5" for="carPosLoan3">
+                  <input type="radio" id="carPosLoan3" name="ipt-cwdkuan" value="3" <? if_checked($html["m"]["park"]["cwdkuan"], 3) ?>>
+                  <span class="pl5">银行抵押贷款</span>
+                </label>
+                <label class="col-xs-5" for="carPosLoan4">
+                  <input type="radio" id="carPosLoan4" name="ipt-cwdkuan" value="4" <? if_checked($html["m"]["park"]["cwdkuan"], 4) ?>>
+                  <span class="pl5">私押抵押贷款</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 房产信息弹窗 -->
+<div class="modal fade width650" id="houseModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="savehouse">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">房产信息</div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">房屋类型：</div>
+            <div class="col-xs-2 pl10">
+              <select class="form-control" id="houseType01" name="ipt-fwlxing1"></select>
+            </div>
+            <div class="col-xs-2 pl10">
+              <select class="form-control" id="houseType02" name="ipt-fwlxing2">></select>
+            </div>
+            <div class="col-xs-2 pl10">
+              <select class="form-control" id="houseType03" name="ipt-fwlxing3">></select>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">房屋所有权：</div>
+            <div class="col-xs-8 pl10 lh34">
+              <div class="row">
+                <label for="hasHouse01">
+                  <input type="radio" id="hasHouse01" name="ipt-fwsyquan" value="1" <? if_checked($html["m"]["house"]["fwsyquan"], 1) ?>>
+                  独有
+                </label>
+              </div>
+              <div class="row pt5">
+                <label for="hasHouse02" class="col-xs-3">
+                  <input type="radio" id="hasHouse02" name="ipt-fwsyquan" value="2" <? if_checked($html["m"]["house"]["fwsyquan"], 2) ?>>
+                  夫妻共有
+                </label>
+
+                <div class="col-xs-4">
+                  <select name="ipt-fwsyquan2" id="" class="form-control">
+                    <option value="1" <? if_selected($html["m"]["house"]["fwsyquan2"], 1) ?>>婚前购买</option>
+                    <option value="2" <? if_selected($html["m"]["house"]["fwsyquan2"], 2) ?>>婚后购买</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row pt5">
+                <label for="hasHouse03" class="col-xs-4">
+                  <input type="radio" id="hasHouse03" name="ipt-fwsyquan" value="3" <? if_checked($html["m"]["house"]["fwsyquan"], 3) ?>>
+                  与其它两人共有
+                </label>
+
+                <div class="col-xs-4">
+                  <select name="ipt-fwsyquan3" id="houseHasSel" class="form-control" value="4" <? if_checked($html["m"]["house"]["fwsyquan"], 4) ?>>
+                  </select>
+                </div>
+              </div>
+              <div class="row pt5">
+                <label for="hasHouse04">
+                  <input type="radio" id="hasHouse04" name="ipt-fwsyquan" value="5" <? if_checked($html["m"]["house"]["fwsyquan"], 5) ?>>
+                  3人以上共有
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">房屋建成日：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar11">
+                <input id="calendar11" class="form-control form_datetime" type="text" name="ipt-fwjcri" value="<? echo $html["m"]["house"]["fwjcri"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">购房日：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar12">
+                <input id="calendar12" class="form-control form_datetime" type="text" name="ipt-gfri" value="<? echo $html["m"]["house"]["gfri"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">房屋面积：</div>
+            <div class="col-xs-9">
+              <div class="row">
+                <div class="col-xs-2 pl10 lh34">建筑面积</div>
+                <div class="col-xs-3 pl10">
+                  <input class="form-control " type="text" name="ipt-fwjzmji" value="<? echo $html["m"]["house"]["fwjzmji"] ?>">
+                </div>
+                <div class="col-xs-3 pl10 lh34">m <sup>2</sup></div>
+              </div>
+              <div class="row pt5">
+                <div class="col-xs-2 pl10 lh34">使用面积</div>
+                <div class="col-xs-3 pl10">
+                  <input class="form-control " type="text" name="ipt-fwsymji" value="<? echo $html["m"]["house"]["fwsymji"] ?>">
+                </div>
+                <div class="col-xs-3 pl10 lh34">m <sup>2</sup></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">房屋地址：</div>
+            <div class="col-xs-9 pl10">
+              <div class="row" id="selectAddress7">
+                <div class="lh34">房产证地址</div>
+                <div class="row">
+                  <div class="form-group col-xs-3">
+                    <select class="form-control" name="ipt-fczdzsheng" data-province="<? echo $html["m"]["house"]["fczdzsheng"] ?>"></select>
+                  </div>
+                  <div class="form-group ml10 col-xs-3">
+                    <select class="form-control" name="ipt-fczdzshi" data-city="<? echo $html["m"]["house"]["fczdzshi"] ?>"></select>
+                  </div>
+                  <div class="form-group ml10 col-xs-3">
+                    <select class="form-control" name="ipt-fczdzqu" data-district="<? echo $html["m"]["house"]["fczdzqu"] ?>"></select>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-xs-8">
+                    <input type="text" class="form-control" name="ipt-fczdzhi" value="<? echo $html["m"]["house"]["fczdzhi"] ?>">
+                  </div>
+                </div>
+              </div>
+              <div class="row" id="selectAddress8">
+                <div class="lh34">邮寄地址</div>
+                <div class="row">
+                  <div class="form-group col-xs-3">
+                    <select class="form-control" name="ipt-yjdzsheng" data-province="<? echo $html["m"]["house"]["yjdzsheng"] ?>"></select>
+                  </div>
+                  <div class="form-group ml10 col-xs-3">
+                    <select class="form-control" name="ipt-yjdzshi" data-city="<? echo $html["m"]["house"]["yjdzshi"] ?>"></select>
+                  </div>
+                  <div class="form-group ml10 col-xs-3">
+                    <select class="form-control" name="ipt-yjdzqu" data-district="<? echo $html["m"]["house"]["yjdzqu"] ?>"></select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-8">
+                    <input type="text" class="form-control" name="ipt-yjdzhi" value="<? echo $html["m"]["house"]["yjdzhi"] ?>">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">房屋现价：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control" type="text" name="ipt-fwxjia" value="<? echo $html["m"]["house"]["fwxjia"] ?>">
+            </div>
+            <div class="col-xs-3 pl5">元／m<sup>2</sup></div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">房产证：</div>
+            <div class="col-xs-6">
+              <div class="row pl10">
+                <label class="col-xs-5" for="housePaper1">
+                  <input type="radio" id="housePaper1" value="1" name="ipt-fczheng" <? if_checked($html["m"]["house"]["fczheng"], 1) ?>>
+                  <span class="pl5">未办理</span>
+                </label>
+                <label class="col-xs-5" for="housePaper2">
+                  <input type="radio" id="housePaper2" value="2" name="ipt-fczheng" <? if_checked($html["m"]["house"]["fczheng"], 2) ?>>
+                  <span class="pl5">在银行抵押</span>
+                </label>
+              </div>
+              <div class="row pl10">
+                <label class="col-xs-5" for="housePaper3">
+                  <input type="radio" id="housePaper3" value="3" name="ipt-fczheng" <? if_checked($html["m"]["house"]["fczheng"], 3) ?>>
+                  <span class="pl5">在自己手上</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">房屋贷款：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-fwdkuan" id="houseLoanSel01" class="form-control"></select>
+            </div>
+          </div>
+          <div class="noHasLoan">
+            <div class="row mt15">
+              <div class="col-xs-3 text-right lh34">贷款日期：</div>
+              <div class="col-xs-4 pl10">
+                <label class="input-group" for="calendar13">
+                  <input id="calendar13" class="form-control form_datetime" type="text" name="ipt-dkrqi" value="<? echo $html["m"]["house"]["dkrqi"] ?>">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="row mt15 lh34">
+              <div class="col-xs-3 text-right">贷款比例：</div>
+              <div class="col-xs-2 pl10">
+                <input type="text" class="form-control" name="ipt-dkbli" value="<? echo $html["m"]["house"]["dkbli"] ?>">
+              </div>
+              <div class="col-xs-2 pl5">%</div>
+            </div>
+
+            <div class="row mt15 lh34">
+              <div class="col-xs-3 text-right">最高授信：</div>
+              <div class="col-xs-6">
+                <div class="row pl10">
+                  <label class="col-xs-5" for="highestMail1">
+                    <input type="radio" id="highestMail1" name="ipt-zgsxin" value="1" <? if_checked($html["m"]["house"]["zgsxin"], 1) ?>>
+                    <span class="pl5">是</span>
+                  </label>
+                  <label class="col-xs-5" for="highestMail2">
+                    <input type="radio" id="highestMail2" name="ipt-zgsxin" value="2" <? if_checked($html["m"]["house"]["zgsxin"], 2) ?>>
+                    <span class="pl5">否</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt15 lh34">
+              <div class="col-xs-3 text-right">贷款本金：</div>
+              <div class="col-xs-2 pl10">
+                <input type="text" class="form-control" name="ipt-dkbjin" value="<? echo $html["m"]["house"]["dkbjin"] ?>">
+              </div>
+              <div class="col-xs-2 pl5">万元</div>
+            </div>
+
+            <div class="row mt15 lh34">
+              <div class="col-xs-3 text-right">放款银行：</div>
+              <div class="col-xs-4 pl10">
+                <select name="ipt-fkyhang" id="bank03" class="form-control">
+                </select>
+              </div>
+            </div>
+
+            <div class="row mt15 lh34">
+              <div class="col-xs-3 text-right">贷款时长：</div>
+              <div class="col-xs-4 pl10">
+                <select name="ipt-dkschang" id="loanTimeSel04" class="form-control">
+                </select>
+              </div>
+            </div>
+
+            <div class="row mt15 lh34">
+              <div class="col-xs-3 text-right">月供金额：</div>
+              <div class="col-xs-2 pl10">
+                <input type="text" class="form-control" name="ipt-ygje" value="<? echo $html["m"]["house"]["ygje"] ?>">
+              </div>
+              <div class="col-xs-2 pl5">元</div>
+            </div>
+
+            <div class="row mt15 lh34">
+              <div class="col-xs-3 text-right">还款方式：</div>
+              <div class="col-xs-6">
+                <div class="row pl10">
+                  <label class="col-xs-5" for="repaymentWay1">
+                    <input type="radio" id="repaymentWay1" name="ipt-hkfshi" value="1" <? if_checked($html["m"]["house"]["hkfshi"], 1) ?>>
+                    <span class="pl5">等额本息</span>
+                  </label>
+                  <label class="col-xs-5" for="repaymentWay2">
+                    <input type="radio" id="repaymentWay2" name="ipt-hkfshi" value="2" <? if_checked($html["m"]["house"]["hkfshi"], 2) ?>>
+                    <span class="pl5">等额本金</span>
+                  </label>
+                </div>
+                <div class="row pl10">
+                  <label class="col-xs-5" for="repaymentWay3">
+                    <input type="radio" id="repaymentWay3" name="ipt-hkfshi" value="3" <? if_checked($html["m"]["house"]["hkfshi"], 3) ?>>
+                    <span class="pl5">先息后本</span>
+                  </label>
+                  <label class="col-xs-5" for="repaymentWay4">
+                    <input type="radio" id="repaymentWay4" name="ipt-hkfshi" value="4" <? if_checked($html["m"]["house"]["hkfshi"], 4) ?>>
+                    <span class="pl5">气球贷</span>
+                  </label>
+                </div>
+                <div class="row pl10">
+                  <label class="col-xs-3" for="repaymentWay5">
+                    <input type="radio" id="repaymentWay5" name="ipt-hkfshi" value="5" <? if_checked($html["m"]["house"]["hkfshi"], 5) ?>>
+                    <span class="pl5">其它</span>
+                  </label>
+                  <label class="col-xs-5">
+                    <input type="text" class="form-control" name="ipt-hkfshid" value="<? echo $html["m"]["house"]["hkfshid"] ?>">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 保单信息弹窗 -->
+<div class="modal fade width650" id="policyMsgModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="savepolicy">
+
+      <div class="modal-content" style="margin-bottom: 250px;">
+        <div class="modal-body">
+          <div class="title">保单信息</div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">保险公司：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-bxgsi" id="baoxianCpm" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">保单类型：</div>
+            <div class="col-xs-6">
+              <div class="row pl10">
+                <label class="col-xs-5" for="policyType1">
+                  <input type="radio" id="policyType1" name="ipt-bdlxing" value="1" <? if_checked($html["m"]["policy"]["bdlxing"], 1) ?>>
+                  <span class="pl5">人寿险</span>
+                </label>
+                <label class="col-xs-5" for="policyType2">
+                  <input type="radio" id="policyType2" name="ipt-bdlxing" value="2" <? if_checked($html["m"]["policy"]["bdlxing"], 2) ?>>
+                  <span class="pl5">意外险</span>
+                </label>
+              </div>
+              <div class="row pl10">
+                <label class="col-xs-5" for="policyType3">
+                  <input type="radio" id="policyType3" name="ipt-bdlxing" value="3" <? if_checked($html["m"]["policy"]["bdlxing"], 3) ?>>
+                  <span class="pl5">重大疾病</span>
+                </label>
+                <label class="col-xs-5" for="policyType4">
+                  <input type="radio" id="policyType4" name="ipt-bdlxing" value="4" <? if_checked($html["m"]["policy"]["bdlxing"], 4) ?>>
+                  <span class="pl5">车险</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">保单生效日：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar14">
+                <input id="calendar14" class="form-control form_datetime" type="text" size="16" name="ipt-bdsxri" value="<? echo $html["m"]["policy"]["bdsxri"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">保单生效年限：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-bdsxnxian" value="<? echo $html["m"]["policy"]["bdsxnxian"] ?>">
+            </div>
+            <div class="col-xs-3 pl5">年</div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">缴费方式：</div>
+            <div class="col-xs-3 pl10">
+              <select name="ipt-jffshi" id="jiaofeiWay" class="form-control">
+              </select>
+            </div>
+            <div class="col-xs-3 pl10">
+              <input type="text" class="form-control" id="policyBaseNum" name="ipt-jffsyuan" value="<? echo $html["m"]["policy"]["jffsyuan"] ?>">
+            </div>
+            <div class="col-xs-1 pl5">元</div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">年保费：</div>
+            <div class="col-xs-5 pl10">
+              <span id="policyYearNum">0</span>
+              <span class="pl5">元</span>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">已缴费次数：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-yjfcshu" value="<? echo $html["m"]["policy"]["yjfcshu"] ?>">
+            </div>
+            <div class="col-xs-3 pl5">次</div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">现金价值：</div>
+            <div class="col-xs-6">
+              <div class="row pl10">
+                <label class="col-xs-5" for="cashWorth01">
+                  <input type="radio" id="cashWorth01" name="ipt-xjjzhi" value="1" <? if_checked($html["m"]["policy"]["xjjzhi"], 1) ?>>
+                  <span class="pl5">未取</span>
+                </label>
+                <label class="col-xs-5" for="cashWorth02">
+                  <input type="radio" id="cashWorth02" name="ipt-xjjzhi" value="2" <? if_checked($html["m"]["policy"]["xjjzhi"], 2) ?>>
+                  <span class="pl5">已领取</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">复效纪录：</div>
+            <div class="col-xs-5 pl10">
+              <div class="">复效时期</div>
+              <label class="input-group" for="calendar15">
+                <input id="calendar15" class="form-control form_datetime2" type="text" size="16" name="ipt-fxjl_fxsqi" value="<? echo $html["m"]["policy"]["fxjl_fxsqi"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+
+              <div class="pt10">应缴纳时期</div>
+              <label class="input-group" for="calendar16">
+                <input id="calendar16" class="form-control form_datetime2" type="text" size="16" name="ipt-fxjl_yjnrqi" value="<? echo $html["m"]["policy"]["fxjl_yjnrqi"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 右边征信信息弹窗 -->
+<div class="modal fade width650" id="creditMsgModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="savecredit">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">征信信息</div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 lh34 col-xs-offset-1">征信查询时间：</div>
+            <div class="col-xs-5 un-ml38">
+              <label class="input-group" for="calendar17">
+                <input id="calendar17" class="form-control form_datetime2" type="text" size="16" name="ipt-zxcxsjian" value="<? echo $html["m"]["credit"]["zxcxsjian"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-offset-1">征信查询次数</div>
+          </div>
+          <div class="row mt5">
+            <div class="col-xs-offset-1">
+              <ul class="list-unstyled lh34" id="zxChaxunList">
+                <li class="row">
+                  <div class="col-xs-3 pr10">
+                    <select name="ipt-zxcxcshu-a[]" id="" class="form-control">
+                      <option value="0">贷款审批</option>
+                      <option value="1">信用卡审批</option>
+                      <option value="2">人行查询</option>
+                      <option value="3">个人网查</option>
+                    </select>
+                  </div>
+                  <div class="col-xs-3 pr10">
+                    <select name="ipt-zxcxcshu-b[]" id="" class="form-control time-sel01">
+                    </select>
+                  </div>
+                  <div class="col-xs-1">
+                    <input type="text" class="form-control" name="ipt-zxcxcshu-c[]">
+                  </div>
+                  <div class="col-xs-1 pl10">次</div>
+                  <div class="col-xs-2">
+                    <div class="btn-add-yellow">+</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-offset-1">征信逾期</div>
+          </div>
+          <div class="row mt5">
+            <div class="col-xs-offset-1">
+              <ul class="list-unstyled lh34" id="zxYuqiList">
+                <li class="row">
+                  <div class="col-xs-2 pr10">
+                    <select name="ipt-zxyqi-a[]" id="" class="form-control">
+                      <option value="0">信用卡</option>
+                      <option value="1">贷款</option>
+                      <option value="2">准贷记卡</option>
+                    </select>
+                  </div>
+                  <div class="col-xs-2 pr10">
+                    <select name="ipt-zxyqi-b[]" id="" class="form-control time-sel02"></select>
+                  </div>
+                  <div class="col-xs-1 text-center">有</div>
+                  <div class="col-xs-1">
+                    <select name="ipt-zxyqi-c[]" id="" class="form-control">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                    </select>
+                  </div>
+                  
+                  <div class="col-xs-1 text-center">逾期</div>
+                  <div class="col-xs-2 pr10">
+                    <input type="text" class="form-control" name="ipt-zxyqi-d[]">
+                  </div>
+                  <div class="col-xs-1 text-left pl10">元</div>
+                  <div class="col-xs-1">
+                    <div class="btn-add-yellow">+</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">添加</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 债务信息弹窗 -->
+<div class="modal fade width650" id="debtMsgModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="savedebt">
+
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">债务信息</div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right font-bold">信用卡：</div>
+            <div class="col-xs-6">
+              <div class="row pl10">
+                <label class="col-xs-5" for="hasCredit1">
+                  <input type="radio" id="hasCredit1" name="ipt-xyka" value="1" <? if_checked($html["m"]["debt"]["xyka"], 1) ?>>
+                  <span class="pl5">有</span>
+                </label>
+                <label class="col-xs-5" for="hasCredit2">
+                  <input type="radio" id="hasCredit2" name="ipt-xyka" value="2" <? if_checked($html["m"]["debt"]["xyka"], 2) ?>>
+                  <span class="pl5">无</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="has-credit-content">
+            <div class="row mt15 lh34">
+              <div class="col-xs-3 text-right">张数：</div>
+              <div class="col-xs-3 pl10">
+                <input class="form-control " type="text" name="ipt-zshu" value="<? echo $html["m"]["debt"]["zshu"] ?>">
+              </div>
+            </div>
+            <div class="row mt10 lh34">
+              <div class="col-xs-3 text-right">总授信额：</div>
+              <div class="col-xs-3 pl10">
+                <input class="form-control " type="text" name="ipt-zsxe" value="<? echo $html["m"]["debt"]["zsxe"] ?>">
+              </div>
+              <div class="col-xs-3 pl5">万元</div>
+            </div>
+            <div class="row mt10 lh34">
+              <div class="col-xs-3 text-right">单张最高授信额：</div>
+              <div class="col-xs-3 pl10">
+                <input class="form-control " type="text" name="ipt-dzzgsxe" value="<? echo $html["m"]["debt"]["dzzgsxe"] ?>">
+              </div>
+              <div class="col-xs-3 pl5">万元</div>
+            </div>
+            <div class="row mt10 lh34">
+              <div class="col-xs-3 text-right">当前已用：</div>
+              <div class="col-xs-3 pl10">
+                <input class="form-control " type="text" name="ipt-dqyyong" value="<? echo $html["m"]["debt"]["dqyyong"] ?>">
+              </div>
+              <div class="col-xs-3 pl5">元</div>
+            </div>
+            <div class="row mt10 lh34">
+              <div class="col-xs-3 text-right">近6个月均用：</div>
+              <div class="col-xs-3 pl10">
+                <input class="form-control " type="text" name="ipt-j6gyjyong" value="<? echo $html["m"]["debt"]["j6gyjyong"] ?>">
+              </div>
+              <div class="col-xs-3 pl5">万元</div>
+            </div>
+            <div class="row mt5 lh34">
+              <div class="col-xs-3 text-right">特殊状态：</div>
+              <div class="col-xs-8">
+                <div class="row pl10 mt10">
+                  <div class="col-xs-1">呆帐</div>
+                  <div class="col-xs-3">
+                    <input type="text" class="form-control" name="ipt-dzhang" value="<? echo $html["m"]["debt"]["dzhang"] ?>">
+                  </div>
+                  <div class="col-xs-2 pl5">张</div>
+                </div>
+                <div class="row pl10 mt10">
+                  <div class="col-xs-1">冻结</div>
+                  <div class="col-xs-3">
+                    <input type="text" class="form-control" name="ipt-djie" value="<? echo $html["m"]["debt"]["djie"] ?>">
+                  </div>
+                  <div class="col-xs-2 pl5">张</div>
+                </div>
+                <div class="row pl10 mt10">
+                  <div class="col-xs-1">止付</div>
+                  <div class="col-xs-3">
+                    <input type="text" class="form-control" name="ipt-zfu" value="<? echo $html["m"]["debt"]["zfu"] ?>">
+                  </div>
+                  <div class="col-xs-2 pl5">张</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right font-bold">抵押贷款：</div>
+            <div class="col-xs-6">
+            </div>
+          </div>
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right font-bold">信用贷款：</div>
+          </div>
+
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">机构：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-jgou" id="ipt-jgou1" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">公司：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-gsi" id="ipt-gsi1" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">放款：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-fkuan" id="ipt-fkuan1" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt10 lh34">
+            <div class="col-xs-3 text-right">贷款金额：</div>
+            <div class="col-xs-3 pl10">
+              <input type="text" class="form-control" name="ipt-dkje" value="<? echo $html["m"]["debt"]["dkje"] ?>">
+            </div>
+            <div class="col-xs-3 pl10">万元</div>
+          </div>
+          <div class="row mt10 lh34">
+            <div class="col-xs-3 text-right">剩余本金：</div>
+            <div class="col-xs-3 pl10">
+              <input type="text" class="form-control" name="ipt-sybjin" value="<? echo $html["m"]["debt"]["sybjin"] ?>">
+            </div>
+            <div class="col-xs-3 pl10">万元</div>
+          </div>
+
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">放款时间：</div>
+            <div class="col-xs-4 pl10">
+              <label class="input-group" for="calendar18">
+                <input id="calendar18" class="form-control form_datetime" type="text" size="16" name="ipt-fksjian" value="<? echo $html["m"]["debt"]["fksjian"] ?>">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt10">
+            <div class="col-xs-3 text-right lh34">贷款期限：</div>
+            <div class="col-xs-4 pl10">
+              <select id="qixianSel" class="form-control" name="ipt-dkqxian">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">还款方式：</div>
+            <div class="col-xs-6">
+              <div class="row pl10">
+                <label class="col-xs-5" for="loanWay1">
+                  <input type="radio" id="loanWay1" name="ipt-hkfshi" value="1" <? if_checked($html["m"]["debt"]["hkfshi"], 1) ?>>
+                  <span class="pl5">等额本息</span>
+                </label>
+                <label class="col-xs-5" for="loanWay2">
+                  <input type="radio" id="loanWay2" name="ipt-hkfshi" value="2" <? if_checked($html["m"]["debt"]["hkfshi"], 2) ?>>
+                  <span class="pl5">等额本金</span>
+                </label>
+              </div>
+              <div class="row pl10">
+                <label class="col-xs-5" for="loanWay3">
+                  <input type="radio" id="loanWay3" name="ipt-hkfshi" value="3" <? if_checked($html["m"]["debt"]["hkfshi"], 3) ?>>
+                  <span class="pl5">先息后本</span>
+                </label>
+                <label class="col-xs-5" for="loanWay4">
+                  <input type="radio" id="loanWay4" name="ipt-hkfshi" value="4" <? if_checked($html["m"]["debt"]["hkfshi"], 4) ?>>
+                  <span class="pl5">到期还本付息</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt10 lh34">
+            <div class="col-xs-3 text-right">月供金额：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-ygje" value="<? echo $html["m"]["debt"]["ygje"] ?>">
+            </div>
+            <div class="col-xs-3 pl5">万元</div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34 font-bold">对外担保</div>
+          </div>
+
+          <div class="row mt10 lh34">
+            <div class="col-xs-3 text-right">担保金额：</div>
+            <div class="col-xs-3 pl10">
+              <input class="form-control " type="text" name="ipt-dbje" value="<? echo $html["m"]["debt"]["dbje"] ?>">
+            </div>
+            <div class="col-xs-3 pl5">万元</div>
+          </div>
+
+          <div class="row mt10 lh34">
+            <div class="col-xs-3 text-right">担保类型：</div>
+            <div class="col-xs-6">
+              <div class="row pl10">
+                <label class="col-xs-5" for="guaranteeType1">
+                  <input type="radio" id="guaranteeType1" name="ipt-dblxing" value="1" <? if_checked($html["m"]["debt"]["dblxing"], 1) ?>>
+                  <span class="pl5">抵押担保</span>
+                </label>
+                <label class="col-xs-5" for="guaranteeType2">
+                  <input type="radio" id="guaranteeType2" name="ipt-dblxing" value="2" <? if_checked($html["m"]["debt"]["dblxing"], 2) ?>>
+                  <span class="pl5">信用担保</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row mt10 lh34">
+            <div class="col-xs-3 text-right">担保状态：</div>
+            <div class="col-xs-6">
+              <div class="row pl10">
+                <label class="col-xs-5" for="guaranteeType3">
+                  <input type="radio" id="guaranteeType3" name="ipt-dbztai" value="1" <? if_checked($html["m"]["debt"]["dbztai"], 1) ?>>
+                  <span class="pl5">正常</span>
+                </label>
+                <label class="col-xs-5" for="guaranteeType4">
+                  <input type="radio" id="guaranteeType4" name="ipt-dbztai" value="2" <? if_checked($html["m"]["debt"]["dbztai"], 2) ?>>
+                  <span class="pl5">关注</span>
+                </label>
+              </div>
+              <div class="row pl10">
+                <label class="col-xs-5" for="guaranteeType5">
+                  <input type="radio" id="guaranteeType5" name="ipt-dbztai" value="3" <? if_checked($html["m"]["debt"]["dbztai"], 3) ?>>
+                  <span class="pl5">次数</span>
+                </label>
+                <label class="col-xs-5" for="guaranteeType6">
+                  <input type="radio" id="guaranteeType6" name="ipt-dbztai" value="4" <? if_checked($html["m"]["debt"]["dbztai"], 4) ?>>
+                  <span class="pl5">可疑</span>
+                </label>
+              </div>
+              <div class="row pl10">
+                <label class="col-xs-5" for="guaranteeType7">
+                  <input type="radio" id="guaranteeType7" name="ipt-dbztai" value="5" <? if_checked($html["m"]["debt"]["dbztai"], 5) ?>>
+                  <span class="pl5">损失</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">添加</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 客户基础资料弹窗 -->
+<div class="modal fade width650" id="baseMsgModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post">
+      <input type="hidden" name="action" value="base">
+    
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">客户基础资料</div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">名称：</div>
+            <div class="col-xs-3 pl10">
+              <input type="text" class="form-control" name="ipt-name" value="<? echo $html["name"] ?>">
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">性别：</div>
+            <div class="col-xs-6">
+              <div class="row pl10">
+                <label class="col-xs-3" for="sexMan">
+                  <input type="radio" id="sexMan" name="ipt-sex" value="2" <? if_checked($input["sex"], 2) ?>>
+                  <span class="pl5">男</span>
+                </label>
+                <label class="col-xs-3" for="sexWomen">
+                  <input type="radio" id="sexWomen" name="ipt-sex" value="1" <? if_checked($input["sex"], 1) ?>>
+                  <span class="pl5">女</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">年龄：</div>
+            <div class="col-xs-3 pl10">
+              <input type="text" class="form-control" name="ipt-age" value="<? echo $html["age"] ?>">
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">婚姻状态：</div>
+            <div class="col-xs-9">
+              <div class="row pl10">
+                <label class="col-xs-2" for="merryStatus1">
+                  <input type="radio" id="merryStatus1" name="ipt-hyin" value="1" <? if_checked($html["hyin"], 1) ?>>
+                  <span class="pl5">未婚</span>
+                </label>
+                <label class="col-xs-2" for="merryStatus2">
+                  <input type="radio" id="merryStatus2" name="ipt-hyin" value="2" <? if_checked($html["hyin"], 2) ?>>
+                  <span class="pl5">已婚</span>
+                </label>
+                <label class="col-xs-2" for="merryStatus5">
+                  <input type="radio" id="merryStatus5" name="ipt-hyin" value="3" <? if_checked($html["hyin"], 3) ?>>
+                  <span class="pl5">丧偶</span>
+                </label>
+
+                <label class="col-xs-2" for="merryStatus3">
+                  <input type="radio" id="merryStatus3" name="ipt-hyin" value="4" <? if_checked($html["hyin"], 4) ?>>
+                  <span class="pl5">离异</span>
+                </label>
+                <label class="col-xs-2" for="merryStatus4">
+                  <input type="radio" id="merryStatus4" name="ipt-hyin" value="5" <? if_checked($html["hyin"], 5) ?>>
+                  <span class="pl5">再婚</span>
+                </label>
+              </div>
+              <div class="row pl10 pt10">
+                <div class="col-xs-2">
+                  <input type="text" class="form-control" name="ipt-poxxi" value="<? echo $html["poxxi"] ?>">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">身份证号码：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control" name="ipt-certcode" value=" <? echo $html["certcode"] ?>">
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">身份证地址：</div>
+            <div class="col-xs-9 pl10" id="selectAddress9">
+              <div class="row pr10">
+                <div class="form-group col-xs-3">
+                  <select class="form-control" name="ipt-sfzdzsheng" data-province="<? echo $input["sfzdzsheng"] ?>"></select>
+                </div> 
+                <div class="form-group ml10 col-xs-3">
+                  <select class="form-control" name="ipt-sfzdzshi" data-city="<? echo $input["sfzdzshi"] ?>"></select>
+                </div>
+                <div class="form-group ml10 col-xs-3">
+                  <select class="form-control" name="ipt-sfzdzqu" data-district="<? echo $input["sfzdzqu"] ?>"></select>
+                </div>
+              </div>
+              
+              <div class="row mt10">
+                <div class="col-xs-8">
+                  <input type="text" class="form-control" name="ipt-sfzdzhi" value="<? echo $input["sfzdzhi"] ?>">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">身份证有效期：</div>
+            <div class="col-xs-6 pl10">
+              <label class="input-group" for="calendar19">
+                <input id="calendar19" class="form-control form_datetime2" type="text" name="ipt-sfzyxqi" value="<? echo $input["sfzyxqi"] ?>" size="16">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">户籍：</div>
+            <div class="col-xs-9 pl10" id="selectAddress10">
+              <div class="row">
+                <div class="form-group col-xs-5">
+                  <select class="form-control" name="ipt-hxsheng" data-province="<? echo $input["hxsheng"] ?>"></select>
+                </div>
+                <div class="form-group ml10 col-xs-5">
+                  <select class="form-control" name="ipt-hxshi" data-city="<? echo $input["hxshi"] ?>"></select>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+
+          <div class="row mt15">
+            <div class="col-xs-3 text-right lh34">现住区域：</div>
+            <div class="col-xs-9 pl10" id="selectAddress11">
+              <div class="row">
+                <div class="form-group col-xs-3">
+                  <select class="form-control" name="ipt-xzsheng" data-province="<? echo $input["xzsheng"] ?>"></select>
+                </div>
+                <div class="form-group ml10 col-xs-3">
+                  <select class="form-control" name="ipt-xzshi" data-city="<? echo $input["xzshi"] ?>"></select>
+                </div>
+                <div class="form-group ml10 col-xs-3">
+                  <select class="form-control" name="ipt-xzqu" data-district="<? echo $input["xzqu"] ?>"></select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">子女：</div>
+            <div class="col-xs-6">
+              <div class="row pl10">
+                <label class="col-xs-3" for="hasSon">
+                  <input type="radio" id="hasSon" name="ipt-znv" value="1" <? if_checked($input["znv"], 1) ?>>
+                  <span class="pl5">有</span>
+                </label>
+                <label class="col-xs-3" for="noHasSon">
+                  <input type="radio" id="noHasSon" name="ipt-znv" value="0" <? if_checked($input["znv"], 0) ?>>
+                  <span class="pl5">无</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">副手机1：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control" name="ipt-phone1" maxlength="11" value="<? echo $input["phone1"] ?>">
+            </div>
+          </div>
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">副手机2：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control" name="ipt-phone2" maxlength="11" value="<? echo $input["phone2"] ?>">
+            </div>
+          </div>
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">副手机3：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control" name="ipt-phone3" maxlength="11" value="<? echo $input["phone3"] ?>">
+            </div>
+          </div>
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">副手机4：</div>
+            <div class="col-xs-6 pl10">
+              <input type="text" class="form-control" name="ipt-phone4" maxlength="11" value="<? echo $input["phone4"] ?>">
+            </div>
+          </div>
+
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">固话1：</div>
+            <div class="col-xs-6 pl10">
+              <div class="row">
+                <div class="col-xs-3">
+                  <input type="text" class="form-control" name="ipt-telq1" maxlength="4" value="<? echo $input["telq1"] ?>">
+                </div>
+                <div class="col-xs-2 text-center">－</div>
+                <div class="col-xs-7">
+                  <input type="text" class="form-control" name="ipt-tel1" maxlength="8" value="<? echo $input["tel1"] ?>">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">固话2：</div>
+            <div class="col-xs-6 pl10">
+              <div class="row">
+                <div class="col-xs-3">
+                  <input type="text" class="form-control" name="ipt-telq2" maxlength="4" value="<? echo $input["telq2"] ?>">
+                </div>
+                <div class="col-xs-2 text-center">－</div>
+                <div class="col-xs-7">
+                  <input type="text" class="form-control" name="ipt-tel2" maxlength="8" value="<? echo $input["tel2"] ?>">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">固话3：</div>
+            <div class="col-xs-6 pl10">
+              <div class="row">
+                <div class="col-xs-3">
+                  <input type="text" class="form-control" name="ipt-telq3" maxlength="4" value="<? echo $input["telq3"] ?>">
+                </div>
+                <div class="col-xs-2 text-center">－</div>
+                <div class="col-xs-7">
+                  <input type="text" class="form-control" name="ipt-tel3" maxlength="8" value="<? echo $input["tel3"] ?>">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt15 lh34">
+            <div class="col-xs-3 text-right">固话4：</div>
+            <div class="col-xs-6 pl10">
+              <div class="row">
+                <div class="col-xs-3">
+                  <input type="text" class="form-control" name="ipt-telq4" maxlength="4" value="<? echo $input["telq4"] ?>">
+                </div>
+                <div class="col-xs-2 text-center">－</div>
+                <div class="col-xs-7">
+                  <input type="text" class="form-control" name="ipt-tel4" maxlength="8" value="<? echo $input["tel4"] ?>">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">保存</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 添加服务弹窗 -->
+<div class="modal fade width410" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <form method="post">
+    <input type="hidden" name="action" value="addservice">
+  
+    <div class="modal-dialog">
+      <div class="modal-content" style="margin-bottom: 250px;">
+        <div class="modal-body">
+          <div class="title">添加服务</div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">机构：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-jigou" id="ipt-jigou" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">公司：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-gongsi" id="ipt-gongsi" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">放款：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-fangkuan" id="ipt-fangkuan" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">操作产品：</div>
+            <div class="col-xs-4 pl10">
+              <select name="ipt-caozuochanpin" id="ipt-caozuochanpin" class="form-control">
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">申请额度：</div>
+            <div class="col-xs-3 pl10">
+              <input name="ipt-sqmoney" class="form-control" type="text">
+            </div>
+            <div class="col-xs-2 pl10 lh34">万元</div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">申请日期：</div>
+            <div class="col-xs-6 pl10">
+              <label class="input-group" for="calendar22">
+                <input name="ipt-sqdate" id="calendar22" class="form-control form_datetime2" type="text" value="" size="16">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">添加</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- 跟进记录弹窗 -->
+<div class="modal fade width410" id="addFollowModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+  <form method="post">
+    <input type="hidden" name="action" value="addfollow">
+
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="title">跟进记录</div>
+          <div class="row mt20 lh34">
+            <div class="col-xs-4 text-right ">跟进方式：</div>
+            <div class="col-xs-7 pl10">
+              <div class="row followWaySel">
+                <div class="col-xs-3">
+                  <label for="followWay01">
+                    <input type="radio" id="followWay01" name="ipt-type" value="1"> &nbsp;手机
+                  </label>
+                </div>
+                <div class="col-xs-4">
+                  <select name="" id="" class="form-control gjin-phone">
+                    <option value="<? echo $html["phone"] ?>">主号码</option>
+                    <option value="<? echo $html["phone1"] ?>">副号1</option>
+                    <option value="<? echo $html["phone2"] ?>">副号2</option>
+                    <option value="<? echo $html["phone3"] ?>">副号3</option>
+                    <option value="<? echo $html["phone4"] ?>">副号4</option>
+                  </select>
+                </div>
+                <div class="col-xs-5 pl10 phone-number"></div>
+              </div>
+              <div class="row mt10 followWaySel">
+                <div class="col-xs-3">
+                  <label for="followWay02">
+                    <input type="radio" id="followWay02" name="ipt-type" value="2"> &nbsp;固话
+                  </label>
+                </div>
+                <div class="col-xs-4">
+                  <select name="" id="" class="form-control gjin-tel">
+                    <option value="<? echo $html["tel1"] ?>">号1</option>
+                    <option value="<? echo $html["tel2"] ?>">号2</option>
+                    <option value="<? echo $html["tel3"] ?>">号3</option>
+                    <option value="<? echo $html["tel4"] ?>">号4</option>
+                  </select>
+                </div>
+                <div class="col-xs-5 pl10 tel-number"></div>
+              </div>
+              <div class="row mt10 followWaySel">
+                <div class="col-xs-3">
+                  <label for="followWay03">
+                    <input type="radio" id="followWay03" name="ipt-type" value="3"> &nbsp;面谈
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt20 lh34">
+            <div class="col-xs-4 text-right">日期时间：</div>
+            <div class="col-xs-4 pl10">2017-02-25 15:50:00</div>
+          </div>
+
+          <div class="row mt20">
+            <div class="col-xs-4 text-right lh34">跟进内容：</div>
+            <div class="col-xs-7 pl10">
+              <textarea name="ipt-memo" id="" cols="30" rows="10" class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-add">添加</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  var serviceData = <? echo $html["datalist1"] ?>;
+
+  var followData = <? echo $html["datalist2"] ?>;
+  
+  var needData = <? echo $html["json"]["need"] ?>;
+  
+  var jobData = [<? echo $html["json"]["job"] ?>];
+  
+  var shouruData = [<? echo $html["json"]["income"] ?>];
+  
+  var houseData = [<? echo $html["json"]["house"] ?>];
+  
+  var contractData = <? echo $html["json"]["contracts"] ?>;
+  
+  var zichanData = <? echo $html["json"]["assets"] ?>;
+  
+  var zhengxinDataL = <? echo $html["json"]["credits"] ?>;
+  
+  //基础资料婚姻状态
+  var hunStatus = <? echo $html["hyin"] ?>;
+  //console.log(hunStatus);
+
+  if (hunStatus == 1) {
+    $(".hun-icon").addClass('hun-wei');
+  };
+  if (hunStatus == 2) {
+    $(".hun-icon").addClass('hun-yi');
+    $(".client-icon.ou").show();
+  };
+  if (hunStatus == 3) {
+    $(".hun-icon").addClass('hun-sang');
+    $(".client-icon.ou").show();
+  };
+  if (hunStatus == 4) {
+    $(".hun-icon").addClass('hun-li');
+    $(".client-icon.ou").show();
+  };
+  if (hunStatus == 5) {
+    $(".hun-icon").addClass('hun-zai');
+    $(".client-icon.ou").show();
+  };
+
+  $(".client-icon.ou").click(function() {
+    window.open('customer-detail.php?id=' + $(this).attr("data-id"));
+  })
+</script>
+
+<script src="js/swiper-3.4.1.min.js"></script>
+<script src="js/distpicker.data.js"></script>
+<script src="js/distpicker.js"></script>
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="js/app2.js"></script>
+<script src="js/car.js"></script>
+
+<script>
+  /* swiper配置 */
+  var mySwiper = new Swiper('.record .swiper-container', {
+    pagination: '.swiper-p1',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 6
+  });
+
+  var swiper = new Swiper('.xuqiu .swiper-container', {
+    pagination: '.swiper-p2',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1
+  });
+
+  var swiper2 = new Swiper('.gongzuo .swiper-container', {
+    pagination: '.swiper-m2',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1
+  });
+
+  var swiper3 = new Swiper('.shouru .swiper-container', {
+    pagination: '.swiper-m3',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1
+  });
+
+  var swiper4 = new Swiper('.fangchan .swiper-container', {
+    pagination: '.swiper-m4',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1
+  });
+
+  var swiper5 = new Swiper('.chechan .swiper-container', {
+    pagination: '.swiper-m5',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1
+  });
+
+  var swiper6 = new Swiper('.chewei .swiper-container', {
+    pagination: '.swiper-m6',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1
+  });
+
+  /*var swiper7 = new Swiper('.baodan .swiper-container', {
+    pagination: '.swiper-m7',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1
+  });*/
+
+  var swiper8 = new Swiper('.zhaiwu .swiper-container', {
+    pagination: '.swiper-m8',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1
+  });
+
+  var swiper9 = new Swiper('.zhengxin .swiper-container', {
+    pagination: '.swiper-m7',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1
+  });
+
+  /*var swiper10 = new Swiper('.sifa .swiper-container', {
+    pagination: '.swiper-m10',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1
+  });
+*/
+  /*var swiper11 = new Swiper('.beizhu .swiper-container', {
+    pagination: '.swiper-m11',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1
+  });*/
+
+  /* 时间选择器配置 */
+  $('.form_datetime').datetimepicker({
+    format: 'yyyy-mm',
+    autoclose: true,
+    //todayBtn: true,
+    startDate: "2017年02月",
+    startView: 'year',
+    minView: 'year',
+    maxView: 'decade',
+    language: 'zh-CN'
+  });
+
+  $('.form_datetime2').datetimepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true,
+    todayBtn: true,
+    startView: 'year',
+    startDate: "2017年02月",
+    minView: 'month',
+    maxView: 'decade',
+    language: 'zh-CN'
+  });
+
+  /* 地址选择配置 */
+  var selectAddress = function (obj) {
+    $(obj).distpicker({
+      autoSelect: false
+    });
+  }
+  selectAddress("#selectAddress");
+  selectAddress("#selectAddress2");
+  selectAddress("#selectAddress3");
+  selectAddress("#selectAddress4");
+  selectAddress("#selectAddress5");
+  selectAddress("#selectAddress6");
+  selectAddress("#selectAddress7");
+  selectAddress("#selectAddress8");
+  selectAddress("#selectAddress9");
+  selectAddress("#selectAddress10");
+  selectAddress("#selectAddress11");
+  selectAddress("#selectAddress12");
+
+  /*  */
+  $(".jobWay").change(function () {
+    var val = $(this).val();
+    console.log(val);
+    if (val == 0) {
+      $("#job-own").show();
+      $("#job-other").hide();
+    }
+    if (val == 1) {
+      $("#job-own").hide();
+      $("#job-other").show();
+    }
+  })
+  if (<? echo $html["m"]["job"]["jobkind"] ?> == 0) {
+    $("#jobOwn").click();
+  } else {
+    $("#jobOther").click();
+  }
+
+  /* */
+  $("input:radio[name=ipt-type]").click(function() {
+    idx = $(this).val() - 1;
+    $(".followWaySel select").attr("name", "");
+    $(".followWaySel select").eq(idx).attr("name", "ipt-way");
+  });
+  
+  var jiaonaFun = function (name, obj) {
+    $("input:radio[name=" + name + "]").change(function () {
+      ipt_name = "";
+      if (name == "ipt-sb_sbjnztai") {
+        ipt_name = "ipt-sb_sbxxyfen";
+      } else if (name == "ipt-gjj_gjjjnztai") {
+        ipt_name = "ipt-gjj_gjjxxyfen";
+      } else if (name == "ipt-sds_jnztai") {
+        ipt_name = "ipt-sds_xxyfen";
+      }
+      
+      var val = $(this).val();
+      if (val == 1) {
+        $(obj + " .item01").show();
+        $(obj + " .item02").hide();
+        $(obj + " .item03").hide();
+        $(obj + " .item01 input").attr("name", ipt_name);
+        $(obj + " .item02 input").attr("name", "");
+        $(obj + " .item03 input").attr("name", "");
+      }
+      if (val == 2) {
+        $(obj + " .item01").hide();
+        $(obj + " .item02").show();
+        $(obj + " .item03").hide();
+        $(obj + " .item01 input").attr("name", "");
+        $(obj + " .item02 input").attr("name", ipt_name);
+        $(obj + " .item03 input").attr("name", "");
+      }
+      if (val == 3) {
+        $(obj + " .item01").hide();
+        $(obj + " .item02").hide();
+        $(obj + " .item03").show();
+        $(obj + " .item01 input").attr("name", "");
+        $(obj + " .item02 input").attr("name", "");
+        $(obj + " .item03 input").attr("name", ipt_name);
+      }
+    });
+    
+    $("input:radio[name=" + name + "]").change();
+  }
+
+  jiaonaFun("ipt-gjj_gjjjnztai", "#demand");
+  jiaonaFun("ipt-sb_sbjnztai", "#insuranceModal");
+  jiaonaFun("ipt-sds_jnztai", "#taxModal");
+
+  $("body .record ul li").click(function(){
+    window.open('customer-mod-service.php?id=' + $(this).attr('data-id'));
+  });
+  
+  $(".client .header .arrow-top").click(function(){
+    id = <? echo $html["pervid"] ?>;
+    if (id == 0) return;
+    window.location.replace("customer-detail.php?id=" + id);
+  });
+
+  $(".client .header .arrow-down").click(function(){
+    id = <? echo $html["nextid"] ?>;
+    if (id == 0) return;
+    window.location.replace("customer-detail.php?id=" + id);
+  });
+  
+  //添加服务弹窗select
+  $("#ipt-jigou, #ipt-jgou1").html(getOption(0, 1));
+  $("#ipt-gongsi, #ipt-gsi1").html(getOption(1));
+  
+  pid = $("#ipt-gongsi").val();
+  data = getOption(pid);
+  $("#ipt-fangkuan").html(data);
+  pid = $("#ipt-fangkuan").val();
+  data = getOption(pid);
+  $("#ipt-caozuochanpin").html(data);
+  
+  pid = $("#ipt-gsi1").val();
+  data = getOption(pid);
+  $("#ipt-fkuan1").html(data);  
+
+  $("#ipt-jigou").change(function () {
+    var pid = $(this).val();
+    var data = getOption(pid);
+    $("#ipt-gongsi").html(data);
+    pid = $("#ipt-gongsi").val();
+    data = getOption(pid);
+    $("#ipt-fangkuan").html(data);
+    pid = $("#ipt-fangkuan").val();
+    data = getOption(pid);
+    $("#ipt-caozuochanpin").html(data);
+  });
+
+  $("#ipt-gongsi").change(function () {
+    var pid = $(this).val();
+    var data = getOption(pid);
+    $("#ipt-fangkuan").html(data);
+    pid = $("#ipt-fangkuan").val();
+    data = getOption(pid);
+    $("#ipt-caozuochanpin").html(data);
+  });
+
+  $("#ipt-fangkuan").change(function () {
+    var pid = $(this).val();
+    var data = getOption(pid);
+    $("#ipt-caozuochanpin").html(data);
+  });
+  
+  $("#ipt-jgou1").change(function () {
+    var pid = $(this).val();
+    var data = getOption(pid);
+    $("#ipt-gsi1").html(data);
+    pid = $("#ipt-gsi1").val();
+    data = getOption(pid);
+    $("#ipt-fkuan1").html(data);
+  });
+
+  $("#ipt-gsi1").change(function () {
+    var pid = $(this).val();
+    var data = getOption(pid);
+    console.log(data)
+    $("#ipt-fkuan1").html(data);
+  });
+
+  function getOption(pid, id, t) {
+    var dataGet = '';
+    id = id === undefined ? 0 : id;
+    t = t === undefined ? '' : t;
+
+    $.ajax({
+      'type': 'get',
+      'url': 'ajax/gen-options.php',
+      'data': 'pid=' + pid + '&t=' + t + '&id=' + id,
+      'async': false,
+      'success': function (data) {
+        dataGet = data;
+      }
+    });
+    return dataGet;
+  }
+</script>
+<!--
+  /* 模块-客户需求 */
+  $("#qixianSel02").val(<? echo $html["m"]["need"]["hkqxian"] ?>);
+  $("#loanTypeSel01").val(<? echo $html["m"]["need"]["dklxing"] ?>);
+  $("#repayWaySel01").val(<? echo $html["m"]["need"]["hkfshi"] ?>);
+  $("#urgencySel").val(<? echo $html["m"]["need"]["jpxing"] ?>);
+  /* 模块-工作信息 */
+  $("#cpmTypeSel01, #cpmTypeSel02").val(<? echo $html["m"]["job"]["gslxing"] ?>).change();
+  $("#ipt-gslxings01, #ipt-gslxings02").val('<? echo $html["m"]["job"]["gslxings"] ?>');
+  /* 模块-房产信息 */
+  $("#houseType01").val(<? echo $html["m"]["house"]["fwlxing1"] ?>);
+  $("#houseType02").val(<? echo $html["m"]["house"]["fwlxing2"] ?>);
+  $("#houseType03").val(<? echo $html["m"]["house"]["fwlxing3"] ?>);
+  $("#houseHasSel").val(<? echo $html["m"]["house"]["fwsyquan3"] ?>);
+  $("#houseLoanSel01").val(<? echo $html["m"]["house"]["fwdkuan"] ?>).change();
+  $("#bank03").val(<? echo $html["m"]["house"]["fkyhang"] ?>);
+  $("#loanTimeSel04").val(<? echo $html["m"]["house"]["dkschang"] ?>);
+  /* 模块-车产信息 */
+  $("#carTypeSel").val(<? echo $html["m"]["car"]["cllxing"] ?>);
+  $("#chepaiSel").val(<? echo $html["m"]["car"]["cpsheng"] ?>);
+  $("#zimuSe").val(<? echo $html["m"]["car"]["cpshi"] ?>);
+  $("#carSel001").val('<? echo $html["m"]["car"]["clppai"] ?>').change();
+  $("#carSel002").val('<? echo $html["m"]["car"]["clxhao"] ?>');
+  $("#carLoanWay").change();
+  $("#bank04").val(<? echo $html["m"]["car"]["fkyhang"] ?>);
+  $("#loanTimeSel01").val(<? echo $html["m"]["car"]["dkschang"] ?>);
+  /* 模块-保单信息 */
+  $("#jiaofeiWay").change();
+  /* 模块 债务信息 */
+  $("input:radio[name='ipt-xyka']").change();
+  $("#qixianSel").val(<? echo $html["m"]["debt"]["dkqxian"] ?>);
+  /* 模块 银行卡信息 */
+  $("#bankSel02").val(<? echo $html["m"]["banks"]["yhang"] ?>);
+-->
+
+</body>
+</html>
+

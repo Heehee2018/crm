@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/app1.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+
+  <style>
+    .imgH {
+      height: 24px;
+    }
+    .tooltip-inner {
+      color: black;
+      max-width: 360px;
+      background-color: #eeeeee;
+    }
+  </style>
+</head>
+<body>
+<div class="wapper">
+  <? require_once("html/navbar.html") ?>
+  
+  <section class="query-container">
+    <?echo $msg?>
+  
+    <div class="top-title clearfix">
+      <p class="pull-left">客户管理</p>
+      <p class="pull-left">客户查询</p>
+    </div>
+    
+    <form name="form1" id="form1" method="get">
+      <input type="hidden" name="act" value="post">
+      
+      <ul class="list-unstyled clearfix query-list">
+        <li>姓名</li>
+        <li>
+          <input type="text" class="form-control" name="ipt-name" value="<? echo $ipt_name ?>">
+        </li>
+        <li>关键词</li>
+        <li>
+          <input type="text" class="form-control" name="ipt-keyword" value="<? echo $ipt_keyword ?>">
+        </li>
+        <li>身份证号码</li>
+        <li>
+          <input type="text" class="form-control" name="ipt-certcode" value="<? echo $ipt_certcode ?>">
+        </li>
+        <li>手机号码</li>
+        <li>
+          <input type="text" class="form-control" name="ipt-phone" value="<? echo $ipt_phone ?>">
+        </li>
+        <li>客户状态</li>
+        <li>
+          <select name="ipt-status" id="" class="form-control">
+            <option value="">-请选择-</option>
+            <? echo $html["opt-status"] ?>
+          </select>
+        </li>
+        <li>
+          <button>查询</button>
+        </li>
+      </ul>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>状态</th>
+            <th>质量</th>
+            <th>来源</th>
+            <th>年龄</th>
+            <th>贷款</th>
+            <th>工作性质</th>
+            <th>客户性质</th>
+            <th>跟进记录</th>
+            <th>跟进日期</th>
+            <th>转入时间</th>
+            <th class="sellmember"><? echo $html["td-last"] ?></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+
+      <div class="page">
+          <div class="page-content clearfix">
+            <button class="pull-left" onclick="$('#ipt-page').val('1')">首页</button>
+            <div class="pull-left page-item jump-page" data-page=<? echo $ipt_prevpage ?>><? echo $ipt_prevpage ?></div>
+            <div class="pull-left page-item active"><? echo $ipt_page ?></div>
+            <div class="pull-left page-item jump-page" data-page=<? echo $ipt_nextpage ?>><? echo $ipt_nextpage ?></div>
+            <button class="pull-left" onclick="$('#ipt-page').val('<? echo $totalPage ?>')">尾页</button>
+            <button class="pull-left width20" onclick="$('#ipt-page').val('<? echo $ipt_prevpage ?>')"><div class="cart-left"></div></button>
+            <button class="pull-left width20" onclick="$('#ipt-page').val('<? echo $ipt_nextpage ?>')"><div class="cart-right"></div></button>
+          </div>
+          <div class="row tianzhuan lh34">
+            <div class="col-xs-4 text-right pr10">跳转到</div>
+            <div class="col-xs-4">
+              <input type="text" class="form-control text-center" name="ipt-page" id="ipt-page" value="<? echo $ipt_page ?>">
+            </div>
+            <div class="col-xs-4 pl10">页</div>
+          </div>
+          <div class="row page-count lh34">
+            <div class="col-xs-4 text-right pr10">每页</div>
+            <div class="col-xs-5">
+              <select name="ipt-pagesize" id="ipt-pagesize" class="form-control">
+                <option value="10" <? if_selected($pageSize, 10) ?>>10条</option>
+                <option value="20" <? if_selected($pageSize, 20) ?>>20条</option>
+                <option value="50" <? if_selected($pageSize, 50) ?>>50条</option>
+                <option value="100" <? if_selected($pageSize, 100) ?>>100条</option>
+              </select>
+            </div>
+          </div>
+      </div>
+    </form>
+  </section>
+  <br><br><br><br><br>
+  <div style="font-size: 10px; margin-left: 48%;background-color: #323535 ;color: #666">这里是底部了</div>
+</div>
+
+<script src="js/app1.js"></script>
+<script>
+  msg = <? echo $datalist1 ?>;
+  var trHtml = "";
+  var j = 1;
+  for (i in msg) {
+      var username = '';
+      if (msg[i].username) {
+        username = msg[i].username;
+      }else{
+        username = '';
+      };
+      trHtml += "<tr data-customerid=" + msg[i].id + "><td>" + j + "</td><td>" + msg[i].name + "</td><td>" + msg[i].sex + "</td><td>" + msg[i].status + "</td><td>" + msg[i].quality + "</td><td>" + msg[i].from + "</td><td>" + msg[i].age + "</td><td>" + msg[i].dkuan + "</td><td>" + msg[i].jobkind + "</td><td>" + msg[i].customerinfo + "</td><td>" + msg[i].follow_memo + "</td><td>" + msg[i].follow_date + "</td><td>" + msg[i].indate + "</td><td class='sellmember'>" + username + "</td>/tr>";
+      j ++;
+  }
+  $("tbody").append(trHtml);
+/*   if (!msg[i].username) {
+    $(".sellmember").hide();
+  }; */
+  
+  $("[data-toggle='tooltip']").tooltip();
+  
+  $('tbody tr').click(function(){
+    window.open('customer-detail.php?id=' + $(this).attr("data-customerid"));
+  });
+  
+  $('.jump-page').click(function(){
+    $('#ipt-page').val($(this).data("page"));
+    $('#form1').submit();
+  });
+  
+  $('#ipt-pagesize').change(function(){
+    $('#form1').submit();
+  });
+</script>
+</body>
+</html>
