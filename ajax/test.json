@@ -1,0 +1,28 @@
+{
+  "list":[
+    {
+      "code":"00519",
+      "name":"张三",
+      "fwlxing":"抵押贷款",
+      "fwflv":"7.5",
+      "cyjin":500,
+      "cyjztai":"已收",
+      "bmen":"销售七部",
+      "qyryuan":"李四",
+      "qyrqi":"2018-01-13"
+    },
+    {
+      "code":"00519",
+      "name":"张三",
+      "fwlxing":"抵押贷款",
+      "fwflv":"7.5",
+      "cyjin":500,
+      "cyjztai":"已收",
+      "bmen":"销售七部",
+      "qyryuan":"李四",
+      "qyrqi":"2018-01-13"
+    }
+  ],
+  "groupid":[0,9,10,21,25,26,27],
+  "jobtitle":10
+}
