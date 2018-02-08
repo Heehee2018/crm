@@ -639,6 +639,12 @@
       background-color:transparent;
       cursor:not-allowed;
     }
+    .noborder{
+      border: none;
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: #fff;
+      outline: 0;
+    }
 
   </style>
 
@@ -4023,7 +4029,7 @@
 
             </div>
             <div class="col-xs-3 pl10">
-              <select name="ipt-contractid" id="sel_fwlx" class="form-control wid120"></select>
+              <select name="ipt-contractid" id="sel_fwlx" class="form-control wid120 noborder" disabled="true"></select>
             </div>
           </div>
 
@@ -5571,9 +5577,9 @@
                   $('#sel_fwlx').append('<option value="'+ list[j].id +'">'+ fwlx_name +'</option>');
               }
               if(list.length<=1){
-                  $('#sel_fwlx').attr('disabled',true);
+                  $('#sel_fwlx').addClass('noborder').attr('disabled',true);
               }else{
-                  $('#sel_fwlx').attr('disabled',false);
+                  $('#sel_fwlx').removeClass('noborder').attr('disabled',false);
               }
               $('#addServiceModal #sel_fwlx').val(contracts[index].list[0].id)
           }
