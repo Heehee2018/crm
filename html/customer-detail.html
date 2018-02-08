@@ -5570,7 +5570,9 @@
                   var fwlx_name = list[j].fwlxing==1?'抵押贷款':'信用贷款';
                   $('#sel_fwlx').append('<option value="'+ list[j].id +'">'+ fwlx_name +'</option>');
               }
-              list.length>1?$('#sel_fwlx').show():$('#sel_fwlx').hide();
+              if(list.length<=1){
+                  
+              }
               $('#addServiceModal #sel_fwlx').val(contracts[index].list[0].id)
           }
 
