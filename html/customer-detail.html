@@ -644,6 +644,7 @@
       -webkit-appearance: none;
       -webkit-tap-highlight-color: #fff;
       outline: 0;
+      box-shadow: none;
     }
 
   </style>
@@ -5561,13 +5562,13 @@
       console.info('contracts', contracts);
       for(var i in contracts){
           var list = contracts[i].list;
-          $('#addServiceModal #ipt-contractid').append('<option value="'+ list[0].id +'">'+serviceContractData[i].code+'</option>');
+          $('#addServiceModal #ipt-contractid').append('<option value="'+ list[0].id +'">'+contracts[i].code+'</option>');
       }
 
       $('#addServiceModal #ipt-contractid').change(function(){
           var index = $(this).get(0).selectedIndex-1;
           if(index==-1){
-              $('#sel_fwlx').hide();
+
               $('#addServiceModal #sel_fwlx').val('');
           }else{
               var list = contracts[index].list;
