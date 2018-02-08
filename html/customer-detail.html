@@ -5571,7 +5571,9 @@
                   $('#sel_fwlx').append('<option value="'+ list[j].id +'">'+ fwlx_name +'</option>');
               }
               if(list.length<=1){
-                  
+                  $('#sel_fwlx').attr('disabled',true);
+              }else{
+                  $('#sel_fwlx').attr('disabled',false);
               }
               $('#addServiceModal #sel_fwlx').val(contracts[index].list[0].id)
           }
